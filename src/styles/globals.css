@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-carbon: #11110F;
+  --color-bone: #E7E2D8;
+  --color-metal: #96938B;
+  --color-copper: #875E48;
+  --color-mineral: #596057;
+}
+
+@layer base {
+  * {
+    border-color: rgba(150, 147, 139, 0.2);
+  }
+
+  html {
+    background-color: var(--color-carbon);
+    color: var(--color-bone);
+    font-family: var(--font-ibm-plex), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Direction specific typography adjustments */
+  [dir="rtl"] {
+    font-family: var(--font-ibm-plex-arabic), sans-serif;
+  }
+
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] h4,
+  [dir="rtl"] .font-display {
+    font-family: var(--font-ibm-plex-arabic), sans-serif;
+    font-weight: 700;
+  }
+
+  [dir="ltr"] .font-display {
+    font-family: var(--font-bebas-pro), var(--font-bebas), sans-serif;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Custom editorial utility classes */
+.bg-world-carbon {
+  background-color: #11110F;
+  color: #E7E2D8;
+}
+
+.bg-world-bone {
+  background-color: #E7E2D8;
+  color: #11110F;
+}
+
+.border-thin-carbon {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.border-thin-bone {
+  border: 1px solid rgba(17, 17, 15, 0.15);
+}
+
+.font-tech {
+  font-family: var(--font-space-mono), monospace;
+}
