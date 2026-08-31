@@ -21,7 +21,7 @@ export default async function HomePage({
   }
 
   return (
-    <main className="min-h-screen bg-carbon text-bone overflow-hidden w-full max-w-full">
+    <main className="min-h-screen bg-carbon text-bone overflow-clip w-full max-w-full">
       {/* 01. MATERIAL / CINEMATIC 3D HERO */}
       <HeroSection locale={locale as Locale} />
 
