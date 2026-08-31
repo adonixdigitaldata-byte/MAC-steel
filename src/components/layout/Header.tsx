@@ -34,7 +34,7 @@ export default function Header({ locale }: HeaderProps) {
   const targetPath = pathname.replace(`/${locale}`, `/${targetLocale}`);
 
   const navItems = [
-    { label: isRtl ? "المنتجات" : "PRODUCTS", href: `/${locale}/products` },
+    { label: isRtl ? "المنتجات" : "PRODUCTS", href: `/${locale}` },
     { label: isRtl ? "التطبيقات" : "APPLICATIONS", href: `/${locale}/applications` },
     { label: isRtl ? "من نحن" : "ABOUT", href: `/${locale}/about` },
     { label: isRtl ? "المجلة" : "JOURNAL", href: `/${locale}/blog` },
