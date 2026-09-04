@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Precision engineered steel products, infrastructure components, and material systems.",
 };
 
+import SmoothScroll from "@/components/SmoothScroll";
+
 export default function RootLayout({
   children,
 }: {
@@ -19,10 +21,11 @@ export default function RootLayout({
 }) {
   return (
     <html
+      suppressHydrationWarning
       className={`${fontBebas.variable} ${fontIbmPlex.variable} ${fontSpaceMono.variable} ${fontIbmPlexArabic.variable}`}
     >
-      <body className="bg-carbon text-bone min-h-screen antialiased">
-        {children}
+      <body suppressHydrationWarning className="bg-carbon text-bone min-h-screen antialiased">
+        <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
   );
