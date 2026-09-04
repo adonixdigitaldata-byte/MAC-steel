@@ -4,6 +4,8 @@ import { isValidLocale, Locale } from "@/config/locales";
 
 // Homepage Narrative Sections
 import HeroSection from "@/components/homepage/HeroSection";
+// Client boundary wrapper — holds the ssr:false dynamic import for Three.js section
+import ManufacturingSection from "@/components/homepage/ManufacturingSectionLoader";
 import CompanySection from "@/components/homepage/CompanySection";
 import ApplicationsSection from "@/components/homepage/ApplicationsSection";
 import ProductsSection from "@/components/homepage/ProductsSection";
@@ -25,7 +27,10 @@ export default async function HomePage({
       {/* 01. MATERIAL / CINEMATIC 3D HERO */}
       <HeroSection locale={locale as Locale} />
 
-      {/* 02. COMPANY / ARCHITECTURAL PURPOSE */}
+      {/* 02. MANUFACTURING JOURNEY — 5-stage scroll section */}
+      <ManufacturingSection locale={locale as Locale} />
+
+      {/* 03. COMPANY / ARCHITECTURAL PURPOSE */}
       <CompanySection locale={locale as Locale} />
 
       {/* 03. APPLICATIONS / SECTOR USAGE */}
