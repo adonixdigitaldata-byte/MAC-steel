@@ -1,5 +1,5 @@
 import React from "react";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { isValidLocale, Locale } from "@/config/locales";
 import { PRODUCTS } from "@/data/products";
@@ -27,8 +27,6 @@ export default async function ProductsPage({
   if (!isValidLocale(locale)) {
     notFound();
   }
-
-  redirect(`/${locale}`);
 
   const isRtl = locale === "ar";
 
