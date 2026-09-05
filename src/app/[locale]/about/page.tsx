@@ -62,7 +62,7 @@ export default async function AboutPage({
                 <div className="flex items-center space-x-2 rtl:space-x-reverse font-bold text-carbon">
                   <TechnicalLabel variant="copper">COMPANY HERITAGE NOTICE</TechnicalLabel>
                 </div>
-                <p className="text-[11px] leading-normal opacity-85">
+                <p className="text-xs leading-normal opacity-85">
                   {isRtl
                     ? "ملاحظة التطوير: سيتم إدراج تاريخ تأسيس الشركة الرسمي والطاقة الإنتاجية وشهادات ISO المعتمدة فور تزويدها من العميل."
                     : "Development note: Official incorporation history, plant capacity metrics, and certified ISO documentation will be supplied during integration."}

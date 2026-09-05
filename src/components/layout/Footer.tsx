@@ -36,22 +36,22 @@ export default function Footer({ locale }: FooterProps) {
           </div>
           <ul className="space-y-2 text-xs font-tech tracking-wider uppercase text-bone/80">
             <li>
-              <Link href={`/${locale}/products`} className="hover:text-bone transition-colors block truncate">
+              <Link href={`/${locale}/products`} className="hover:text-bone transition-colors block">
                 {isRtl ? "كتالوج المنتجات" : "PRODUCT CATALOGUE"}
               </Link>
             </li>
             <li>
-              <Link href={`/${locale}/applications`} className="hover:text-bone transition-colors block truncate">
+              <Link href={`/${locale}/applications`} className="hover:text-bone transition-colors block">
                 {isRtl ? "مجالات التطبيق" : "APPLICATIONS"}
               </Link>
             </li>
             <li>
-              <Link href={`/${locale}/about`} className="hover:text-bone transition-colors block truncate">
+              <Link href={`/${locale}/about`} className="hover:text-bone transition-colors block">
                 {isRtl ? "عن الشركة" : "COMPANY ABOUT"}
               </Link>
             </li>
             <li>
-              <Link href={`/${locale}/contact`} className="hover:text-bone transition-colors block truncate">
+              <Link href={`/${locale}/contact`} className="hover:text-bone transition-colors block">
                 {isRtl ? "طلب التواصل" : "CONTACT INQUIRIES"}
               </Link>
             </li>

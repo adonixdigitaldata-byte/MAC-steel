@@ -60,7 +60,7 @@ export default function ApplicationsSection({ locale }: ApplicationsSectionProps
                     <span className="font-tech text-xs font-bold text-accent-copper border border-current px-2 py-0.5 shrink-0">
                       {formattedIdx}
                     </span>
-                    <h3 className="font-display text-base sm:text-2xl uppercase tracking-wider group-hover:text-accent-copper transition-colors truncate">
+                    <h3 className="font-display text-base sm:text-2xl uppercase tracking-wider group-hover:text-accent-copper transition-colors break-words">
                       {isRtl ? app.nameAr : app.name}
                     </h3>
                   </div>

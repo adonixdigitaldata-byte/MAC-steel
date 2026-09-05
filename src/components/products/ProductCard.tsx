@@ -68,7 +68,7 @@ export default function ProductCard({
         </div>
 
         {/* Technical Attributes Grid */}
-        <div className="border-t border-current/15 pt-3 sm:pt-4 space-y-2 font-tech text-[10px] sm:text-[11px]">
+        <div className="border-t border-current/15 pt-3 sm:pt-4 space-y-2 font-tech text-xs">
           <div className="flex justify-between items-center opacity-80 gap-2">
             <span>MATERIAL:</span>
             <span className="font-bold truncate">{product.material || "SS 316L"}</span>

@@ -40,7 +40,7 @@ export default function Button({
 }: ButtonProps) {
   // Styles based on World and Variant
   const baseStyles =
-    "group inline-flex items-center justify-between font-tech text-[11px] sm:text-xs tracking-wider sm:tracking-widest uppercase transition-all duration-200 focus:outline-none select-none disabled:opacity-40 disabled:cursor-not-allowed max-w-full min-w-0 flex-wrap sm:flex-nowrap gap-2";
+    "group inline-flex items-center justify-between font-tech text-xs tracking-wider sm:tracking-widest uppercase transition-all duration-200 focus:outline-none select-none disabled:opacity-40 disabled:cursor-not-allowed max-w-full min-w-0 flex-wrap sm:flex-nowrap gap-2";
 
   let colorStyles = "";
 

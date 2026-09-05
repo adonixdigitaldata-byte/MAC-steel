@@ -22,7 +22,7 @@ export default function NumberBadge({
   return (
     <div
       className={cn(
-        "inline-flex flex-wrap items-center gap-1.5 font-tech text-[11px] sm:text-xs tracking-wider uppercase border px-2 py-0.5 sm:px-2.5 sm:py-1 shrink-0 max-w-full",
+        "inline-flex flex-wrap items-center gap-1.5 font-tech text-xs tracking-wider uppercase border px-2 py-0.5 sm:px-2.5 sm:py-1 shrink-0 max-w-full",
         textColor,
         borderColor,
         className

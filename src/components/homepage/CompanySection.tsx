@@ -44,7 +44,7 @@ export default function CompanySection({ locale }: CompanySectionProps) {
               <div className="flex items-center space-x-2 rtl:space-x-reverse font-bold text-carbon">
                 <TechnicalLabel variant="copper">COMPANY DATA STATUS</TechnicalLabel>
               </div>
-              <p className="text-[11px] leading-normal opacity-85">
+              <p className="text-xs leading-normal opacity-85">
                 {isRtl
                   ? "سيتم تزويد السجل التاريخي الرسمي وشهادات الاعتماد والقدرة الإنتاجية من العميل في المرحلة اللاحقة."
                   : "Official company heritage, capacity metrics, and certified manufacturing standards will be supplied by the client during integration."}

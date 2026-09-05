@@ -31,7 +31,7 @@ export default function TechnicalLabel({
   return (
     <span
       className={cn(
-        "font-tech text-[11px] sm:text-xs tracking-wider sm:tracking-widest uppercase inline-flex flex-wrap items-center gap-2 break-words max-w-full leading-tight",
+        "font-tech text-xs tracking-wider sm:tracking-widest uppercase inline-flex flex-wrap items-center gap-2 break-words max-w-full leading-tight",
         variantStyles[variant],
         className
       )}

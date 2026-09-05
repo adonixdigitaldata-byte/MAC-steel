@@ -84,7 +84,7 @@ export function MetaText({ children, className = "", as = "span" }: TypographyPr
   return (
     <Tag
       className={cn(
-        "font-tech text-[11px] sm:text-xs tracking-wider uppercase leading-normal text-inherit break-words max-w-full",
+        "font-tech text-xs tracking-wider uppercase leading-normal text-inherit break-words max-w-full",
         className
       )}
     >
