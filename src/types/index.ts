@@ -8,25 +8,34 @@ export interface ProductSpecification {
 export interface Product {
   id: string;
   slug: string;
+  partNumber: string;
   name: string;
   nameAr: string;
   category: string;
   categoryAr: string;
   description: string;
   descriptionAr: string;
+  shortDescription?: string;
+  shortDescriptionAr?: string;
   documentRef?: string;
   productCode?: string;
   size?: string;
   material?: string;
   grade?: string;
+  finish?: string;
+  thickness?: string;
+  availableSizes?: string[];
   application?: string;
   applicationAr?: string;
+  applications?: string[];
+  applicationsAr?: string[];
   features?: string[];
   featuresAr?: string[];
   specifications?: ProductSpecification[];
   image?: string;
   gallery?: string[];
   relatedProducts?: string[];
+  related?: string[];
 }
 
 export interface CartItem {

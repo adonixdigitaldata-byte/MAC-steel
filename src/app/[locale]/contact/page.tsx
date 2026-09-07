@@ -7,12 +7,15 @@ import { SITE_CONFIG } from "@/data/config";
 
 // UI Components
 import { Container, Section } from "@/components/ui/Container";
-import PageHeader from "@/components/layout/PageHeader";
+import PageHero from "@/components/layout/PageHero";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
 import NumberBadge from "@/components/ui/NumberBadge";
 import Button from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
-import { DisplayM, BodyText, MetaText } from "@/components/ui/Typography";
+import { DisplayM, BodyText } from "@/components/ui/Typography";
+
+// Motion Library (HTC-4.4.5)
+import { FadeReveal, TechnicalDivider } from "@/components/motion";
 
 export default function ContactPage() {
   const params = useParams();
@@ -36,26 +39,41 @@ export default function ContactPage() {
     setFormSubmitted(true);
   };
 
+  const whatsappHref = `https://wa.me/${SITE_CONFIG.whatsappNumber.replace(/[^0-9]/g, "")}`;
+
   return (
     <main className="min-h-screen bg-carbon text-bone w-full max-w-full overflow-hidden">
+      {/* 01. TIERED HERO ARCHITECTURE (HTC-4.4) */}
+      <PageHero
+        eyebrow={isRtl ? "مكتب التوصيف والاستفسارات" : "SPECIFIER DESK"}
+        documentId="DOC-RFQ-2026.05"
+        title={isRtl ? "طلب عروض الأسعار والتوصيف الهندسي." : "DIRECT SPECIFICATION & RFQ INQUIRY."}
+        description={
+          isRtl
+            ? "قم بتعبئة نموذج الطلب الفني أدناه لمراجعة الرسومات والمواصفات والكميات من قبل مهندسينا المختصين."
+            : "Direct technical submission portal for fabrication drawings, quantity schedules, mill certifications, and custom structural quotations."
+        }
+        breadcrumb={isRtl ? "الرئيسية / التواصل" : "HOME / CONTACT"}
+        overlayStyle="technical"
+        primaryAction={{
+          label: isRtl ? "تقديم طلب تسعير" : "Submit RFQ",
+          href: "#rfq-form",
+          variant: "primary",
+        }}
+        secondaryAction={{
+          label: isRtl ? "واتساب الهندسي" : "WhatsApp Engineering",
+          href: whatsappHref,
+          variant: "outline",
+          isExternal: true,
+        }}
+        locale={locale}
+      />
+
       <Section world="carbon">
         <Container>
-          <PageHeader
-            index="CONTACT-05"
-            label={isRtl ? "طلب التواصل الهندسي" : "DIRECT SPECIFICATION INQUIRY"}
-            title={isRtl ? "تقديم طلب مواصفات الأسعار" : "SUBMIT SPECIFICATION INQUIRY."}
-            description={
-              isRtl
-                ? "قم بتعبئة نموذج الطلب الفني أدناه لمراجعة الرسومات والمواصفات والكميات من قبل مهندسينا المختصين."
-                : "Complete the technical request document below to submit engineering drawings, quantity requirements, and material specifications."
-            }
-            locale={locale}
-            world="carbon"
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start">
+          <div id="rfq-form" className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start pt-4 sm:pt-8 scroll-mt-28">
             {/* Left / Direct Channel Metadata Panel */}
-            <div className="lg:col-span-5 space-y-6 border border-carbon-border bg-carbon-surface p-6 sm:p-8">
+            <FadeReveal className="lg:col-span-5 space-y-6 border border-carbon-border bg-carbon-surface p-6 sm:p-8 hover:border-carbon-border/90 transition-colors" y={24} duration={700}>
               <div className="flex items-center space-x-3 rtl:space-x-reverse pb-4 border-b border-carbon-border">
                 <NumberBadge number="05" world="carbon" />
                 <TechnicalLabel variant="copper">SPECIFICATION OFFICE</TechnicalLabel>
@@ -85,10 +103,10 @@ export default function ContactPage() {
                   <span className="font-bold text-bone block">ISO 9001 COMPLIANT</span>
                 </div>
               </div>
-            </div>
+            </FadeReveal>
 
             {/* Right / Technical Inquiry Document Form */}
-            <div className="lg:col-span-7 border border-carbon-border bg-carbon-surface p-6 sm:p-10 space-y-6">
+            <FadeReveal className="lg:col-span-7 border border-carbon-border bg-carbon-surface p-6 sm:p-10 space-y-6" delay={120} y={24} duration={700}>
               <div className="flex justify-between items-center pb-4 border-b border-carbon-border">
                 <TechnicalLabel variant="copper">
                   DOCUMENT / REQ-2026
@@ -111,7 +129,7 @@ export default function ContactPage() {
                   </BodyText>
                   <button
                     onClick={() => setFormSubmitted(false)}
-                    className="font-tech text-xs text-accent-copper underline uppercase pt-4 block mx-auto"
+                    className="font-tech text-xs text-accent-copper underline uppercase pt-4 block mx-auto hover:text-bone transition-colors"
                   >
                     {isRtl ? "إرسال طلب آخر" : "SUBMIT ANOTHER INQUIRY"}
                   </button>
@@ -207,10 +225,13 @@ export default function ContactPage() {
                   </div>
                 </form>
               )}
-            </div>
+            </FadeReveal>
           </div>
         </Container>
       </Section>
+
+      {/* Technical Transition Divider */}
+      <TechnicalDivider world="carbon" label="END OF INQUIRY" documentId="DOC-RFQ-END-2026" />
     </main>
   );
 }

@@ -6,6 +6,7 @@ import { isValidLocale, Locale } from "@/config/locales";
 import HeroSection from "@/components/homepage/HeroSection";
 // Client boundary wrapper — holds the ssr:false dynamic import for Three.js section
 import ManufacturingSection from "@/components/homepage/ManufacturingSectionLoader";
+import GatewayStrip from "@/components/homepage/GatewayStrip";
 import CompanySection from "@/components/homepage/CompanySection";
 import ApplicationsSection from "@/components/homepage/ApplicationsSection";
 import ProductsSection from "@/components/homepage/ProductsSection";
@@ -30,17 +31,21 @@ export default async function HomePage({
       {/* 02. MANUFACTURING JOURNEY — 5-stage scroll section */}
       <ManufacturingSection locale={locale as Locale} />
 
-      {/* 03. COMPANY / ARCHITECTURAL PURPOSE */}
+      {/* 03. ENGINEERING GATEWAY STRIP — Decision Directory */}
+      <GatewayStrip locale={locale as Locale} />
+
+      {/* 04. COMPANY / ARCHITECTURAL PURPOSE PREVIEW */}
       <CompanySection locale={locale as Locale} />
 
-      {/* 03. APPLICATIONS / SECTOR USAGE */}
+      {/* 05. APPLICATIONS / SECTOR USAGE PREVIEW */}
       <ApplicationsSection locale={locale as Locale} />
 
-      {/* 04. PRODUCTS / CATALOGUE UNIVERSE */}
+      {/* 06. FEATURED PRODUCTS / CATALOGUE UNIVERSE PREVIEW */}
       <ProductsSection locale={locale as Locale} />
 
-      {/* 05. FINAL CTA / DIRECT INQUIRY */}
+      {/* 07. FINAL CTA / DIRECT INQUIRY */}
       <FinalCtaSection locale={locale as Locale} />
     </main>
   );
 }
+

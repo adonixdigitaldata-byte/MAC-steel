@@ -2,18 +2,19 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { isValidLocale, Locale } from "@/config/locales";
-import { APPLICATIONS } from "@/data/applications";
-import { PRODUCTS } from "@/data/products";
+import { INDUSTRY_SECTORS } from "@/data/industry-sectors";
+import { getProductBySlug } from "@/data/products";
+import { Product } from "@/types";
 
 // UI Components
 import { Container, Section } from "@/components/ui/Container";
-import PageHeader from "@/components/layout/PageHeader";
-import SectionHeader from "@/components/layout/SectionHeader";
+import PageHero from "@/components/layout/PageHero";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
 import NumberBadge from "@/components/ui/NumberBadge";
 import Button from "@/components/ui/Button";
-import IconArrow from "@/components/ui/IconArrow";
-import { DisplayM, BodyText, MetaText } from "@/components/ui/Typography";
+import ProductCard from "@/components/products/ProductCard";
+import { FadeReveal, StaggerGroup, TechnicalDivider } from "@/components/motion";
+import { DisplayM, BodyText } from "@/components/ui/Typography";
 
 export default async function ApplicationsPage({
   params,
@@ -29,97 +30,186 @@ export default async function ApplicationsPage({
   const isRtl = locale === "ar";
 
   return (
-    <main className="min-h-screen bg-carbon text-bone w-full max-w-full overflow-hidden">
-      <Section world="carbon">
-        <Container>
-          <PageHeader
-            index="SECTOR-03"
-            label={isRtl ? "قطاعات الاستخدام والتطبيق" : "APPLICATION SECTORS ARCHIVE"}
-            title={isRtl ? "أرشيف التطبيقات الهندسية" : "ENGINEERED SECTORS & USAGE ARCHIVE."}
-            description={
-              isRtl
-                ? "دليل تفصيلي لاستخدامات مكوناتنا الفولاذية عبر قطاعات البنية التحتية والشبكات والإنشاءات الصناعية."
-                : "Comprehensive breakdown of industrial applications, load conditions, and structural utility deployments."
-            }
-            locale={locale as Locale}
-            world="carbon"
-          />
+    <main className="min-h-screen bg-world-bone text-carbon w-full max-w-full overflow-hidden">
+      {/* 01. TIER-2 PAGEHERO */}
+      <PageHero
+        eyebrow={isRtl ? "حلول القطاعات الصناعية الكبرى" : "INDUSTRY SOLUTIONS HUB"}
+        documentId="DOC-SEC-PORTAL-2026"
+        title={isRtl ? "هندسة معتمدة للمشاريع الحرجة." : "DEPLOYED ACROSS CRITICAL INFRASTRUCTURE."}
+        description={
+          isRtl
+            ? "دليل القطاعات الصناعية والهندسية في المملكة العربية السعودية: التحديات الميدانية، المواصفات المعتمدة، والمكونات الفولاذية المخصصة لكل قطاع."
+            : "Cross-sector engineering solutions: Field challenge analysis, certified compliance metrics, and precision steel components tailored for key industrial environments."
+        }
+        breadcrumb={isRtl ? "الرئيسية / القطاعات" : "HOME / APPLICATIONS"}
+        overlayStyle="dramatic"
+        primaryAction={{
+          label: isRtl ? "استعراض القطاعات" : "Explore Sectors",
+          href: "#sectors-portal",
+          variant: "primary",
+        }}
+        secondaryAction={{
+          label: isRtl ? "طلب استشارة هندسية" : "Sector Inquiry",
+          href: `/${locale}/contact`,
+          variant: "outline",
+        }}
+        locale={locale as Locale}
+      />
 
-          {/* Applications Catalogue Archive Stream */}
-          <div className="space-y-12 sm:space-y-16">
-            {APPLICATIONS.map((app, index) => {
-              const formattedIdx = String(index + 1).padStart(2, "0");
-              const relatedProduct = PRODUCTS[index % PRODUCTS.length];
+      {/* 02. DEDICATED SECTORS PORTAL WITH ALTERNATING EDITORIAL LAYOUT */}
+      <div id="sectors-portal" className="scroll-mt-24">
+        {INDUSTRY_SECTORS.map((sector, sIdx) => {
+          const isEven = sIdx % 2 === 1;
+          const isCarbonWorld = isEven;
+          const world = isCarbonWorld ? "carbon" : "bone";
 
-              return (
-                <div
-                  key={app.id}
-                  className="border border-carbon-border bg-carbon-surface p-6 sm:p-10 space-y-6 w-full max-w-full box-border"
-                >
-                  {/* Sector Header Notation */}
-                  <div className="flex flex-wrap justify-between items-center pb-4 border-b border-carbon-border gap-3">
-                    <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                      <NumberBadge number={formattedIdx} world="carbon" />
-                      <TechnicalLabel variant="copper">
-                        SECTOR REF / {app.id}
-                      </TechnicalLabel>
-                    </div>
-                    <span className="font-tech text-xs text-accent-metal">
-                      SPECIFICATION LEVEL: INDUSTRIAL
-                    </span>
-                  </div>
+          // Resolve recommended products from single source of truth
+          const recommendedProducts: Product[] = sector.productSlugs
+            .map((slug) => getProductBySlug(slug))
+            .filter((p): p is Product => Boolean(p));
 
-                  {/* Title & Description Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
-                    <div className="lg:col-span-7 space-y-4">
-                      <DisplayM className="text-bone uppercase">
-                        {isRtl ? app.nameAr : app.name}
-                      </DisplayM>
-                      <BodyText className="text-accent-metal text-sm sm:text-base leading-relaxed">
-                        {isRtl
-                          ? `أنظمة المكونات الفولاذية المعتمدة المصممة خصيصاً لتلبية المتطلبات الهندسية القاسية لقطاع ${app.nameAr}.`
-                          : `High-precision structural steel assemblies, custom frames, and support systems specified for ${app.name} infrastructure projects.`}
-                      </BodyText>
-                    </div>
-
-                    <div className="lg:col-span-5 space-y-4 border-t lg:border-t-0 lg:border-s border-carbon-border pt-4 lg:pt-0 lg:ps-6 font-tech text-xs text-accent-metal">
-                      <div className="space-y-1">
-                        <span className="block text-[9px] opacity-60 uppercase">ENVIRONMENT</span>
-                        <span className="font-bold text-bone block">Heavy Utility / Underground</span>
+          return (
+            <React.Fragment key={sector.id}>
+              <Section world={world} className="py-16 sm:py-24">
+                <Container>
+                  {/* Sector Header Lockup */}
+                  <FadeReveal y={24} duration={700}>
+                    <div className="flex flex-wrap items-center justify-between pb-4 mb-8 border-b border-current/20 gap-3">
+                      <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                        <NumberBadge number={sector.id} world={world} />
+                        <TechnicalLabel variant="copper">
+                          {isRtl ? sector.nameAr : sector.name.toUpperCase()}
+                        </TechnicalLabel>
                       </div>
-                      <div className="space-y-1">
-                        <span className="block text-[9px] opacity-60 uppercase">CORROSION RESISTANCE</span>
-                        <span className="font-bold text-bone block">ASTM A123 / ISO 1461</span>
-                      </div>
-                      <div className="space-y-1">
-                        <span className="block text-[9px] opacity-60 uppercase">EXAMPLE COMPONENT</span>
-                        <span className="font-bold text-accent-copper block truncate">
-                          {isRtl ? relatedProduct.nameAr : relatedProduct.name}
-                        </span>
-                      </div>
+                      <span className="font-tech text-xs opacity-70">
+                        SPECIFICATION STANDARD: {sector.specs.standard}
+                      </span>
                     </div>
-                  </div>
+                  </FadeReveal>
 
-                  {/* Actions Bar */}
-                  <div className="pt-4 border-t border-carbon-border flex flex-wrap items-center justify-between gap-4 font-tech text-xs">
-                    <Link
-                      href={`/${locale}/products/${relatedProduct.slug}`}
-                      className="text-bone hover:text-accent-copper font-bold uppercase tracking-wider flex items-center space-x-2 rtl:space-x-reverse"
+                  {/* Alternating Editorial Layout: Challenge / Solution vs Specifications */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start mb-12">
+                    {/* Left/Main Column: Headline, Tagline, Challenge & Solution */}
+                    <FadeReveal
+                      className={isEven ? "lg:col-span-7 lg:order-2 space-y-6" : "lg:col-span-7 space-y-6"}
+                      y={20}
+                      duration={750}
                     >
-                      <span>{isRtl ? "عرض المنتج المرتبط" : "VIEW SAMPLE SPECIFICATION ITEM"}</span>
-                      <IconArrow locale={locale as Locale} size={14} />
-                    </Link>
+                      <DisplayM className={isCarbonWorld ? "text-bone" : "text-carbon"}>
+                        {isRtl ? sector.nameAr : sector.name}
+                      </DisplayM>
 
-                    <Button href={`/${locale}/contact`} locale={locale as Locale} variant="outline" world="carbon">
-                      {isRtl ? "طلب استشارة للقطاع" : "SECTOR INQUIRY"}
-                    </Button>
+                      <p className="font-tech text-xs sm:text-sm text-accent-copper font-bold uppercase tracking-wider">
+                        /// {isRtl ? sector.taglineAr : sector.tagline}
+                      </p>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
+                        {/* Challenge Block */}
+                        <div className={isCarbonWorld ? "border border-carbon-border bg-carbon-surface p-5 space-y-2" : "border border-bone-border bg-bone-surface p-5 space-y-2"}>
+                          <span className="font-tech text-[10px] text-accent-copper font-bold uppercase block">
+                            01 // {isRtl ? "التحدي الهندسي" : "THE FIELD CHALLENGE"}
+                          </span>
+                          <p className="font-body text-xs opacity-85 leading-relaxed">
+                            {isRtl ? sector.challengeAr : sector.challenge}
+                          </p>
+                        </div>
+
+                        {/* Solution Block */}
+                        <div className={isCarbonWorld ? "border border-carbon-border bg-carbon-surface p-5 space-y-2" : "border border-bone-border bg-bone-surface p-5 space-y-2"}>
+                          <span className="font-tech text-[10px] text-accent-copper font-bold uppercase block">
+                            02 // {isRtl ? "الحل المعتمد" : "ENGINEERED SOLUTION"}
+                          </span>
+                          <p className="font-body text-xs opacity-85 leading-relaxed">
+                            {isRtl ? sector.solutionAr : sector.solution}
+                          </p>
+                        </div>
+                      </div>
+                    </FadeReveal>
+
+                    {/* Right/Secondary Column: Technical Parameters & RFQ Action */}
+                    <FadeReveal
+                      className={isEven ? "lg:col-span-5 lg:order-1 space-y-6" : "lg:col-span-5 space-y-6"}
+                      y={20}
+                      duration={750}
+                      delay={100}
+                    >
+                      <div className={isCarbonWorld ? "border border-carbon-border bg-carbon-surface p-6 font-tech text-xs space-y-4" : "border border-bone-border bg-bone-surface p-6 font-tech text-xs space-y-4"}>
+                        <div className="flex justify-between items-center pb-2 border-b border-current/20">
+                          <span className="text-[10px] text-accent-copper font-bold uppercase">SECTOR COMPLIANCE</span>
+                          <span className="text-[10px] opacity-60">ISO 9001 / SASO</span>
+                        </div>
+
+                        <div className="space-y-2.5 text-[11px]">
+                          <div>
+                            <span className="block text-[9px] opacity-60 uppercase">GOVERNING STANDARD</span>
+                            <span className="font-bold block">{sector.specs.standard}</span>
+                          </div>
+                          <div>
+                            <span className="block text-[9px] opacity-60 uppercase">CORROSION RATING</span>
+                            <span className="font-bold block">{sector.specs.corrosionRating}</span>
+                          </div>
+                          <div>
+                            <span className="block text-[9px] opacity-60 uppercase">TESTING PROTOCOL</span>
+                            <span className="font-bold text-accent-copper block">{sector.specs.testingProtocol}</span>
+                          </div>
+                        </div>
+
+                        <div className="pt-2 border-t border-current/20">
+                          <Button
+                            href={`/${locale}/contact`}
+                            locale={locale as Locale}
+                            variant={isCarbonWorld ? "primary" : "primary"}
+                            world={world}
+                            className="w-full text-center"
+                          >
+                            {isRtl ? `طلب استشارة ${sector.nameAr}` : `REQUEST ${sector.name.toUpperCase()} RFQ`}
+                          </Button>
+                        </div>
+                      </div>
+                    </FadeReveal>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </Container>
-      </Section>
+
+                  {/* Recommended Products Stream */}
+                  {recommendedProducts.length > 0 && (
+                    <div className="space-y-6 pt-4 border-t border-current/15">
+                      <div className="flex justify-between items-center font-tech text-xs">
+                        <span className="font-bold text-accent-copper uppercase tracking-wider">
+                          {isRtl ? "المكونات المعتمدة الموصى بها للقطاع" : "RECOMMENDED SPECIFICATION COMPONENTS"}
+                        </span>
+                        <Link
+                          href={`/${locale}/products`}
+                          className="text-xs uppercase hover:underline opacity-80 hover:opacity-100"
+                        >
+                          {isRtl ? "عرض الكتالوج الكامل ←" : "VIEW FULL CATALOG →"}
+                        </Link>
+                      </div>
+
+                      <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={70}>
+                        {recommendedProducts.map((prod, pIdx) => (
+                          <ProductCard
+                            key={prod.id}
+                            product={prod}
+                            locale={locale as Locale}
+                            world={world}
+                            index={pIdx}
+                          />
+                        ))}
+                      </StaggerGroup>
+                    </div>
+                  )}
+                </Container>
+              </Section>
+
+              {/* Technical Transition Divider between sectors */}
+              <TechnicalDivider
+                world={world}
+                label={`SECTOR ${sector.id} / ${sector.slug.toUpperCase()}`}
+                documentId={`DOC-SEC-${2026 + sIdx}`}
+              />
+            </React.Fragment>
+          );
+        })}
+      </div>
     </main>
   );
 }

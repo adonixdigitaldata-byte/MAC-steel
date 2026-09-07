@@ -6,26 +6,35 @@ import { Environment, ContactShadows, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 
 /* -----------------------------------------------------------------------
-   Hero Scene — Final Visual Refinement Pass.
-   - Priority 01: Physical heavy graphite steel (anti-glossy, high surface density).
-   - Priority 02: Controlled studio key highlight (reveals geometry without washout).
-   - Priority 03: Grounded visual mass & weighted contact shadow.
-   - Priority 04: Controlled 23° azimuth exposing side planes & chamfer depth.
-   - Priority 05: Restrained MAC copper accent (#875E48) for engineering detail.
-   - Priority 06: Smooth continuous scroll inspection curve.
-   - Priority 07: Organic forge warmth transition into Manufacturing.
+   Hero Scene — HTC-3.2 Exploded Mechanical Assembly.
+   - Preserves HTC-3.1 Cinematic Reveal (Light Sweep, Settle, Idle Realism).
+   - Introduces Scroll-Driven Exploded Inspection:
+     * 0% – 15%: Intact assembly, orientation inspection.
+     * 15% – 35%: Threaded core rod smoothly slides outward along X.
+     * 35% – 55%: Thread rings follow with preserved spacing & micro-stagger.
+     * 55% – 75%: Hex nut unscrews with rotational pitch + jam nut follows.
+     * 75% – 100%: Heavy mechanical retraction & locking before Manufacturing.
    ----------------------------------------------------------------------- */
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
+function easeOutCubic(x: number): number {
+  return 1 - Math.pow(1 - x, 3);
+}
+
+function easeInOutCubic(x: number): number {
+  return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
+
 function easeOutExpo(x: number): number {
   return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
 }
 
-function easeOutCubic(x: number): number {
-  return 1 - Math.pow(1 - x, 3);
+function smoothstep(t: number): number {
+  const c = Math.max(0, Math.min(1, t));
+  return c * c * (3 - 2 * c);
 }
 
 function springTowards(
@@ -87,11 +96,11 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
   const lookPivotX = isMobile ? 0.0 : 0.45;
   const lookY = isMobile ? 0.52 : 0.46;
 
-  // Initial camera target at mount
+  // Initial camera target at mount (with initial subtle dolly-in offset distance +0.40)
   const INIT_POS = computeCamPos(
     CAM_START.az,
     CAM_START.pol,
-    CAM_START.dist * (isMobile ? 1.22 : 1.0),
+    (CAM_START.dist + (reducedMotion ? 0 : 0.40)) * (isMobile ? 1.22 : 1.0),
     lookPivotX,
     lookY
   );
@@ -104,14 +113,21 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
   const mouseRef   = useRef({ x: 0, y: 0 });
   const clockRef   = useRef(0);
   const billetRef  = useRef<THREE.Group>(null!);
+  const envGroupRef = useRef<THREE.Group>(null!);
+
+  // Individual mesh refs for HTC-3.2 Exploded Assembly
+  const rodRef       = useRef<THREE.Mesh>(null!);
+  const threadRefs   = useRef<(THREE.Mesh | null)[]>([]);
+  const hexNutRef    = useRef<THREE.Mesh>(null!);
+  const jamNutRef    = useRef<THREE.Mesh>(null!);
 
   // Object-space gimbal pointer interpolation
   const gimbalYaw   = useRef(0);
   const gimbalPitch = useRef(0);
 
   // Lighting refs for cinematic entrance reveal & transition
-  const keyLightRef   = useRef<THREE.DirectionalLight>(null!);
-  const rimLightRef   = useRef<THREE.DirectionalLight>(null!);
+  const keyLightRef    = useRef<THREE.DirectionalLight>(null!);
+  const rimLightRef    = useRef<THREE.DirectionalLight>(null!);
   const accentLightRef = useRef<THREE.PointLight>(null!);
   const hemiLightRef   = useRef<THREE.HemisphereLight>(null!);
 
@@ -131,58 +147,154 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     const elapsed = clockRef.current;
     const p = Math.max(0, Math.min(1, progressRef.current));
 
-    // ── Priority 02: Refined Cinematic Entrance Choreography (2.6s total) ──
-    // Non-clipping, controlled studio highlight reveal
-    let entranceT = reducedMotion ? 1 : Math.min(1, elapsed / 2.6);
-    const rimProgress    = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, (elapsed - 0.1) / 1.0)));
-    const keyProgress    = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, (elapsed - 0.35) / 1.3)));
-    const accentProgress = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, (elapsed - 0.7) / 1.2)));
-    const hemiProgress   = reducedMotion ? 1 : easeOutCubic(Math.min(1, elapsed / 1.4));
+    // ── HTC-3.1 Phase A: Light Sweep Reveal (0.0s – 1.1s) ──
+    const sweepProgress  = reducedMotion ? 1 : easeInOutCubic(Math.min(1, Math.max(0, elapsed / 1.10)));
+    const sweepIntensity = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, elapsed / 0.85)));
+    const rimProgress    = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, (elapsed - 0.05) / 0.85)));
+    const accentProgress = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, (elapsed - 0.75) / 0.85)));
+    const hemiProgress   = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, elapsed / 1.20)));
 
-    // ── Priority 07: Natural Manufacturing Transition (80% -> 100% scroll) ──
+    // ── HTC-3.1 Phase B: Mechanical Settle & Scale (1.1s – 2.0s) ──
+    const settleProgress = reducedMotion ? 1 : easeOutCubic(Math.min(1, Math.max(0, (elapsed - 1.10) / 0.90)));
+    const entranceDolly  = reducedMotion ? 1 : easeOutExpo(Math.min(1, Math.max(0, elapsed / 1.80)));
+
+    // ── HTC-3.1 Phase C: Premium Idle Realism ──
+    if (envGroupRef.current && !reducedMotion) {
+      envGroupRef.current.rotation.y = clockRef.current * 0.025;
+    }
+    const shimmer = reducedMotion ? 1 : 1 + Math.sin(clockRef.current * 0.95) * 0.018;
+
+    // ── Manufacturing Transition Factor (80% -> 100% scroll) ──
     const transitionFactor = Math.max(0, (p - 0.80) / 0.20);
 
-    // Calibrated studio lighting levels — prevents white blowout, preserves graphite tone
+    // Apply lighting states
     if (rimLightRef.current) {
-      rimLightRef.current.intensity = lerp(0.04, 0.85, rimProgress) * (1 - transitionFactor * 0.25);
+      rimLightRef.current.intensity = lerp(0.02, 0.85, rimProgress) * shimmer * (1 - transitionFactor * 0.25);
     }
     if (keyLightRef.current) {
-      // Key light calibrated to 1.45 max intensity to maintain material graphite texture
-      keyLightRef.current.intensity = lerp(0.0, 1.45, keyProgress) * (1 - transitionFactor * 0.20);
-      const sweepX = pivotX + lerp(2.2, 3.4, keyProgress) + p * 0.45;
+      const sweepX = pivotX + lerp(-3.2, 3.4, sweepProgress) + p * 0.45;
+      const keyInt = lerp(0.0, 1.45, sweepIntensity) * shimmer * (1 - transitionFactor * 0.20);
+      keyLightRef.current.intensity = keyInt;
       keyLightRef.current.position.set(sweepX, 7.5, 4.0);
     }
     if (accentLightRef.current) {
-      // Restrained copper bounce: 0.45 resting, gently warming to 0.75 near manufacturing
       accentLightRef.current.intensity = lerp(0.0, 0.45 + transitionFactor * 0.30, accentProgress);
     }
     if (hemiLightRef.current) {
-      hemiLightRef.current.intensity = lerp(0.12, 0.42, hemiProgress);
+      hemiLightRef.current.intensity = lerp(0.06, 0.42, hemiProgress);
     }
 
-    // ── Priority 06: Smooth Continuous Scroll Inspection Curve ──
+    // ── HTC-3.2 Exploded Mechanical Assembly Timeline Calculations ──
+    // Phase 1 (0–15%): Intact assembly (rodOffset = 0, rings = 0, nuts = 0).
+    // Phase 2 (15–35%): Rod slides outward along local X (+0.34 units).
+    // Phase 3 (35–55%): Thread rings expand outwards with progressive stagger (+0.28 units max).
+    // Phase 4 (55–75%): Hex nut translates +0.46 units with unscrewing rotation, jam nut translates +0.58 units.
+    // Phase 5 (75–100%): Controlled mechanical return & lock (all offsets smoothly -> 0 before transition).
+
+    let rodOffset = 0;
+    let hexNutOffset = 0;
+    let hexNutSpin = 0;
+    let jamNutOffset = 0;
+    let jamNutSpin = 0;
+    const ringOffsets: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
+
+    if (!reducedMotion) {
+      // 1. Threaded Rod Curve (15% -> 35% extension, 75% -> 92% retraction)
+      if (p >= 0.15 && p < 0.75) {
+        const extendT = smoothstep((p - 0.15) / 0.20); // 15% -> 35%
+        rodOffset = extendT * 0.34;
+      } else if (p >= 0.75) {
+        const returnT = smoothstep((p - 0.75) / 0.18); // 75% -> 93%
+        rodOffset = lerp(0.34, 0, returnT);
+      }
+
+      // 2. Thread Rings Curve (35% -> 55% extension, 75% -> 90% retraction)
+      const ringBaseExtend = p >= 0.35 && p < 0.75
+        ? smoothstep((p - 0.35) / 0.20)
+        : p >= 0.75
+        ? lerp(1, 0, smoothstep((p - 0.75) / 0.16))
+        : 0;
+
+      for (let i = 0; i < 8; i++) {
+        // Micro-stagger per ring based on distance along core rod
+        const stagger = (i / 7) * 0.05;
+        const localT = Math.max(0, Math.min(1, ringBaseExtend - stagger * (1 - ringBaseExtend)));
+        ringOffsets[i] = rodOffset * 0.45 + localT * (0.08 + i * 0.022);
+      }
+
+      // 3. Hex Nut Curve (55% -> 72% extension & rotation, 75% -> 88% retraction)
+      if (p >= 0.52 && p < 0.75) {
+        const nutExtend = smoothstep((p - 0.52) / 0.20);
+        hexNutOffset = rodOffset + nutExtend * 0.38;
+        hexNutSpin = nutExtend * Math.PI * 2.5; // ~450° of unscrewing rotation
+      } else if (p >= 0.75) {
+        const nutReturn = smoothstep((p - 0.75) / 0.14);
+        hexNutOffset = lerp(0.34 + 0.38, 0, nutReturn);
+        hexNutSpin = lerp(Math.PI * 2.5, 0, nutReturn);
+      }
+
+      // 4. Locking Jam Nut Curve (57% -> 75% extension & rotation, 75% -> 86% retraction)
+      if (p >= 0.56 && p < 0.75) {
+        const jamExtend = smoothstep((p - 0.56) / 0.18);
+        jamNutOffset = rodOffset + jamExtend * 0.48;
+        jamNutSpin = jamExtend * Math.PI * 3.0; // ~540° of unscrewing rotation
+      } else if (p >= 0.75) {
+        const jamReturn = smoothstep((p - 0.75) / 0.12);
+        jamNutOffset = lerp(0.34 + 0.48, 0, jamReturn);
+        jamNutSpin = lerp(Math.PI * 3.0, 0, jamReturn);
+      }
+    }
+
+    // Apply Exploded Assembly Local Transforms
+    if (rodRef.current) {
+      rodRef.current.position.set(1.72 + rodOffset, 0, 0);
+    }
+    threadRefs.current.forEach((ringMesh, i) => {
+      if (ringMesh) {
+        ringMesh.position.set(1.38 + i * 0.048 + ringOffsets[i], 0, 0);
+      }
+    });
+    if (hexNutRef.current) {
+      hexNutRef.current.position.set(1.82 + hexNutOffset, 0, 0);
+      hexNutRef.current.rotation.set(0, hexNutSpin, Math.PI / 2);
+    }
+    if (jamNutRef.current) {
+      jamNutRef.current.position.set(1.90 + jamNutOffset, 0, 0);
+      jamNutRef.current.rotation.set(0, Math.PI / 6 + jamNutSpin, Math.PI / 2);
+    }
+
+    // ── Smooth Continuous Scroll Inspection Curve & HTC-3.4 Seamless Handoff ──
     let scrollRotY = 0;
     let scrollRotX = 0;
     let scrollRotZ = 0;
     let scrollYOffset = 0;
+    let transitionElongation = 1.0;
 
     if (!reducedMotion) {
-      // Smooth continuous easing from 0 to 33 degrees across full scroll
       const smoothP = p * p * (3 - 2 * p); // smoothstep
       scrollRotY = smoothP * 0.58;         // 0 -> ~33.2°
       scrollRotX = -Math.sin(p * Math.PI) * 0.08; // subtle forward inspection dip
       scrollRotZ = smoothP * 0.035;
 
-      if (p > 0.75) {
-        const transP = (p - 0.75) / 0.25;
-        scrollYOffset = -transP * transP * 0.35; // Downward transition glide
+      // 82%–90%: Forward commitment and alignment with ManufacturingScene initial vector
+      if (p >= 0.82) {
+        const commitP = smoothstep((p - 0.82) / 0.18);
+        scrollYOffset = -commitP * commitP * 0.42; // Downward glide aligned with manufacturing stage 01
+      }
+
+      // 90%–100%: Billet smoothly elongates along X to match Stage 01 raw stock billet profile
+      if (p >= 0.90) {
+        const elongP = smoothstep((p - 0.90) / 0.10);
+        transitionElongation = lerp(1.0, 1.08, elongP);
       }
     }
 
-    // ── Camera Coordinates ──
+    // ── Camera Coordinates (Cinematic Dolly Entrance + Matching Handoff Velocity) ──
+    const initialDollyOffset = (1 - entranceDolly) * 0.40;
+    // At p=1.0, azimuth (0.50 -> 0.22 in MFG) and elevation match continuous transition momentum
     const az   = lerp(CAM_START.az,   CAM_END.az,   p);
     const pol  = lerp(CAM_START.pol,  CAM_END.pol,  p);
-    const dist = lerp(CAM_START.dist, CAM_END.dist, p) * (isMobile ? 1.22 : 1.0);
+    const dist = (lerp(CAM_START.dist, CAM_END.dist, p) + initialDollyOffset) * (isMobile ? 1.22 : 1.0);
 
     const targetPos  = computeCamPos(az, pol, dist, lookPivotX, lookY);
     const targetLook = new THREE.Vector3(lookPivotX, lookY + scrollYOffset * 0.4, 0);
@@ -205,28 +317,35 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
       gimbalPitch.current = lerp(gimbalPitch.current, targetGimbalPitch, 0.05);
     }
 
-    // ── Priority 03: Grounded Physical Mass & Mechanical Idle ──
-    if (billetRef.current && !reducedMotion) {
-      const settleRotY = (1 - entranceT) * -0.04;
-      
-      // Extremely restrained mechanical breathing (±1.2cm, 7.2s period)
-      const idleFloat = Math.sin(clockRef.current * 0.52) * 0.012;
-      const idleRotY  = Math.sin(clockRef.current * 0.18) * 0.010;
-      const idleRotZ  = Math.cos(clockRef.current * 0.14) * 0.004;
+    // ── Billet Assembly Positioning & Mechanical Settle ──
+    if (billetRef.current) {
+      if (!reducedMotion) {
+        const currentScale = lerp(0.96, 1.0, settleProgress) * (isMobile ? 0.80 : 1.0);
+        const lockPitch = (1 - settleProgress) * -0.028;
+        const lockYaw   = (1 - settleProgress) * -0.035;
+        const lockY     = (1 - settleProgress) * 0.025;
 
-      const baseY = isMobile ? 0.42 : 0.48;
-      billetRef.current.position.set(pivotX, baseY + idleFloat + scrollYOffset, 0);
-      billetRef.current.rotation.set(
-        scrollRotX + gimbalPitch.current,
-        settleRotY + scrollRotY + idleRotY + gimbalYaw.current,
-        scrollRotZ + idleRotZ
-      );
+        // Phase C continuous mechanical breathing (±1.2cm, 7.2s period)
+        const idleFloat = Math.sin(clockRef.current * 0.52) * 0.012;
+        const idleRotY  = Math.sin(clockRef.current * 0.18) * 0.010;
+        const idleRotZ  = Math.cos(clockRef.current * 0.14) * 0.004;
 
-      // Mobile scale
-      if (isMobile) {
-        billetRef.current.scale.set(0.80, 0.80, 0.80);
+        const baseY = isMobile ? 0.42 : 0.48;
+        billetRef.current.position.set(pivotX, baseY + lockY + idleFloat + scrollYOffset, 0);
+        billetRef.current.rotation.set(
+          lockPitch + scrollRotX + gimbalPitch.current,
+          lockYaw + scrollRotY + idleRotY + gimbalYaw.current,
+          scrollRotZ + idleRotZ
+        );
+        billetRef.current.scale.set(
+          currentScale * transitionElongation,
+          currentScale,
+          currentScale
+        );
       } else {
-        billetRef.current.scale.set(1.0, 1.0, 1.0);
+        const baseScale = isMobile ? 0.80 : 1.0;
+        billetRef.current.scale.set(baseScale, baseScale, baseScale);
+        billetRef.current.position.set(pivotX, isMobile ? 0.42 : 0.48, 0);
       }
     }
   });
@@ -236,14 +355,14 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
       {/* Atmosphere — seamless with #0e0f11 studio base */}
       <fog attach="fog" args={["#0e0f11", 10, 28]} />
 
-      {/* 3-point studio lighting with refined non-clipping intensities */}
-      <hemisphereLight ref={hemiLightRef} args={["#2b2f36", "#0a0b0d", 0.42]} />
+      {/* 3-point studio lighting with dynamic sweep and calibrated non-clipping levels */}
+      <hemisphereLight ref={hemiLightRef} args={["#2b2f36", "#0a0b0d", 0.06]} />
 
-      {/* Key Light — warm directional source, revealing structural chamfers */}
+      {/* Key Light — warm directional source, physically sweeping left-to-right across billet */}
       <directionalLight
         ref={keyLightRef}
-        position={[pivotX + 3.4, 7.5, 4.0]}
-        intensity={1.45}
+        position={[pivotX - 3.2, 7.5, 4.0]}
+        intensity={0.0}
         color="#f0ebe2"
         castShadow
         shadow-mapSize={[1024, 1024]}
@@ -256,26 +375,28 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
         shadow-camera-bottom={-7}
       />
       
-      {/* Rim Light — cool industrial metallic contour separation */}
+      {/* Rim Light — cool industrial metallic contour separation catching edges first */}
       <directionalLight
         ref={rimLightRef}
         position={[pivotX - 5.0, 2.6, -3.0]}
-        intensity={0.85}
+        intensity={0.02}
         color="#68849c"
       />
       
-      {/* Accent Light — Restrained MAC Copper (#875E48) studio bounce */}
+      {/* Accent Light — Restrained MAC Copper (#875E48) studio bounce blooming near end of sweep */}
       <pointLight
         ref={accentLightRef}
         position={[pivotX + 1.8, 1.5, 2.2]}
-        intensity={0.45}
+        intensity={0.0}
         color="#875e48"
         distance={7.5}
         decay={2}
       />
 
-      {/* Environment — studio preset for anisotropic metallic reflections */}
-      <Environment preset="studio" resolution={isMobile ? 64 : 256} background={false} />
+      {/* Environment — studio preset with subtle reflection drift */}
+      <group ref={envGroupRef}>
+        <Environment preset="studio" resolution={isMobile ? 64 : 256} background={false} />
+      </group>
 
       {/* Seamless infinite dark studio floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
@@ -283,7 +404,7 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
         <meshStandardMaterial color="#0e0f11" roughness={0.90} metalness={0.04} />
       </mesh>
 
-      {/* Priority 03: Ground contact shadow anchored firmly under component */}
+      {/* Ground contact shadow anchored firmly under component */}
       <ContactShadows
         position={[pivotX, 0.002, 0]}
         opacity={0.88}
@@ -297,7 +418,7 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
       {/* ── 3D Hero Steel Object Assembly ── */}
       <group ref={billetRef} position={[pivotX, isMobile ? 0.42 : 0.48, 0]}>
 
-        {/* Priority 01: Heavy Forged Billet Main Body — Graphite Machined Steel */}
+        {/* Heavy Forged Billet Main Body — Graphite Machined Steel */}
         <RoundedBox args={[2.8, 0.6, 0.6]} radius={0.04} smoothness={5} castShadow receiveShadow>
           <meshPhysicalMaterial
             color="#181a1f"
@@ -337,8 +458,8 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
           </mesh>
         ))}
 
-        {/* Threaded Core Rod — Darkened Precision Tool Steel */}
-        <mesh position={[1.72, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
+        {/* Threaded Core Rod — Independently Animated along Local X (15%–35% / 75%–100%) */}
+        <mesh ref={rodRef} position={[1.72, 0, 0]} rotation={[0, 0, Math.PI / 2]} castShadow>
           <cylinderGeometry args={[0.055, 0.055, 0.76, 24]} />
           <meshPhysicalMaterial
             color="#22252a"
@@ -350,9 +471,14 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
           />
         </mesh>
 
-        {/* Precision Thread Rings — Smooth High-Density Geometry */}
+        {/* Precision Thread Rings — Independently Animated with Stagger (35%–55% / 75%–100%) */}
         {Array.from({ length: 8 }).map((_, i) => (
-          <mesh key={i} position={[1.38 + i * 0.048, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
+          <mesh
+            key={i}
+            ref={(el) => { threadRefs.current[i] = el; }}
+            position={[1.38 + i * 0.048, 0, 0]}
+            rotation={[0, Math.PI / 2, 0]}
+          >
             <torusGeometry args={[0.059, 0.009, 24, 24]} />
             <meshPhysicalMaterial
               color="#282b31"
@@ -364,8 +490,8 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
           </mesh>
         ))}
 
-        {/* Priority 05 & 03: Primary Hex Nut — Mechanically Flush Anodized Copper (#875E48) */}
-        <mesh position={[1.82, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+        {/* Primary Hex Nut — Independently Animated Unscrew & Translation (52%–75% / 75%–100%) */}
+        <mesh ref={hexNutRef} position={[1.82, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.095, 0.095, 0.075, 6]} />
           <meshPhysicalMaterial
             color="#875e48"
@@ -377,8 +503,8 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
           />
         </mesh>
 
-        {/* Secondary Locking Jam Nut — Mechanically Mated Tool Steel Fastener */}
-        <mesh position={[1.90, 0, 0]} rotation={[0, Math.PI / 6, Math.PI / 2]}>
+        {/* Secondary Locking Jam Nut — Independently Animated Unscrew & Follow (56%–75% / 75%–100%) */}
+        <mesh ref={jamNutRef} position={[1.90, 0, 0]} rotation={[0, Math.PI / 6, Math.PI / 2]}>
           <cylinderGeometry args={[0.095, 0.095, 0.075, 6]} />
           <meshPhysicalMaterial
             color="#1f2227"
@@ -393,5 +519,7 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     </>
   );
 }
+
+
 
 

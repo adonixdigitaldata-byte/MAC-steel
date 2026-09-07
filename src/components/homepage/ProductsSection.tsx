@@ -1,11 +1,9 @@
 import React from "react";
-import Link from "next/link";
 import { Locale } from "@/config/locales";
 import { PRODUCTS } from "@/data/products";
 import { Container, Section } from "@/components/ui/Container";
 import SectionHeader from "@/components/layout/SectionHeader";
 import ProductCard from "@/components/products/ProductCard";
-import ProductListItem from "@/components/products/ProductListItem";
 import Button from "@/components/ui/Button";
 
 interface ProductsSectionProps {
@@ -15,27 +13,30 @@ interface ProductsSectionProps {
 export default function ProductsSection({ locale }: ProductsSectionProps) {
   const isRtl = locale === "ar";
 
+  // Display top 3 featured engineering products
+  const featuredProducts = PRODUCTS.slice(0, 3);
+
   return (
     <Section world="bone" id="products">
       <Container>
         <SectionHeader
           index="04"
-          label={isRtl ? "كتالوج المنتجات / الخامات" : "PRODUCT CATALOGUE / SELECTION"}
-          title={isRtl ? "فهرس المنتجات الهندسية" : "OUR PRODUCTS."}
+          label={isRtl ? "المنتجات المميزة // فهرس المواصفات" : "FEATURED PRODUCTS // SPECIFICATION DATABASE"}
+          title={isRtl ? "مكونات فولاذية مختارة" : "FEATURED STEEL ASSEMBLIES."}
           description={
             isRtl
-              ? "مجموعة المكونات والهياكل الفولاذية المتاحة لطلبات الأسعار المباشرة عبر الكتالوج."
-              : "Structural steel items, custom fabrications, and precision engineered products available for request."
+              ? "نماذج مختارة من أنظمة التثبيت والهياكل الفولاذية المعتمدة لطلبات المواصفات المباشرة."
+              : "Precision manufactured components, anchor studs, and structural fabrications ready for CAD specification."
           }
-          actionText={isRtl ? "عرض جميع المنتجات" : "EXPLORE ALL PRODUCTS"}
+          actionText={isRtl ? "قاعدة المنتجات الكاملة" : "ENTER PRODUCT DATABASE"}
           actionHref={`/${locale}/products`}
           locale={locale}
           world="bone"
         />
 
-        {/* Editorial Product Cards Showcase */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {PRODUCTS.map((product, index) => (
+        {/* 3-Column Architectural Featured Products Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12">
+          {featuredProducts.map((product, index) => (
             <ProductCard
               key={product.id}
               product={product}
@@ -46,25 +47,17 @@ export default function ProductsSection({ locale }: ProductsSectionProps) {
           ))}
         </div>
 
-        {/* Horizontal Technical List Row Showcase */}
-        {PRODUCTS[0] && (
-          <div className="mb-12">
-            <ProductListItem
-              product={PRODUCTS[0]}
-              locale={locale}
-              world="bone"
-              index={2}
-            />
-          </div>
-        )}
-
-        {/* Centered Catalogue Action Directive */}
-        <div className="text-center pt-8 border-t border-bone-border">
+        {/* Database Specification Action Directive */}
+        <div className="text-center pt-8 border-t border-bone-border flex flex-col sm:flex-row items-center justify-between gap-4 font-tech text-xs">
+          <span className="text-accent-mineral text-[11px]">
+            {isRtl ? "أكثر من ٥٠ مواصفة قياسية جاهزة للتحميل" : "FULL CAD SPECS & MATERIAL TRACEABILITY SHEETS READY"}
+          </span>
           <Button href={`/${locale}/products`} locale={locale} variant="primary" world="bone">
-            {isRtl ? "الانتقال إلى الكتالوج الكامل ←" : "BROWSE FULL PRODUCT CATALOGUE →"}
+            {isRtl ? "تصفح قاعدة بيانات المنتجات الكاملة ←" : "BROWSE FULL PRODUCT CATALOGUE →"}
           </Button>
         </div>
       </Container>
     </Section>
   );
 }
+
