@@ -219,7 +219,7 @@ export default function PageHero({
           </div>
 
           <div className="font-tech text-[9px] sm:text-[10px] text-accent-metal/60 tracking-widest uppercase">
-            <span>CONTRATEK SPECIFICATION MATRIX</span>
+            <span>METALLO ARABIA SPECIFICATION MATRIX</span>
           </div>
         </div>
       </div>

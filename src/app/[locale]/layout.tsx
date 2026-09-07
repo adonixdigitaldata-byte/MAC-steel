@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isValidLocale, Locale, SUPPORTED_LOCALES } from "@/config/locales";
+import { SITE_CONFIG } from "@/data/config";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/motion";
@@ -20,8 +21,8 @@ export async function generateMetadata({
   const isRtl = locale === "ar";
 
   const title = isRtl
-    ? "كونتراتك للصلب والمكونات الهندسية | Contratek Industrial"
-    : "Contratek | Precision Structural Steel & Industrial Systems";
+    ? `${SITE_CONFIG.companyName.ar} | ${SITE_CONFIG.shortBrand}`
+    : `${SITE_CONFIG.companyName.en} (${SITE_CONFIG.shortBrand}) | Precision Structural Steel`;
   const description = isRtl
     ? "المورد والمصنع الرائد لمكونات الفولاذ الإنشائي، غرف التفتيش، مرابط الرسو، وأنظمة شبكات البنية التحتية المعتمدة في المملكة العربية السعودية."
     : "Precision engineered structural steel systems, heavy manhole access hardware, anchor rods, and utility solutions certified for critical infrastructure.";
@@ -29,28 +30,28 @@ export async function generateMetadata({
   return {
     title: {
       default: title,
-      template: isRtl ? "%s | كونتراتك للصلب" : "%s | Contratek",
+      template: isRtl ? `%s | ${SITE_CONFIG.companyName.ar}` : `%s | ${SITE_CONFIG.companyName.en}`,
     },
     description,
     keywords: [
-      "Structural Steel",
-      "Manhole Hardware",
+      "Metallo Arabia Company",
+      "MAC Steel",
+      "Structural Steel Saudi Arabia",
+      "Manhole Hardware Jeddah",
       "SS 316L Fasteners",
       "Hot-Dip Galvanized ASTM A123",
       "Saudi Arabia Steel Manufacturing",
-      "Jeddah Steel Works",
-      "RFQ Steel Catalog",
-      "كونتراتك للصلب",
+      "شركة ميتالو أرابيا",
       "مكونات الفولاذ المقاوم للصدأ",
       "جلفنة بالحرارة",
     ],
-    authors: [{ name: "Contratek Engineering" }],
-    creator: "Contratek",
+    authors: [{ name: SITE_CONFIG.companyName.en }],
+    creator: SITE_CONFIG.shortBrand,
     openGraph: {
       type: "website",
       locale: isRtl ? "ar_SA" : "en_US",
-      url: `https://contratek.sa/${locale}`,
-      siteName: "Contratek Industrial",
+      url: `https://metalloarabia.com/${locale}`,
+      siteName: isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.companyName.en,
       title,
       description,
     },
@@ -93,13 +94,17 @@ export default async function LocaleLayout({
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Contratek Industrial Steel",
-    alternateName: "شركة كونتراتك للمكونات الفولاذية",
-    url: "https://contratek.sa",
-    logo: "https://contratek.sa/icon.png",
+    name: SITE_CONFIG.companyName.en,
+    alternateName: SITE_CONFIG.companyName.ar,
+    brand: {
+      "@type": "Brand",
+      name: SITE_CONFIG.shortBrand,
+    },
+    url: "https://metalloarabia.com",
+    logo: "https://metalloarabia.com/icon.png",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+966-00-000-0000",
+      telephone: SITE_CONFIG.contactPhone,
       contactType: "technical specifier desk",
       areaServed: "SA",
       availableLanguage: ["English", "Arabic"],

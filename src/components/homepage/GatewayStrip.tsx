@@ -29,7 +29,7 @@ export default function GatewayStrip({ locale }: GatewayStripProps) {
     {
       num: "03",
       title: isRtl ? "معايير التصنيع" : "Manufacturing Standards",
-      desc: isRtl ? "تعرف على منهجية كونتراتك في الدقة وضمان الجودة." : "See how Contratek builds to ISO 9001:2015 tolerances.",
+      desc: isRtl ? "تعرف على منهجية شركة ميتالو أرابيا في الدقة وضمان الجودة." : "See how Metallo Arabia Company builds to ISO 9001:2015 tolerances.",
       href: `/${locale}/about`,
       tag: "FABRICATION",
     },

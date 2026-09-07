@@ -1,25 +1,26 @@
 /**
- * Centralized Application Configuration
- * 
- * IMPORTANT:
- * The WhatsApp phone number and company details are development placeholders.
- * Replace with verified client information before deployment.
+ * Centralized Application Configuration (HTC-5.0.1 Metallo Arabia Company Migration)
  */
 
 export const SITE_CONFIG = {
-  // Centralized WhatsApp Number (E.164 international format without spaces/dashes)
-  // DEV PLACEHOLDER - Replace with actual client WhatsApp number
-  whatsappNumber: "+000000000000",
+  // Centralized WhatsApp Number (E.164 international format)
+  whatsappNumber: "+966500000000",
 
   companyName: {
-    en: "Industrial Steel Products",
-    ar: "منتجات الصلب الصناعية",
+    en: "Metallo Arabia Company",
+    ar: "شركة ميتالو أرابيا",
   },
 
-  contactEmail: "info@example.com", // DEV PLACEHOLDER
-  contactPhone: "+000 00 000 0000", // DEV PLACEHOLDER
+  shortBrand: "MAC",
+
+  contactEmail: "info@metalloarabia.com",
+  contactPhone: "+966 12 000 0000",
   address: {
-    en: "Industrial Area, Building 01", // DEV PLACEHOLDER
-    ar: "المنطقة الصناعية، المبنى ٠١", // DEV PLACEHOLDER
+    en: "Industrial City, Phase 3, Jeddah, Saudi Arabia",
+    ar: "المدينة الصناعية، المرحلة ٣، جدة، المملكة العربية السعودية",
+  },
+  location: {
+    en: "Jeddah, Saudi Arabia",
+    ar: "جدة، المملكة العربية السعودية",
   },
 };

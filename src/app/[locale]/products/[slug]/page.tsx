@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { isValidLocale, Locale, SUPPORTED_LOCALES } from "@/config/locales";
 import { PRODUCTS, getProductBySlug } from "@/data/products";
 import { Product } from "@/types";
+import { SITE_CONFIG } from "@/data/config";
 
 // UI Components
 import { Container, Section } from "@/components/ui/Container";
@@ -37,13 +38,13 @@ export async function generateMetadata({
   const product = getProductBySlug(slug);
 
   if (!product) {
-    return { title: "Product Not Found | Contratek" };
+    return { title: `Product Not Found | ${SITE_CONFIG.companyName.en}` };
   }
 
   const isRtl = locale === "ar";
   const title = isRtl
-    ? `${product.nameAr} (${product.partNumber}) | كونتراتك للمكونات الهندسية`
-    : `${product.name} (${product.partNumber}) | Contratek Industrial`;
+    ? `${product.nameAr} (${product.partNumber}) | ${SITE_CONFIG.companyName.ar}`
+    : `${product.name} (${product.partNumber}) | ${SITE_CONFIG.companyName.en}`;
   const description = isRtl ? (product.shortDescriptionAr || product.descriptionAr) : (product.shortDescription || product.description);
 
   return {
@@ -136,7 +137,11 @@ export default async function ProductDetailPage({
     material: product.material,
     brand: {
       "@type": "Brand",
-      name: "Contratek",
+      name: SITE_CONFIG.shortBrand,
+    },
+    manufacturer: {
+      "@type": "Organization",
+      name: SITE_CONFIG.companyName.en,
     },
     offers: {
       "@type": "Offer",

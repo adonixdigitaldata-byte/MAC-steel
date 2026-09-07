@@ -47,7 +47,7 @@ const enriched = products.map((p, i) => {
 const outputCode = `import { Product } from "@/types";
 
 /**
- * CONTRATEK / METALLO ARABIA (HTC-4.5 SPECIFICATION CATALOG DATA)
+ * METALLO ARABIA COMPANY (MAC) MASTER TECHNICAL CATALOGUE DATA
  * Master Single Source of Truth for Structural and Utility Steel Components
  */
 

@@ -19,10 +19,10 @@ export default function Footer({ locale }: FooterProps) {
         <div className="lg:col-span-2 space-y-4 min-w-0">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
             <div className="w-6 h-6 border border-bone/80 bg-carbon flex items-center justify-center font-tech text-[8px] font-bold text-bone">
-              CON
+              MAC
             </div>
             <span className="font-display text-lg sm:text-xl tracking-wider text-bone uppercase">
-              {isRtl ? "كونتراتك لأنظمة الصلب" : "CONTRATEK STEEL SYSTEMS"}
+              {isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.companyName.en.toUpperCase()}
             </span>
           </div>
 
@@ -125,7 +125,7 @@ export default function Footer({ locale }: FooterProps) {
             </div>
             <div className="flex items-center space-x-2 rtl:space-x-reverse">
               <MapPin size={13} className="text-accent-copper shrink-0" />
-              <span className="truncate">{isRtl ? "جدة، المملكة العربية السعودية" : "Jeddah, Saudi Arabia"}</span>
+              <span className="truncate">{SITE_CONFIG.location[locale]}</span>
             </div>
           </div>
           <div className="pt-2">
@@ -142,8 +142,8 @@ export default function Footer({ locale }: FooterProps) {
 
       {/* Bottom Sub-footer */}
       <div className="max-w-7xl mx-auto border-t border-carbon-border/60 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-accent-metal font-tech gap-4">
-        <div className="text-[10px] sm:text-xs text-center sm:text-start">
-          © {new Date().getFullYear()} CONTRATEK INDUSTRIAL STEEL. ALL RIGHTS RESERVED.
+        <div className="text-[10px] sm:text-xs text-center sm:text-start uppercase">
+          © {new Date().getFullYear()} {SITE_CONFIG.companyName.en.toUpperCase()}. ALL RIGHTS RESERVED.
         </div>
         <div className="text-[10px] sm:text-xs tracking-widest text-accent-metal/60 flex items-center gap-3">
           <span>ISO 9001:2015 CERTIFIED</span>
@@ -154,4 +154,3 @@ export default function Footer({ locale }: FooterProps) {
     </footer>
   );
 }
-

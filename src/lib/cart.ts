@@ -1,9 +1,9 @@
 import { CartItem, Product } from "@/types";
 import { SITE_CONFIG } from "@/data/config";
 
-const CART_STORAGE_KEY = "contratek_rfq_cart_v1";
-const RFQ_SESSION_KEY = "contratek_rfq_session_ref";
-const CUSTOMER_INFO_KEY = "contratek_rfq_customer_info";
+const CART_STORAGE_KEY = "mac_rfq_cart_v1";
+const RFQ_SESSION_KEY = "mac_rfq_session_ref";
+const CUSTOMER_INFO_KEY = "mac_rfq_customer_info";
 
 export interface ProjectInformation {
   fullName: string;
@@ -121,7 +121,7 @@ export function generateRFQPlainText(
     .join("\n\n");
 
   const lines = [
-    `CONTRATEK ENGINEERING RFQ SPECIFICATION`,
+    `METALLO ARABIA COMPANY (MAC) RFQ SPECIFICATION`,
     `Reference: ${rfqRef}`,
     `----------------------------------------`,
     `CUSTOMER DETAILS:`,
@@ -164,7 +164,7 @@ export function generateWhatsAppRFQUrl(
     .join("\n\n");
 
   const messageLines = [
-    isRtl ? "مرحباً كونتراتك للهندسة والتوريد،" : "Hello Contratek Engineering,",
+    isRtl ? "مرحباً فريق شركة ميتالو أرابيا (MAC)،" : "Hello Metallo Arabia Company Team,",
     "",
     isRtl ? "أود طلب عرض أسعار رسمي للمواصفات التالية:" : "I'd like to request a formal quotation.",
     "",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/config/locales";
 import { useCart } from "@/components/cart";
+import { SITE_CONFIG } from "@/data/config";
 import IconArrow from "@/components/ui/IconArrow";
 import MobileMenu from "./MobileMenu";
 
@@ -91,14 +92,14 @@ export default function Header({ locale }: HeaderProps) {
           <Link
             href={`/${locale}`}
             className="group flex items-center space-x-3 rtl:space-x-reverse min-w-0 shrink-0 select-none"
-            aria-label="Contratek Homepage"
+            aria-label={`${SITE_CONFIG.companyName[locale]} Homepage`}
           >
             <div className="w-7 h-7 sm:w-8 sm:h-8 border border-bone/80 bg-carbon-surface/60 flex items-center justify-center font-tech text-[8px] sm:text-[9px] font-bold tracking-widest text-bone group-hover:border-accent-copper transition-colors shrink-0">
-              CON
+              MAC
             </div>
             <div className="flex flex-col">
               <span className="font-display text-base sm:text-lg tracking-wider text-bone group-hover:text-accent-copper transition-colors uppercase leading-tight whitespace-nowrap">
-                {isRtl ? "كونتراتك للصلب" : "CONTRATEK"}
+                {isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.shortBrand}
               </span>
               <span className="font-tech text-[8px] sm:text-[9px] tracking-widest text-accent-metal/60 uppercase">
                 JED • KSA • ISO 9001
@@ -187,7 +188,7 @@ export default function Header({ locale }: HeaderProps) {
         </div>
       </header>
 
-      {/* HTC-4.3 Mobile Navigation Sheet */}
+      {/* Mobile Navigation Sheet */}
       <MobileMenu
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
