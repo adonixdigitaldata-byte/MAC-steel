@@ -78,7 +78,7 @@ export default function HeroCanvas({ progressRef }: HeroCanvasProps) {
           antialias: !isMobile,
           powerPreference: "high-performance",
           toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.05,
+          toneMappingExposure: 1.35,
         }}
         shadows={!isMobile}
         className="w-full h-full"

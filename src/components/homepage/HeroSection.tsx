@@ -48,19 +48,15 @@ export default function HeroSection({ locale }: HeroSectionProps) {
   const wrapRef     = useRef<HTMLDivElement>(null);
   const progressRef = useRef(0);
   const textRef     = useRef<HTMLDivElement>(null);
-  const hudRef      = useRef<HTMLDivElement>(null);
   const hintRef     = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-  const [coords, setCoords]   = useState({ x: "001.300", y: "000.480", z: "000.000" });
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 150);
 
     let raf: number;
-    let tick = 0;
     const loop = () => {
       raf = requestAnimationFrame(loop);
-      tick++;
       const wrap = wrapRef.current;
       if (!wrap) return;
 
@@ -70,29 +66,11 @@ export default function HeroSection({ locale }: HeroSectionProps) {
       const progress = total > 0 ? clamp01(scrolled / total) : 0;
       progressRef.current = progress;
 
-      // Update real-time HUD CAD coordinates tied to camera breathing
-      if (tick % 4 === 0) {
-        const cx = (1.300 + Math.sin(tick * 0.02) * 0.012).toFixed(3);
-        const cy = (0.480 + Math.cos(tick * 0.018) * 0.014).toFixed(3);
-        const cz = (progress * 1.150).toFixed(3);
-        setCoords({
-          x: cx.padStart(7, "0"),
-          y: cy.padStart(7, "0"),
-          z: cz.padStart(7, "0"),
-        });
-      }
-
       // Fade text out smoothly in second half of scroll
       if (textRef.current) {
         const op = progress < 0.42 ? 1 : Math.max(0, 1 - (progress - 0.42) / 0.22);
         textRef.current.style.opacity = String(op);
         textRef.current.style.transform = `translateY(${(1 - op) * 20}px)`;
-      }
-
-      // HUD elements fade out as transition into Manufacturing completes
-      if (hudRef.current) {
-        const hudOp = progress < 0.75 ? 1 : Math.max(0, 1 - (progress - 0.75) / 0.15);
-        hudRef.current.style.opacity = String(hudOp);
       }
 
       // Scroll hint fades immediately
@@ -143,36 +121,10 @@ export default function HeroSection({ locale }: HeroSectionProps) {
           />
         </div>
 
-        {/* ── Foreground HUD & Narrative Content ── */}
-        <div className="relative z-10 h-full flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-6 sm:pt-20 pb-6 pointer-events-none">
+        {/* ── Foreground UI Layer ── */}
+        <div className="relative z-10 h-full flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-6 pointer-events-none">
 
-          {/* Top technical bar with Live Status & System Metadata */}
-          <div
-            className={`flex items-center justify-between border-b border-carbon-border/40 pb-3 sm:pb-4 pointer-events-auto transition-all duration-700 delay-300 ${
-              mounted ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-copper opacity-60" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-copper" />
-              </span>
-              <span className="font-tech text-[10px] tracking-widest text-accent-copper uppercase font-bold">
-                {isRtl ? COPY.eyebrow.ar : COPY.eyebrow.en}
-              </span>
-              <span className="hidden sm:inline-block font-tech text-[9px] text-accent-metal/40 uppercase">
-                | LIVE SPEC 2026.4
-              </span>
-            </div>
-
-            <div className="flex items-center gap-4 font-tech text-[10px] tracking-widest text-accent-metal/60 uppercase">
-              <span className="hidden md:inline-block">SYS-316L</span>
-              <span className="hidden sm:inline-block">ISO 9001</span>
-              <span className="text-accent-copper">±0.05 MM</span>
-            </div>
-          </div>
-
-          {/* Center Area: Left H1 Narrative + Right HUD Floating Card */}
+          {/* Center Area: Left H1 Narrative */}
           <div className="my-auto flex flex-col lg:flex-row lg:items-center justify-between gap-8 w-full min-h-0">
             
             {/* Hero Text Content */}
@@ -200,58 +152,6 @@ export default function HeroSection({ locale }: HeroSectionProps) {
                 <Button href={`/${locale}/contact`} locale={locale} variant="outline" world="carbon">
                   {isRtl ? COPY.cta2.ar : COPY.cta2.en}
                 </Button>
-              </div>
-            </div>
-
-            {/* HTC-3.3 Engineering HUD Floating Card (Desktop Right Side / Mobile Compact) */}
-            <div
-              ref={hudRef}
-              className={`pointer-events-auto transition-all duration-1000 delay-700 self-end lg:self-center w-full sm:w-auto ${
-                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-            >
-              <div className="border border-carbon-border bg-carbon/80 backdrop-blur-sm p-3.5 sm:p-5 w-full sm:w-64 font-tech text-xs space-y-3 relative group select-none">
-                
-                {/* HUD Corner Measurement Brackets */}
-                <div className="absolute top-0 left-0 w-2 h-2 border-t-2 border-l-2 border-accent-copper/70" />
-                <div className="absolute top-0 right-0 w-2 h-2 border-t-2 border-r-2 border-accent-copper/70" />
-                <div className="absolute bottom-0 left-0 w-2 h-2 border-b-2 border-l-2 border-accent-copper/70" />
-                <div className="absolute bottom-0 right-0 w-2 h-2 border-b-2 border-r-2 border-accent-copper/70" />
-
-                {/* Card Header & Identification */}
-                <div className="flex items-center justify-between border-b border-carbon-border/60 pb-2">
-                  <span className="text-[9px] text-accent-copper font-bold tracking-widest uppercase">
-                    SPEC // CTK-HX-316
-                  </span>
-                  <span className="text-[9px] text-accent-metal/50">CAD ACTIVE</span>
-                </div>
-
-                {/* Technical Metric Attributes */}
-                <div className="space-y-1.5 text-[10px] text-accent-metal">
-                  <div className="flex justify-between">
-                    <span className="text-accent-metal/60">MATERIAL:</span>
-                    <span className="text-bone font-semibold">HOT ROLLED STEEL</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-accent-metal/60">FINISH:</span>
-                    <span className="text-bone font-semibold">GALVANIZED HD</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-accent-metal/60">TOLERANCE:</span>
-                    <span className="text-accent-copper font-bold">±0.05 MM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-accent-metal/60">MASS:</span>
-                    <span className="text-bone font-semibold">18.4 KG</span>
-                  </div>
-                </div>
-
-                {/* Live Real-Time CAD Coordinates */}
-                <div className="pt-2 border-t border-carbon-border/60 flex items-center justify-between text-[9px] text-accent-metal/60 font-mono">
-                  <span>X: {coords.x}</span>
-                  <span>Y: {coords.y}</span>
-                  <span className="text-accent-copper">Z: {coords.z}</span>
-                </div>
               </div>
             </div>
 

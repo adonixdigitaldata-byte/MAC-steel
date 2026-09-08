@@ -41,15 +41,15 @@ export default function ProductPlaceholder({
       )}
     >
       {imageUrl ? (
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 p-4 flex items-center justify-center bg-world-bone/40">
           <Image
             src={imageUrl}
             alt={name}
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-contain p-4 group-hover:scale-105 transition-transform duration-500 opacity-95 group-hover:opacity-100"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-carbon/80 via-transparent to-carbon/30 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-carbon/40 via-transparent to-transparent pointer-events-none" />
         </div>
       ) : (
         /* Background Engineering Linework Blueprint */
@@ -63,11 +63,13 @@ export default function ProductPlaceholder({
         </div>
       )}
 
-      {/* Header CAD Annotation */}
-      <div className="relative z-10 flex justify-between items-center font-tech text-[9px] sm:text-[10px] tracking-wider uppercase opacity-80 gap-2">
-        <span className="truncate bg-carbon/40 px-1.5 py-0.5 border border-current/20">{productId}</span>
-        <span className="w-2 h-2 border border-accent-copper shrink-0" />
-      </div>
+      {/* Header CAD Annotation (only when no image is supplied) */}
+      {!imageUrl && (
+        <div className="relative z-10 flex justify-between items-center font-tech text-[9px] sm:text-[10px] tracking-wider uppercase opacity-80 gap-2">
+          <span className="truncate bg-carbon/40 px-1.5 py-0.5 border border-current/20">{productId}</span>
+          <span className="w-2 h-2 border border-accent-copper shrink-0" />
+        </div>
+      )}
 
       {/* Center Identification (when no photographic image is supplied) */}
       {!imageUrl && (
@@ -84,11 +86,13 @@ export default function ProductPlaceholder({
         </div>
       )}
 
-      {/* Footer Dimension Notation */}
-      <div className="relative z-10 flex justify-between items-center font-tech text-[8px] sm:text-[10px] tracking-wider uppercase opacity-80 gap-2">
-        <span className="truncate bg-carbon/40 px-1.5 py-0.5 border border-current/20">CAD-SYS-316L</span>
-        <span className="text-accent-copper font-bold">TOL ±0.05 MM</span>
-      </div>
+      {/* Footer Dimension Notation (only when no image is supplied) */}
+      {!imageUrl && (
+        <div className="relative z-10 flex justify-between items-center font-tech text-[8px] sm:text-[10px] tracking-wider uppercase opacity-80 gap-2">
+          <span className="truncate bg-carbon/40 px-1.5 py-0.5 border border-current/20">CAD-SYS-316L</span>
+          <span className="text-accent-copper font-bold">TOL ±0.05 MM</span>
+        </div>
+      )}
     </div>
   );
 }

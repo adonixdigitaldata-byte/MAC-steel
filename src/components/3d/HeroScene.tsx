@@ -167,21 +167,21 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     // ── Manufacturing Transition Factor (80% -> 100% scroll) ──
     const transitionFactor = Math.max(0, (p - 0.80) / 0.20);
 
-    // Apply lighting states
+    // Apply lighting states with boosted vibrant industrial illumination
     if (rimLightRef.current) {
-      rimLightRef.current.intensity = lerp(0.02, 0.85, rimProgress) * shimmer * (1 - transitionFactor * 0.25);
+      rimLightRef.current.intensity = lerp(0.15, 1.45, rimProgress) * shimmer * (1 - transitionFactor * 0.25);
     }
     if (keyLightRef.current) {
       const sweepX = pivotX + lerp(-3.2, 3.4, sweepProgress) + p * 0.45;
-      const keyInt = lerp(0.0, 1.45, sweepIntensity) * shimmer * (1 - transitionFactor * 0.20);
+      const keyInt = lerp(0.2, 2.35, sweepIntensity) * shimmer * (1 - transitionFactor * 0.20);
       keyLightRef.current.intensity = keyInt;
       keyLightRef.current.position.set(sweepX, 7.5, 4.0);
     }
     if (accentLightRef.current) {
-      accentLightRef.current.intensity = lerp(0.0, 0.45 + transitionFactor * 0.30, accentProgress);
+      accentLightRef.current.intensity = lerp(0.1, 0.85 + transitionFactor * 0.30, accentProgress);
     }
     if (hemiLightRef.current) {
-      hemiLightRef.current.intensity = lerp(0.06, 0.42, hemiProgress);
+      hemiLightRef.current.intensity = lerp(0.25, 0.75, hemiProgress);
     }
 
     // ── HTC-3.2 Exploded Mechanical Assembly Timeline Calculations ──
@@ -353,17 +353,17 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
   return (
     <>
       {/* Atmosphere — seamless with #0e0f11 studio base */}
-      <fog attach="fog" args={["#0e0f11", 10, 28]} />
+      <fog attach="fog" args={["#0e0f11", 12, 32]} />
 
-      {/* 3-point studio lighting with dynamic sweep and calibrated non-clipping levels */}
-      <hemisphereLight ref={hemiLightRef} args={["#2b2f36", "#0a0b0d", 0.06]} />
+      {/* 3-point studio lighting with dynamic sweep and rich ambient illumination */}
+      <hemisphereLight ref={hemiLightRef} args={["#4a505b", "#14161a", 0.45]} />
 
-      {/* Key Light — warm directional source, physically sweeping left-to-right across billet */}
+      {/* Key Light — warm directional primary source */}
       <directionalLight
         ref={keyLightRef}
         position={[pivotX - 3.2, 7.5, 4.0]}
-        intensity={0.0}
-        color="#f0ebe2"
+        intensity={2.2}
+        color="#faf7f2"
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-bias={-0.0002}
@@ -375,39 +375,72 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
         shadow-camera-bottom={-7}
       />
       
-      {/* Rim Light — cool industrial metallic contour separation catching edges first */}
+      {/* Rim Light — cool industrial metallic contour separation */}
       <directionalLight
         ref={rimLightRef}
-        position={[pivotX - 5.0, 2.6, -3.0]}
-        intensity={0.02}
-        color="#68849c"
+        position={[pivotX - 5.0, 3.6, -3.0]}
+        intensity={1.4}
+        color="#94b4cf"
+      />
+
+      {/* Front Soft Fill Light */}
+      <directionalLight
+        position={[pivotX + 2.0, 4.0, 6.0]}
+        intensity={1.1}
+        color="#e8ecf0"
       />
       
-      {/* Accent Light — Restrained MAC Copper (#875E48) studio bounce blooming near end of sweep */}
+      {/* Accent Light — Restrained MAC Copper (#c47c43) studio bounce */}
       <pointLight
         ref={accentLightRef}
-        position={[pivotX + 1.8, 1.5, 2.2]}
-        intensity={0.0}
-        color="#875e48"
-        distance={7.5}
+        position={[pivotX + 2.0, 2.2, 2.5]}
+        intensity={0.8}
+        color="#c47c43"
+        distance={9.0}
         decay={2}
       />
 
-      {/* Environment — studio preset with subtle reflection drift */}
+      {/* Environment — Rich 360-degree procedural studio reflection rig (fully offline) */}
       <group ref={envGroupRef}>
-        <Environment preset="studio" resolution={isMobile ? 64 : 256} background={false} />
+        <Environment background={false}>
+          {/* Top Key Softbox */}
+          <mesh position={[0, 12, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[30, 20, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#ffffff" />
+          </mesh>
+          {/* Front Soft Fill Softbox */}
+          <mesh position={[0, 4, 14]} rotation={[0, Math.PI, 0]} scale={[25, 15, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#e8eff5" />
+          </mesh>
+          {/* Left Cool Metal Rim Strip */}
+          <mesh position={[-12, 2, -6]} rotation={[0, Math.PI / 3, 0]} scale={[12, 22, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#88aed4" />
+          </mesh>
+          {/* Right Warm Copper Bounce Strip */}
+          <mesh position={[12, 4, 4]} rotation={[0, -Math.PI / 3, 0]} scale={[14, 18, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#d48a52" />
+          </mesh>
+          {/* Back Edge Horizon Reflector */}
+          <mesh position={[0, -2, -14]} scale={[30, 10, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#a0b4c8" />
+          </mesh>
+        </Environment>
       </group>
 
       {/* Seamless infinite dark studio floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[100, 100]} />
-        <meshStandardMaterial color="#0e0f11" roughness={0.90} metalness={0.04} />
+        <meshStandardMaterial color="#0e0f11" roughness={0.85} metalness={0.06} />
       </mesh>
 
       {/* Ground contact shadow anchored firmly under component */}
       <ContactShadows
         position={[pivotX, 0.002, 0]}
-        opacity={0.88}
+        opacity={0.82}
         scale={8.2}
         blur={1.8}
         far={2.8}

@@ -288,22 +288,41 @@ export default function ManufacturingScene({ progressRef, reducedMotion, isMobil
   return (
     <>
       <fog attach="fog" args={["#0e0f11", 10, 30]} />
-      <hemisphereLight ref={hemiRef} args={["#2b2f36", "#0a0b0d", 0.6]} />
+      <hemisphereLight ref={hemiRef} args={["#4a505b", "#14161a", 0.55]} />
       <directionalLight
         ref={keyRef}
         position={[PIVOT_X + 4, 9, 5]}
-        intensity={1.5}
-        color="#f2ede6"
+        intensity={2.2}
+        color="#faf7f2"
         castShadow
         shadow-mapSize={[isMobile ? 512 : 1024, isMobile ? 512 : 1024]}
         shadow-bias={-0.0001}
       />
-      <directionalLight ref={rimRef} position={[PIVOT_X - 6, 3, -4]} intensity={0.65} color="#68829c" />
+      <directionalLight ref={rimRef} position={[PIVOT_X - 6, 3, -4]} intensity={1.2} color="#94b4cf" />
+      {/* Front soft fill */}
+      <directionalLight position={[PIVOT_X + 2, 4, 6]} intensity={0.9} color="#e8ecf0" />
       {/* Soft warm copper accent */}
-      <pointLight position={[PIVOT_X + 1.5, 1.8, 2.5]} intensity={0.45} color="#c47c43" distance={8} decay={2} />
+      <pointLight position={[PIVOT_X + 1.5, 1.8, 2.5]} intensity={0.7} color="#c47c43" distance={9} decay={2} />
+      {/* Procedural environment lighting (fully offline & self-contained) */}
+      <Environment background={false}>
+        <mesh position={[0, 12, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[30, 20, 1]}>
+          <planeGeometry />
+          <meshBasicMaterial color="#ffffff" />
+        </mesh>
+        <mesh position={[0, 4, 14]} rotation={[0, Math.PI, 0]} scale={[25, 15, 1]}>
+          <planeGeometry />
+          <meshBasicMaterial color="#e8eff5" />
+        </mesh>
+        <mesh position={[-12, 2, -6]} rotation={[0, Math.PI / 3, 0]} scale={[12, 22, 1]}>
+          <planeGeometry />
+          <meshBasicMaterial color="#88aed4" />
+        </mesh>
+        <mesh position={[12, 4, 4]} rotation={[0, -Math.PI / 3, 0]} scale={[14, 18, 1]}>
+          <planeGeometry />
+          <meshBasicMaterial color="#d48a52" />
+        </mesh>
+      </Environment>
       <pointLight ref={sparkLightRef} color="#ffaa44" intensity={0} distance={3} />
-
-      <Environment preset="studio" resolution={isMobile ? 64 : 256} background={false} />
 
       {/* Seamless infinite studio floor */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>

@@ -30,6 +30,15 @@ export default function StaggerGroup({
       return;
     }
 
+    // Immediate check if element is already in or near viewport
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      if (rect.top < window.innerHeight + 100) {
+        setIsVisible(true);
+        return;
+      }
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -42,8 +51,8 @@ export default function StaggerGroup({
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: "0px 0px -40px 0px",
+        threshold: 0,
+        rootMargin: "100px 0px 100px 0px",
       }
     );
 

@@ -397,8 +397,8 @@ export default function ProductCatalogHub({
               </div>
             </FadeReveal>
           ) : viewMode === "grid" ? (
-            /* 1. PRODUCT GRID VIEW */
-            <StaggerGroup className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8" staggerDelay={70}>
+            /* 1. PRODUCT GRID VIEW (Compact 3-column responsive matrix) */
+            <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5" staggerDelay={40}>
               {filteredProducts.map((product, index) => (
                 <ProductCard
                   key={product.id}

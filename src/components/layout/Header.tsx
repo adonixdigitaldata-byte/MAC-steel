@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Locale } from "@/config/locales";
@@ -91,19 +92,18 @@ export default function Header({ locale }: HeaderProps) {
           {/* Left Brand Lockup (Always returns home) */}
           <Link
             href={`/${locale}`}
-            className="group flex items-center space-x-3 rtl:space-x-reverse min-w-0 shrink-0 select-none"
+            className="group flex items-center shrink-0 select-none"
             aria-label={`${SITE_CONFIG.companyName[locale]} Homepage`}
           >
-            <div className="w-7 h-7 sm:w-8 sm:h-8 border border-bone/80 bg-carbon-surface/60 flex items-center justify-center font-tech text-[8px] sm:text-[9px] font-bold tracking-widest text-bone group-hover:border-accent-copper transition-colors shrink-0">
-              MAC
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display text-base sm:text-lg tracking-wider text-bone group-hover:text-accent-copper transition-colors uppercase leading-tight whitespace-nowrap">
-                {isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.shortBrand}
-              </span>
-              <span className="font-tech text-[8px] sm:text-[9px] tracking-widest text-accent-metal/60 uppercase">
-                JED • KSA • ISO 9001
-              </span>
+            <div className="relative h-10 sm:h-12 w-36 sm:w-44 shrink-0 flex items-center">
+              <Image
+                src="/main-logo.png"
+                alt={isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.companyName.en}
+                fill
+                priority
+                sizes="(max-width: 640px) 144px, 176px"
+                className="object-contain object-left rtl:object-right group-hover:scale-105 transition-transform duration-300"
+              />
             </div>
           </Link>
 

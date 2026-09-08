@@ -424,8 +424,23 @@ export default function MaterialJourneyScene({ progressRef, reducedMotion, isMob
       <pointLight ref={accentRef} position={[PIVOT_X + 1, 1.2, 1.5]} intensity={0.6} color="#c47c43" distance={5} decay={2} />
       <pointLight ref={sparkLightRef} color="#ffaa44" intensity={0} distance={3} />
 
-      {/* Environment reflections — restored to "warehouse" */}
-      <Environment preset="warehouse" resolution={isMobile ? 128 : 256} background={false} />
+      {/* Procedural environment reflections (fully offline & self-contained) */}
+      <Environment background={false}>
+        <group rotation={[0, 0, Math.PI / 4]}>
+          <mesh position={[0, 10, -10]} scale={[20, 20, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#ffffff" />
+          </mesh>
+          <mesh position={[-10, 0, -5]} scale={[10, 20, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#57616b" />
+          </mesh>
+          <mesh position={[10, 5, 0]} scale={[10, 15, 1]}>
+            <planeGeometry />
+            <meshBasicMaterial color="#c47c43" />
+          </mesh>
+        </group>
+      </Environment>
 
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[PIVOT_X, 0, 0]} receiveShadow>
         <circleGeometry args={[14, 48]} />

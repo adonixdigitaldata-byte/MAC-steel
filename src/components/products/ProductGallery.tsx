@@ -49,7 +49,7 @@ export default function ProductGallery({
         {activeImage ? (
           <div
             onClick={() => setFullscreenOpen(true)}
-            className="relative aspect-square sm:aspect-[4/3] w-full cursor-zoom-in overflow-hidden"
+            className="relative aspect-square sm:aspect-[4/3] w-full cursor-zoom-in overflow-hidden p-6 flex items-center justify-center bg-world-bone/40"
           >
             <Image
               src={activeImage}
@@ -57,9 +57,9 @@ export default function ProductGallery({
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
-              className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+              className="object-contain p-4 object-center group-hover:scale-105 transition-transform duration-700 ease-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-carbon/70 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-carbon/30 via-transparent to-transparent pointer-events-none" />
 
             {/* Click to Zoom Pill */}
             <div className="absolute bottom-3 end-3 font-tech text-[9px] uppercase px-2.5 py-1 bg-carbon/85 text-bone border border-carbon-border/60 backdrop-blur-sm opacity-80 group-hover:opacity-100 transition-opacity">

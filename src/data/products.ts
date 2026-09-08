@@ -66,7 +66,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy-duty manhole wall anchor and pulling ring designed for cable installation in subterranean vaults.",
     "shortDescriptionAr": "مربط جداري وعين سحب كابلات عالي التحمل مخصص للتركيب داخل غرف الكابلات تحت الأرض ومقاوم للمواد الكيميائية.",
-    "gallery": [],
+    "image": "/CABLE%20PULLING%20EYELET%20SS%20316%20%5E&%20304%20GRADE/Gemini_Generated_Image_6upcis6upcis6upc.png",
+    "gallery": [
+          "/CABLE%20PULLING%20EYELET%20SS%20316%20%5E&%20304%20GRADE/Gemini_Generated_Image_6upcis6upcis6upc.png"
+    ],
     "related": [
       "stainless-steel-grab-bars",
       "hdg-ladder-support",
@@ -133,7 +136,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Precision-machined 50mm thick pile cell top and bottom structural steel plates for foundation pile pipe assemblies.",
     "shortDescriptionAr": "ألواح فولاذية علوية وسفلية بسمك 50 مم مخصصة لأنابيب أوتاد الأساسات الهيكلية.",
-    "gallery": [],
+    "image": "/CELL%20TOP%20%5E&%20BOTTOM%20PLATES%20-%20%C3%981300MM%20X%2050MM%20THK/SFE%20NEW%20TEMP%20(10).png",
+    "gallery": [
+          "/CELL%20TOP%20%5E&%20BOTTOM%20PLATES%20-%20%C3%981300MM%20X%2050MM%20THK/SFE%20NEW%20TEMP%20(10).png"
+    ],
     "related": [
       "epoxy-coated-mud-bucket",
       "galvanized-angle-frame-standard",
@@ -194,7 +200,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "High-performance outdoor atmospheric and thermal insulation elastomer compound engineered for longevity against UV weathering and oxidation.",
     "shortDescriptionAr": "مطاط EPDM عالي الأداء ومقاوم للعوامل الجوية والأشعة فوق البنفسجية وتغيرات درجات الحرارة.",
-    "gallery": [],
+    "image": "/EPDM%20SHEET/Gemini_Generated_Image_rn7mgzrn7mgzrn7m.png",
+    "gallery": [
+          "/EPDM%20SHEET/Gemini_Generated_Image_rn7mgzrn7mgzrn7m.png"
+    ],
     "related": []
   },
   {
@@ -257,7 +266,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy-duty structural sheet bucket with multi-drain system and high-build anti-corrosive epoxy finish.",
     "shortDescriptionAr": "دلو من ألواح الفولاذ الهيكلي مزود بنظام تصريف متعدد ومطلي بطبقة أيبوكسي مقاومة للتآكل.",
-    "gallery": [],
+    "image": "/EPOXY%20COATED%20MUD%20BUCKET/SFE%20NEW%20TEMP%20(11).png",
+    "gallery": [
+          "/EPOXY%20COATED%20MUD%20BUCKET/SFE%20NEW%20TEMP%20(11).png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "galvanized-angle-frame-standard",
@@ -379,7 +391,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy-duty mild steel angle frame finished with hot-dip galvanizing for concrete chamber anchoring.",
     "shortDescriptionAr": "إطار زاوية فولاذي مجلفن بالغمس الساخن مخصص للتثبيت في غرف التفتيش والمحابس الخرسانية.",
-    "gallery": [],
+    "image": "/GALVANIZED%20ANGLE%20FRAME/SFE%20NEW%20TEMP%20(11).png",
+    "gallery": [
+          "/GALVANIZED%20ANGLE%20FRAME/SFE%20NEW%20TEMP%20(11).png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "epoxy-coated-mud-bucket",
@@ -446,7 +461,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Subterranean manhole entry grab bar assembly manufactured from SS316 Pipe and Round Bars for secure technician access.",
     "shortDescriptionAr": "قضبان استناد ومقابض دخول للمناهل مصنوعة من الفولاذ المقاوم للصدأ SS316 لدخول الفنيين الآمن.",
-    "gallery": [],
+    "image": "/GRAB%20BARS%20SS/Untitled%20design%20(75).png",
+    "gallery": [
+          "/GRAB%20BARS%20SS/Untitled%20design%20(75).png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "hdg-ladder-support",
@@ -507,7 +525,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Structural wall standoff bracket for securing access ladders to concrete manhole shafts.",
     "shortDescriptionAr": "دعامات تثبيت السلالم على الجدران الخرسانية للمناهل وغرف التفتيش.",
-    "gallery": [],
+    "image": "/HDG%20LADDER%20SUPPORT/Untitled%20design%20(75).png",
+    "gallery": [
+          "/HDG%20LADDER%20SUPPORT/Untitled%20design%20(75).png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "stainless-steel-grab-bars",
@@ -574,7 +595,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Industrial access ladder featuring corrugated non-slip rungs and heavy galvanized steel stringer rails.",
     "shortDescriptionAr": "سلم وصول صناعي للمناهل مزود بدرجات مموجة مانعة للانزلاق وسكك فولاذية مجلفنة بالحرارة.",
-    "gallery": [],
+    "image": "/HDG%20LADDER/Untitled%20design%20(76).png",
+    "gallery": [
+          "/HDG%20LADDER/Untitled%20design%20(76).png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "stainless-steel-grab-bars",
@@ -635,7 +659,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy-duty 20mm wide stainless steel band clamp fastened with M12 bolt assembly for industrial piping and hose retention.",
     "shortDescriptionAr": "مرابط أنابيب وخراطيم شاقة بعرض 20 مم ومزودة ببراغي M12 للتثبيت المحكم في خطوط الأنابيب.",
-    "gallery": [],
+    "image": "/HOSE%20CLAMPS/Untitled%20design%20(76).png",
+    "gallery": [
+          "/HOSE%20CLAMPS/Untitled%20design%20(76).png"
+    ],
     "related": [
       "pe-pipe-casing-spacers",
       "pvc-hdg-pipe-sleeves",
@@ -696,7 +723,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Pressed steel keyhole frame with integrated drain hole paired with T-pin lifting key for manhole cover extraction.",
     "shortDescriptionAr": "إطار فتحة مفتاح رفع مزود بفتحة تصريف ومفتاح رفع T-Pin لرفع أغطية المناهل.",
-    "gallery": [],
+    "image": "/Lifting%20Key%20%5E&%20Key%20Frame%20Galvanized/Untitled%20design%20(76).png",
+    "gallery": [
+          "/Lifting%20Key%20%5E&%20Key%20Frame%20Galvanized/Untitled%20design%20(76).png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "stainless-steel-grab-bars",
@@ -751,7 +781,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "High-visibility underground utility warning posts and subterranean printed warning tapes for telecom, electric, and water networks.",
     "shortDescriptionAr": "أعمدة علامات وأشرطة تحذيرية سفلية عالية الوضوح لشبكات الاتصالات والكهرباء والمياه.",
-    "gallery": [],
+    "image": "/Marker%20post%20%5E&%20warning%20tape/Untitled%20design%20(76).png",
+    "gallery": [
+          "/Marker%20post%20%5E&%20warning%20tape/Untitled%20design%20(76).png"
+    ],
     "related": [
       "frp-ladders-safety-cages",
       "directional-name-plates-3m-reflective",
@@ -812,7 +845,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Phenolic engraved identification plates and high-grade 3M reflective labeling stickers for telecom and electrical manholes.",
     "shortDescriptionAr": "لوحات تعريفية محفورة وملصقات 3M عاكسة لتعريف وتوجيه مناهل شبكات الكهرباء والاتصالات.",
-    "gallery": [],
+    "image": "/NAME%20PLATES,%20DIRECTIONAL%20PLATES%20AND%203M%20STICKERS/Untitled%20design%20(76).png",
+    "gallery": [
+          "/NAME%20PLATES,%20DIRECTIONAL%20PLATES%20AND%203M%20STICKERS/Untitled%20design%20(76).png"
+    ],
     "related": [
       "frp-ladders-safety-cages",
       "marker-post-warning-tape",
@@ -873,7 +909,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Epoxy-sand coated stainless steel ladder rungs providing maximum foot grip in wet subterranean manholes.",
     "shortDescriptionAr": "درجات سلالم من الفولاذ المقاوم للصدأ مطلي بالأيبوكسي والرمل لضمان الثبات التام في البيئات الرطبة.",
-    "gallery": [],
+    "image": "/NON%20SLIP%20LADDER%20RUNG%20%C3%9820MM%20SS/Untitled%20design%20(76).png",
+    "gallery": [
+          "/NON%20SLIP%20LADDER%20RUNG%20%C3%9820MM%20SS/Untitled%20design%20(76).png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "stainless-steel-grab-bars",
@@ -934,7 +973,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Segmented polyethylene casing spacers equipped with rubber runner pads and SS304 hardware for pipeline carrier positioning inside casings.",
     "shortDescriptionAr": "فواصل أكمام مجزأة من البولي إيثيلين مزودة بوسائد مطاطية وبراغي تثبيت مقاومة للصدأ لخطوط الأنابيب.",
-    "gallery": [],
+    "image": "/PE%20PIPE%20CASING%20SPACERS/Untitled%20design%20(76).png",
+    "gallery": [
+          "/PE%20PIPE%20CASING%20SPACERS/Untitled%20design%20(76).png"
+    ],
     "related": [
       "stainless-steel-hose-clamps",
       "pvc-hdg-pipe-sleeves",
@@ -989,7 +1031,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "PVC and hot-dip galvanized steel pipe wall penetration sleeves configured with or without water-stop flanges.",
     "shortDescriptionAr": "أكمام اختراق الجدران الخرسانية المصنوعة من PVC أو الصلب المجلفن والمتوفرة بشفة منع تسرب المياه.",
-    "gallery": [],
+    "image": "/PIPE%20SLEEVES/Untitled%20design%20(76).png",
+    "gallery": [
+          "/PIPE%20SLEEVES/Untitled%20design%20(76).png"
+    ],
     "related": [
       "stainless-steel-hose-clamps",
       "pe-pipe-casing-spacers",
@@ -1044,7 +1089,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "High-dielectric strength porcelain ceramic saddle designed to seat 4\" power cables on cable hanger arms and stanchions.",
     "shortDescriptionAr": "قواعد وسروج من البورسيلين عالية العزل الكهربائي لتثبيت الكابلات الكهربائية على أذرع التعليق.",
-    "gallery": [],
+    "image": "/PORCELAIN%20SADDLE/Untitled%20design%20(76).png",
+    "gallery": [
+          "/PORCELAIN%20SADDLE/Untitled%20design%20(76).png"
+    ],
     "related": [
       "stainless-steel-hose-clamps",
       "pe-pipe-casing-spacers",
@@ -1105,7 +1153,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Concrete-filled hot-dip galvanized Schedule 40 steel pipe bollard finished with safety-grade white and red weather resistant paint.",
     "shortDescriptionAr": "مصدات فولاذية من أنابيب Sch 40 مجلفنة بالحرارة ومطلية باللونين الأبيض والأحمر لحماية المنشآت.",
-    "gallery": [],
+    "image": "/SAFETY%20BOLLARD%20OR%20GUARD%20POST/Untitled%20design%20(76).png",
+    "gallery": [
+          "/SAFETY%20BOLLARD%20OR%20GUARD%20POST/Untitled%20design%20(76).png"
+    ],
     "related": [
       "frp-ladders-safety-cages",
       "marker-post-warning-tape",
@@ -1172,7 +1223,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy structural stainless steel L-anchor bolt with Ø56mm washer designed for cast-in-place concrete foundation anchoring.",
     "shortDescriptionAr": "مربط رسو هيكلي بشكل L مصنوع من الفولاذ 316L للتثبيت داخل الخرسانة المصبوبة في الموقع.",
-    "gallery": [],
+    "image": "/SS%20316%20ANCHOR%20BOLT%20800MM%20X%20120MM%20X%20%C3%9825MM/Untitled%20design%20(76).png",
+    "gallery": [
+          "/SS%20316%20ANCHOR%20BOLT%20800MM%20X%20120MM%20X%20%C3%9825MM/Untitled%20design%20(76).png"
+    ],
     "related": [
       "l-type-anchor-bolt-ss316l-850x120",
       "ss316-threaded-rods-nuts-washers",
@@ -1239,7 +1293,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Extended length Ø25mm stainless steel L-anchor rod for deep concrete embedment applications.",
     "shortDescriptionAr": "مربط رسو طويل بشكل L مقاس 850 مم للتثبيت العميق في القواعد الخرسانية.",
-    "gallery": [],
+    "image": "/SS%20316%20ANCHOR%20BOLT%20850MM%20X%20120MM%20X%20%C3%9825MM/Untitled%20design%20(76).png",
+    "gallery": [
+          "/SS%20316%20ANCHOR%20BOLT%20850MM%20X%20120MM%20X%20%C3%9825MM/Untitled%20design%20(76).png"
+    ],
     "related": [
       "l-type-anchor-bolt-ss316l-800x120",
       "ss316-threaded-rods-nuts-washers",
@@ -1300,7 +1357,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Continuous metric threaded studs manufactured from Grade 316 stainless steel for chemical and offshore piping supports.",
     "shortDescriptionAr": "أسياخ فولاذية مسننة بالكامل مصنعة من الفولاذ 316 للمنشآت البحرية والكيميائية.",
-    "gallery": [],
+    "image": "/SS%20316%20THREADED%20RODS,%20NUTS%20%5E&%20WASHERS/Untitled%20design%20(76).png",
+    "gallery": [
+          "/SS%20316%20THREADED%20RODS,%20NUTS%20%5E&%20WASHERS/Untitled%20design%20(76).png"
+    ],
     "related": [
       "l-type-anchor-bolt-ss316l-800x120",
       "l-type-anchor-bolt-ss316l-850x120",
@@ -1361,7 +1421,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Low-carbon SS316L continuous thread rods offering maximum resistance to intergranular corrosion after welding.",
     "shortDescriptionAr": "أسياخ مسننة من الفولاذ منخفض الكربون 316L لمقاومة التآكل والتأكسد بعد اللحام.",
-    "gallery": [],
+    "image": "/SS%20316L%20THREADED%20RODS,%20NUTS%20%5E&%20WASHERS/Untitled%20design%20(76).png",
+    "gallery": [
+          "/SS%20316L%20THREADED%20RODS,%20NUTS%20%5E&%20WASHERS/Untitled%20design%20(76).png"
+    ],
     "related": [
       "l-type-anchor-bolt-ss316l-800x120",
       "l-type-anchor-bolt-ss316l-850x120",
@@ -1422,7 +1485,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Precision-bent stainless steel manhole step rungs with 400mm clear inside width for concrete wall installation.",
     "shortDescriptionAr": "درجات سلالم مناهل مصنوعة من الفولاذ المقاوم للصدأ بعرض صافي 400 مم للثبيت الجداري.",
-    "gallery": [],
+    "image": "/SS%20LADDER%20RUNGS%20%C3%9820/Untitled%20design%20(76).png",
+    "gallery": [
+          "/SS%20LADDER%20RUNGS%20%C3%9820/Untitled%20design%20(76).png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "stainless-steel-grab-bars",
@@ -1483,7 +1549,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy 18mm thick stainless steel structural L-angle prefabricated with Ø22mm mounting holes and M20 stud hardware.",
     "shortDescriptionAr": "زاوية فولاذية هيكلية سميكة 18 مم مزودة بفتحات تثبيت Ø22 مم وبراغي M20.",
-    "gallery": [],
+    "image": "/SS%20L-ANGLE%2018MM/Untitled%20design%20(76).png",
+    "gallery": [
+          "/SS%20L-ANGLE%2018MM/Untitled%20design%20(76).png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "epoxy-coated-mud-bucket",
@@ -1544,7 +1613,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy-duty stainless steel pipe casing spacer featuring 150mm rubber wheels and 3mm neoprene lining for smooth carrier pipe insertion.",
     "shortDescriptionAr": "فواصل أنبوبية من الفولاذ المقاوم للصدأ مزودة بعجلات مطاطية 150 مم وبطانة مطاطية لإدخال الأنابيب بسهولة داخل الأكمام.",
-    "gallery": [],
+    "image": "/SS%20PIPE%20SPACER%20WITH%20WHEEL/SS%20PIPE%20SPACER%20WITH%20WHEEL.jfif",
+    "gallery": [
+          "/SS%20PIPE%20SPACER%20WITH%20WHEEL/SS%20PIPE%20SPACER%20WITH%20WHEEL.jfif"
+    ],
     "related": [
       "stainless-steel-hose-clamps",
       "pe-pipe-casing-spacers",
@@ -1599,7 +1671,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Precision 30x3mm flat bar U-clamp and 12x200mm L-anchor bolt assembly engineered for gate valve retention.",
     "shortDescriptionAr": "مجموعة مربط U وأسياخ مرساة مصممة لتثبيت محابس البوابة الخرسانية.",
-    "gallery": [],
+    "image": "/U-CLAMP%20AND%20ANCHOR%20BOLTS%20FOR%20GATE%20VALVE/Gemini_Generated_Image_kzvd3tkzvd3tkzvd.png",
+    "gallery": [
+          "/U-CLAMP%20AND%20ANCHOR%20BOLTS%20FOR%20GATE%20VALVE/Gemini_Generated_Image_kzvd3tkzvd3tkzvd.png"
+    ],
     "related": [
       "stainless-steel-hose-clamps",
       "pe-pipe-casing-spacers",
@@ -1660,7 +1735,12 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy 8mm steel frame with Ø12mm concrete anchors for 300x300mm clear opening drainage sump pits.",
     "shortDescriptionAr": "إطار فولاذي بسمك 8 مم مزود بأسياخ رسو Ø12 مم لحفر التجميع وتصريف المياه.",
-    "gallery": [],
+    "image": "/SUMP%20PIT%20FRAME%20with%20%C3%9812mm%20Anchor/001.png",
+    "gallery": [
+          "/SUMP%20PIT%20FRAME%20with%20%C3%9812mm%20Anchor/001.png",
+          "/SUMP%20PIT%20FRAME%20with%20%C3%9812mm%20Anchor/002.png",
+          "/SUMP%20PIT%20FRAME%20with%20%C3%9812mm%20Anchor/003.png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "epoxy-coated-mud-bucket",
@@ -1721,7 +1801,12 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Standard hot-dip galvanized steel 300x300mm clear opening angle frame for drainage pits.",
     "shortDescriptionAr": "إطار زاوية قياسي مجلفن بالحرارة لفتحات حفر التصريف الخرسانية.",
-    "gallery": [],
+    "image": "/SUMP%20PIT%20FRAME/001.png",
+    "gallery": [
+          "/SUMP%20PIT%20FRAME/001.png",
+          "/SUMP%20PIT%20FRAME/002.png",
+          "/SUMP%20PIT%20FRAME/003.png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "epoxy-coated-mud-bucket",
@@ -1782,7 +1867,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Heavy-duty 345x345mm steel grating lid for 300x300mm clear opening sump pit frames.",
     "shortDescriptionAr": "شبكة غطاء فولاذية مقاس 345 × 345 مم مخصصة لإطارات حفر التجميع والتصريف.",
-    "gallery": [],
+    "image": "/SUMP%20PIT%20GRATINGS/Gemini_Generated_Image_46jpjw46jpjw46jp.png",
+    "gallery": [
+          "/SUMP%20PIT%20GRATINGS/Gemini_Generated_Image_46jpjw46jpjw46jp.png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "epoxy-coated-mud-bucket",
@@ -1843,7 +1931,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Pressed mild steel angle frame with Ø10mm rebar anchors for 500x500mm clear opening manhole vaults.",
     "shortDescriptionAr": "إطار زاوية فولاذية مضغوطة مزود بأسياخ رسو Ø10 مم لفتحات المناهل مقاس 500 × 500 مم.",
-    "gallery": [],
+    "image": "/ANGLE%20FRAME%2078X53X3MM%20CO-500X500%20OB%20595X595/Gemini_Generated_Image_u4aao4u4aao4u4aa.png",
+    "gallery": [
+          "/ANGLE%20FRAME%2078X53X3MM%20CO-500X500%20OB%20595X595/Gemini_Generated_Image_u4aao4u4aao4u4aa.png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "epoxy-coated-mud-bucket",
@@ -1904,7 +1995,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Unistrut-compatible 51x41mm steel support arm welded to 6mm base plate, equipped with M10 spring nuts and heavy rubber end cap.",
     "shortDescriptionAr": "ذراع دعم كابلات ملحوم بلوح تثبيت سمك 6 مم ومزود بصواميل زبركية وغطاء حماية مطاطي.",
-    "gallery": [],
+    "image": "/CABLE%20HANGER%20ARM%20SS%20316%20%5E&%20304%20GRADE/Gemini_Generated_Image_qe28glqe28glqe28.png",
+    "gallery": [
+          "/CABLE%20HANGER%20ARM%20SS%20316%20%5E&%20304%20GRADE/Gemini_Generated_Image_qe28glqe28glqe28.png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "stainless-steel-grab-bars",
@@ -1959,7 +2053,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Slotted 41x41x3mm channel stanchion rails for vertical manhole wall mounting and cable arm attachment.",
     "shortDescriptionAr": "سكك وركائز عمودية مقاس 41 × 41 مم لتثبيت أذرع تعليق الكابلات على جدران المناهل.",
-    "gallery": [],
+    "image": "/CABLE%20HANGER%20RAILS%20SS%20316%20%5E&%20304%20GRADE/Gemini_Generated_Image_gpumfmgpumfmgpum.png",
+    "gallery": [
+          "/CABLE%20HANGER%20RAILS%20SS%20316%20%5E&%20304%20GRADE/Gemini_Generated_Image_gpumfmgpumfmgpum.png"
+    ],
     "related": [
       "cable-pulling-eyelet-ss316-304",
       "stainless-steel-grab-bars",
@@ -2020,7 +2117,10 @@ export const PRODUCTS: Product[] = [
     ],
     "shortDescription": "Hot-dip galvanized mild steel pressed angle frame for 500x500mm clear opening drainage vaults.",
     "shortDescriptionAr": "إطار زاوية مضغوطة مجلفن بالحرارة لفتحات غرف التصريف والمناهل الخرسانية مقاس 500 × 500 مم.",
-    "gallery": [],
+    "image": "/ANGLE%20FRAME%2078X53X3MM%20CO-500X500%20OB%20595X595/Gemini_Generated_Image_u4aao4u4aao4u4aa.png",
+    "gallery": [
+          "/ANGLE%20FRAME%2078X53X3MM%20CO-500X500%20OB%20595X595/Gemini_Generated_Image_u4aao4u4aao4u4aa.png"
+    ],
     "related": [
       "cell-top-bottom-plates-1300mm-50mm",
       "epoxy-coated-mud-bucket",

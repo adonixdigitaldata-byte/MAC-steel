@@ -19,7 +19,11 @@ export function getStoredCart(): CartItem[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(CART_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw || raw.trim() === "" || raw === "undefined" || raw === "null") {
+      return [];
+    }
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
@@ -38,7 +42,10 @@ export function getStoredCustomerInfo(): ProjectInformation | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = localStorage.getItem(CUSTOMER_INFO_KEY);
-    return raw ? JSON.parse(raw) : null;
+    if (!raw || raw.trim() === "" || raw === "undefined" || raw === "null") {
+      return null;
+    }
+    return JSON.parse(raw);
   } catch {
     return null;
   }

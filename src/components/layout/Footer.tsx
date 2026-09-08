@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Locale } from "@/config/locales";
 import { SITE_CONFIG } from "@/data/config";
@@ -18,12 +19,15 @@ export default function Footer({ locale }: FooterProps) {
         {/* Column 1: Brand & Engineering Proof (2 Cols) */}
         <div className="lg:col-span-2 space-y-4 min-w-0">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <div className="w-6 h-6 border border-bone/80 bg-carbon flex items-center justify-center font-tech text-[8px] font-bold text-bone">
-              MAC
+            <div className="relative h-10 w-36 shrink-0 flex items-center">
+              <Image
+                src="/main-logo.png"
+                alt={isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.companyName.en}
+                fill
+                sizes="144px"
+                className="object-contain object-left rtl:object-right"
+              />
             </div>
-            <span className="font-display text-lg sm:text-xl tracking-wider text-bone uppercase">
-              {isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.companyName.en.toUpperCase()}
-            </span>
           </div>
 
           <p className="text-xs text-accent-metal max-w-sm leading-relaxed font-body">
