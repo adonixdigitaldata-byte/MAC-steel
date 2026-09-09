@@ -12,7 +12,7 @@ interface FloatingMobileActionsProps {
 
 export default function FloatingMobileActions({ locale }: FloatingMobileActionsProps) {
   const isRtl = locale === "ar";
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
@@ -21,11 +21,18 @@ export default function FloatingMobileActions({ locale }: FloatingMobileActionsP
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const currentY = window.scrollY;
-          // Hide when scrolling down, show when scrolling up
-          if (currentY > lastScrollY.current && currentY > 120) {
+          // Hide in Hero & 3D Manufacturing sections (first 1.5 viewport heights)
+          const heroMfgThreshold = window.innerHeight * 1.5;
+
+          if (currentY <= heroMfgThreshold) {
             setVisible(false);
-          } else if (currentY < lastScrollY.current) {
-            setVisible(true);
+          } else {
+            // Hide while scrolling down, return while scrolling up
+            if (currentY > lastScrollY.current + 10) {
+              setVisible(false);
+            } else if (currentY < lastScrollY.current - 5) {
+              setVisible(true);
+            }
           }
           lastScrollY.current = currentY;
           ticking = false;
@@ -44,36 +51,46 @@ export default function FloatingMobileActions({ locale }: FloatingMobileActionsP
 
   return (
     <div
-      className={`lg:hidden fixed bottom-20 end-4 z-40 transition-all duration-300 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12 pointer-events-none"
+      className={`lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-40 transition-all duration-300 ease-out select-none ${
+        visible ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-8 pointer-events-none"
       }`}
     >
-      <div className="flex flex-col items-center gap-2 bg-[#111316]/95 backdrop-blur-md p-1.5 border border-carbon-border/80 shadow-2xl rounded-full">
-        {/* WhatsApp Floating Action */}
+      {/* Premium Unified Floating Contact Pill */}
+      <div className="flex items-center gap-1.5 bg-[#111316]/95 text-bone backdrop-blur-xl px-3 py-2 border-2 border-[#C8A94A]/60 shadow-[0_8px_32px_rgba(0,0,0,0.45)] rounded-full">
+        {/* WhatsApp Action */}
         <button
           onClick={() => openWhatsApp(whatsappUrl)}
-          className="w-10 h-10 rounded-full bg-[#25D366]/20 border border-[#25D366]/50 text-[#25D366] hover:bg-[#25D366] hover:text-white flex items-center justify-center transition-colors touch-feedback shadow-md"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-[#25D366]/20 border border-[#25D366]/50 text-[#25D366] hover:bg-[#25D366] hover:text-white transition-colors touch-feedback font-tech text-xs font-bold uppercase"
           aria-label="Contact via WhatsApp"
         >
-          <MessageCircle size={18} />
+          <MessageCircle size={15} />
+          <span>{isRtl ? "واتساب" : "WhatsApp"}</span>
         </button>
+
+        {/* Divider */}
+        <span className="w-px h-5 bg-carbon-border" />
 
         {/* Direct Call Action */}
         <a
           href={`tel:${SITE_CONFIG.contactPhone.replace(/\s+/g, "")}`}
-          className="w-10 h-10 rounded-full bg-carbon text-bone border border-carbon-border hover:border-accent-copper hover:text-accent-copper flex items-center justify-center transition-colors touch-feedback"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-carbon text-bone border border-carbon-border hover:border-accent-copper hover:text-accent-copper transition-colors touch-feedback font-tech text-xs font-bold uppercase"
           aria-label="Direct Phone Call"
         >
-          <Phone size={16} />
+          <Phone size={14} className="text-accent-copper" />
+          <span>{isRtl ? "اتصال" : "Call"}</span>
         </a>
+
+        {/* Divider */}
+        <span className="w-px h-5 bg-carbon-border" />
 
         {/* Email Inquiry Action */}
         <a
           href={`mailto:${SITE_CONFIG.contactEmail}`}
-          className="w-10 h-10 rounded-full bg-carbon text-bone border border-carbon-border hover:border-accent-copper hover:text-accent-copper flex items-center justify-center transition-colors touch-feedback"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-carbon text-bone border border-carbon-border hover:border-accent-copper hover:text-accent-copper transition-colors touch-feedback font-tech text-xs font-bold uppercase"
           aria-label="Send Email Inquiry"
         >
-          <Mail size={16} />
+          <Mail size={14} className="text-accent-copper" />
+          <span>{isRtl ? "إيميل" : "Email"}</span>
         </a>
       </div>
     </div>

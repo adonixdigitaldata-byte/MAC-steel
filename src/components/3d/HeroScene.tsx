@@ -91,16 +91,16 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     };
   }, [camera]);
 
-  // Object pivot coordinates: Desktop = right half (1.30), Mobile = centered top (0.00, Y: +0.42)
+  // Object pivot coordinates: Desktop = right half (1.30), Mobile = centered (0.00, Y: -0.55 initially)
   const pivotX = isMobile ? 0.0 : 1.30;
   const lookPivotX = isMobile ? 0.0 : 0.45;
-  const lookY = isMobile ? 0.52 : 0.46;
+  const lookY = isMobile ? -0.20 : 0.46;
 
-  // Initial camera target at mount (with initial subtle dolly-in offset distance +0.40)
+  // Initial camera target at mount
   const INIT_POS = computeCamPos(
     CAM_START.az,
     CAM_START.pol,
-    (CAM_START.dist + (reducedMotion ? 0 : 0.40)) * (isMobile ? 1.22 : 1.0),
+    (CAM_START.dist + (reducedMotion ? 0 : 0.40)) * (isMobile ? 1.05 : 1.0),
     lookPivotX,
     lookY
   );
@@ -294,10 +294,15 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     // At p=1.0, azimuth (0.50 -> 0.22 in MFG) and elevation match continuous transition momentum
     const az   = lerp(CAM_START.az,   CAM_END.az,   p);
     const pol  = lerp(CAM_START.pol,  CAM_END.pol,  p);
-    const dist = (lerp(CAM_START.dist, CAM_END.dist, p) + initialDollyOffset) * (isMobile ? 1.22 : 1.0);
+    const dist = (lerp(CAM_START.dist, CAM_END.dist, p) + initialDollyOffset) * (isMobile ? 1.05 : 1.0);
 
-    const targetPos  = computeCamPos(az, pol, dist, lookPivotX, lookY);
-    const targetLook = new THREE.Vector3(lookPivotX, lookY + scrollYOffset * 0.4, 0);
+    // On mobile, camera look target rises to center the billet during scroll
+    const mobileLookY = isMobile
+      ? lerp(-0.35, 0.10, p < 0.55 ? p / 0.55 : 1.0) + scrollYOffset * 0.5
+      : lookY + scrollYOffset * 0.4;
+
+    const targetPos  = computeCamPos(az, pol, dist, lookPivotX, mobileLookY);
+    const targetLook = new THREE.Vector3(lookPivotX, mobileLookY, 0);
 
     if (reducedMotion) {
       camPos.current.copy(targetPos);
@@ -320,7 +325,30 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     // ── Billet Assembly Positioning & Mechanical Settle ──
     if (billetRef.current) {
       if (!reducedMotion) {
-        const currentScale = lerp(0.96, 1.0, settleProgress) * (isMobile ? 0.80 : 1.0);
+        // Phase 1 (0-20%): 85% scale, Phase 2 (20-55%): scales to 105% and rises to center, Phase 3 (55-100%): seamless handoff
+        let mobileScale = 0.85;
+        let mobileY = -0.58;
+
+        if (isMobile) {
+          if (p < 0.20) {
+            mobileScale = 0.85;
+            mobileY = -0.58;
+          } else if (p < 0.55) {
+            const riseProgress = (p - 0.20) / 0.35;
+            mobileScale = lerp(0.85, 1.05, easeOutCubic(riseProgress));
+            mobileY = lerp(-0.58, -0.05, easeOutCubic(riseProgress));
+          } else {
+            const handoffProgress = (p - 0.55) / 0.45;
+            mobileScale = lerp(1.05, 1.0, handoffProgress);
+            mobileY = lerp(-0.05, -0.65, easeInOutCubic(handoffProgress));
+          }
+        }
+
+        const baseTargetScale = isMobile
+          ? mobileScale
+          : lerp(0.96, 1.0, settleProgress);
+
+        const currentScale = baseTargetScale;
         const lockPitch = (1 - settleProgress) * -0.028;
         const lockYaw   = (1 - settleProgress) * -0.035;
         const lockY     = (1 - settleProgress) * 0.025;
@@ -330,7 +358,7 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
         const idleRotY  = Math.sin(clockRef.current * 0.18) * 0.010;
         const idleRotZ  = Math.cos(clockRef.current * 0.14) * 0.004;
 
-        const baseY = isMobile ? 0.42 : 0.48;
+        const baseY = isMobile ? mobileY : 0.48;
         billetRef.current.position.set(pivotX, baseY + lockY + idleFloat + scrollYOffset, 0);
         billetRef.current.rotation.set(
           lockPitch + scrollRotX + gimbalPitch.current,
@@ -343,9 +371,9 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
           currentScale
         );
       } else {
-        const baseScale = isMobile ? 0.80 : 1.0;
+        const baseScale = isMobile ? 0.85 : 1.0;
         billetRef.current.scale.set(baseScale, baseScale, baseScale);
-        billetRef.current.position.set(pivotX, isMobile ? 0.42 : 0.48, 0);
+        billetRef.current.position.set(pivotX, isMobile ? -0.58 : 0.48, 0);
       }
     }
   });

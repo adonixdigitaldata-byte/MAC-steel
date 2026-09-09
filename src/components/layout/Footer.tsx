@@ -19,14 +19,14 @@ export default function Footer({ locale }: FooterProps) {
         {/* Column 1: Brand & Engineering Proof (2 Cols) */}
         <div className="lg:col-span-2 space-y-4 min-w-0">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <div className="relative h-[44px] sm:h-[52px] lg:h-[64px] w-44 sm:w-52 lg:w-64 shrink-0 flex items-center">
+            <div className="relative h-[80px] sm:h-[96px] lg:h-[112px] w-64 sm:w-80 lg:w-96 shrink-0 flex items-center">
               <Image
                 src="/mmainlogot1.png"
                 alt={isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.companyName.en}
                 fill
                 priority
-                sizes="(max-width: 640px) 176px, (max-width: 1024px) 208px, 256px"
-                className="object-contain object-left rtl:object-right"
+                sizes="(max-width: 640px) 280px, (max-width: 1024px) 340px, 400px"
+                className="object-contain object-left rtl:object-right scale-125 origin-left rtl:origin-right"
               />
             </div>
           </div>

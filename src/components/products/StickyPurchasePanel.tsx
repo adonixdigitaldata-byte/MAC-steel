@@ -19,7 +19,7 @@ export default function StickyPurchasePanel({ product, locale }: StickyPurchaseP
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
-  const handleAddToCart = (openDrawer = true) => {
+  const handleAddToCart = (openDrawer = false) => {
     addItem(product, quantity, openDrawer);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
@@ -151,7 +151,7 @@ export default function StickyPurchasePanel({ product, locale }: StickyPurchaseP
 
         {/* Add to Cart Button */}
         <button
-          onClick={() => handleAddToCart(true)}
+          onClick={() => handleAddToCart(false)}
           className={cn(
             "px-4 py-2.5 font-tech text-xs font-bold uppercase tracking-wider border shrink-0 transition-all duration-200 touch-feedback",
             added

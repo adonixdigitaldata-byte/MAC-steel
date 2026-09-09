@@ -30,6 +30,10 @@ export interface PageHeroProps {
   backgroundImage?: string;
   /** Background slideshow images array for dynamic hero transitions */
   backgroundSlideshow?: string[];
+  /** Background slideshow overlay mode ('none' | 'light' | 'default') */
+  slideshowOverlayMode?: "none" | "light" | "default";
+  /** Add structural border & backdrop to hero text */
+  textBorder?: boolean;
   /** Primary CTA configuration */
   primaryAction?: HeroAction;
   /** Secondary CTA configuration */
@@ -42,6 +46,10 @@ export interface PageHeroProps {
   showRightSpec?: boolean;
   /** Option to hide top document badge if needed */
   showDocumentId?: boolean;
+  /** Option to hide bottom technical metadata strip */
+  showTechnicalMeta?: boolean;
+  /** Compact vertical padding for immediate item visibility */
+  compact?: boolean;
   /** Current Locale */
   locale: Locale;
   /** Additional container styling */
@@ -58,12 +66,16 @@ export default function PageHero({
   documentId = "DOC-SPEC-2026",
   backgroundImage,
   backgroundSlideshow,
+  slideshowOverlayMode = "default",
+  textBorder = false,
   primaryAction,
   secondaryAction,
   technicalMeta = DEFAULT_CHIPS,
   overlayStyle = "default",
   showRightSpec = true,
   showDocumentId = true,
+  showTechnicalMeta = true,
+  compact = false,
   locale,
   className = "",
 }: PageHeroProps) {
@@ -76,13 +88,16 @@ export default function PageHero({
   return (
     <section
       className={cn(
-        "relative w-full overflow-hidden bg-[#0e0f12] text-bone border-b border-carbon-border/80 pt-28 pb-14 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24 select-none",
+        "relative w-full overflow-hidden bg-[#0e0f12] text-bone border-b border-carbon-border/80 select-none",
+        compact
+          ? "pt-24 pb-6 sm:pt-28 sm:pb-8 lg:pt-32 lg:pb-10"
+          : "pt-28 pb-14 sm:pt-36 sm:pb-20 lg:pt-40 lg:pb-24",
         className
       )}
     >
       {/* Background Slideshow or Dynamic Parallax Background */}
       {backgroundSlideshow && backgroundSlideshow.length > 0 ? (
-        <HeroImageSlideshow images={backgroundSlideshow} />
+        <HeroImageSlideshow images={backgroundSlideshow} overlayMode={slideshowOverlayMode} />
       ) : (
         <ParallaxBackground
           backgroundImage={backgroundImage}
@@ -223,23 +238,25 @@ export default function PageHero({
         </div>
 
         {/* BOTTOM: Engineering Metadata Strip */}
-        <div className="mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-carbon-border/60 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            {technicalMeta.map((chip, idx) => (
-              <span
-                key={idx}
-                className="inline-flex items-center space-x-1.5 rtl:space-x-reverse font-tech text-[10px] sm:text-xs text-accent-metal border border-carbon-border/80 bg-carbon-surface/60 px-3 py-1 uppercase tracking-wider"
-              >
-                <span className="w-1 h-1 rounded-full bg-accent-copper shrink-0" />
-                <span>{chip}</span>
-              </span>
-            ))}
-          </div>
+        {showTechnicalMeta && (
+          <div className="mt-8 sm:mt-12 pt-4 sm:pt-6 border-t border-carbon-border/60 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              {technicalMeta.map((chip, idx) => (
+                <span
+                  key={idx}
+                  className="inline-flex items-center space-x-1.5 rtl:space-x-reverse font-tech text-[10px] sm:text-xs text-accent-metal border border-carbon-border/80 bg-carbon-surface/60 px-3 py-1 uppercase tracking-wider"
+                >
+                  <span className="w-1 h-1 rounded-full bg-accent-copper shrink-0" />
+                  <span>{chip}</span>
+                </span>
+              ))}
+            </div>
 
-          <div className="font-tech text-[9px] sm:text-[10px] text-accent-metal/60 tracking-widest uppercase">
-            <span>METALLO ARABIA SPECIFICATION MATRIX</span>
+            <div className="font-tech text-[9px] sm:text-[10px] text-accent-metal/60 tracking-widest uppercase">
+              <span>METALLO ARABIA SPECIFICATION MATRIX</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

@@ -155,24 +155,21 @@ export default function CartPage() {
         </div>
       )}
 
-      {/* 01. TIER-2 PAGEHERO FOR RFQ QUOTATION DESK */}
+      {/* 01. STREAMLINED COMPACT HERO FOR RFQ QUOTATION DESK */}
       <PageHero
         eyebrow={isRtl ? "مكتب تسعير وتوصيف المشاريع" : "QUOTATION DESK"}
-        documentId={rfqReference}
-        title={isRtl ? "طلب عروض الأسعار والمواصفات." : "ENGINEERING RFQ QUOTATION DESK."}
+        title={isRtl ? "سلة طلب الأسعار والمواصفات" : "RFQ QUOTATION DESK"}
         description={
           isRtl
-            ? "قم بمراجعة جدول المكونات والكميات المحددة، وأدخل بيانات المشروع لإرسال استفسار تسعير رسمي ومباشر عبر واتساب."
-            : "Review your selected structural steel specifications, enter engineering project details, and dispatch a formal quotation inquiry directly to our engineering desk."
+            ? "راجع المكونات الفولاذية المحددة وأرسل طلب التسعير الرسمي مباشرة."
+            : "Review selected structural components and dispatch your official engineering quotation inquiry."
         }
         breadcrumb={isRtl ? "الرئيسية / سلة الطلبات" : "HOME / RFQ CART"}
         overlayStyle="technical"
-        technicalMeta={[
-          rfqReference,
-          `${totalQuantity} UNITS TOTAL`,
-          "OFFICIAL SPECIFICATION",
-          "DIRECT WHATSAPP RFQ",
-        ]}
+        compact={true}
+        showRightSpec={false}
+        showDocumentId={false}
+        showTechnicalMeta={false}
         locale={locale}
       />
 

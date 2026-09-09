@@ -7,12 +7,14 @@ import { cn } from "@/lib/utils";
 interface HeroImageSlideshowProps {
   images: string[];
   interval?: number;
+  overlayMode?: "none" | "light" | "default";
   className?: string;
 }
 
 export default function HeroImageSlideshow({
   images,
   interval = 5000,
+  overlayMode = "default",
   className = "",
 }: HeroImageSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -58,14 +60,39 @@ export default function HeroImageSlideshow({
         );
       })}
 
-      {/* Subtle Lighter Gradient Scrim to showcase high-res 4K imagery while keeping text crisp */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/35 to-black/50 z-[1]" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0e0f12]/90 via-transparent to-black/40 z-[1]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/15 to-black/60 z-[1]" />
+      {/* When overlayMode is 'none', remove the dark overlay completely */}
+      {overlayMode !== "none" && (
+        <>
+          <div
+            className={cn(
+              "absolute inset-0 z-[1]",
+              overlayMode === "light"
+                ? "bg-gradient-to-r from-black/50 via-black/25 to-black/40"
+                : "bg-gradient-to-r from-black/60 via-black/35 to-black/50"
+            )}
+          />
+          <div
+            className={cn(
+              "absolute inset-0 z-[1]",
+              overlayMode === "light"
+                ? "bg-gradient-to-t from-[#0e0f12]/80 via-transparent to-black/30"
+                : "bg-gradient-to-t from-[#0e0f12]/90 via-transparent to-black/40"
+            )}
+          />
+          <div
+            className={cn(
+              "absolute inset-0 z-[1]",
+              overlayMode === "light"
+                ? "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/10 to-black/40"
+                : "bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/15 to-black/60"
+            )}
+          />
+        </>
+      )}
 
       {/* Subtle Grid Pattern Overlay for technical engineering feel */}
       <div
-        className="absolute inset-0 opacity-[0.05] z-[2]"
+        className="absolute inset-0 opacity-[0.04] z-[2]"
         style={{
           backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.2) 1px, transparent 1px)`,
           backgroundSize: "48px 48px",

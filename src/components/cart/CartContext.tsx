@@ -59,7 +59,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const addItem = useCallback(
-    (product: Product, quantity = 1, openDrawer = true) => {
+    (product: Product, quantity = 1, openDrawer = false) => {
       setItems((prev) => {
         const next = helperAddToCart(prev, product, quantity);
         saveStoredCart(next);

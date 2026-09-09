@@ -118,34 +118,45 @@ export default function HeroSection({ locale }: HeroSectionProps) {
         </div>
 
         {/* ── Foreground UI Layer ── */}
-        <div className="relative z-10 h-full flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-6 pointer-events-none">
+        <div className="relative z-10 h-full flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-4 sm:pb-6 pointer-events-none">
 
-          {/* Center Area: Left H1 Narrative */}
-          <div className="my-auto flex flex-col lg:flex-row lg:items-center justify-between gap-8 w-full min-h-0">
+          {/* Upper Section: Narrative Copy & CTAs */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 w-full min-h-0 pt-2 sm:pt-0">
             
             {/* Hero Text Content */}
             <div
               ref={textRef}
-              className={`pointer-events-auto max-w-full lg:max-w-[46%] transition-all duration-1000 delay-500 ease-out pt-24 sm:pt-32 lg:pt-0 ${
+              className={`pointer-events-auto max-w-full lg:max-w-[46%] transition-all duration-1000 delay-300 ease-out ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
+              {/* Eyebrow badge */}
+              <div className="inline-flex items-center space-x-2 rtl:space-x-reverse mb-2 sm:mb-3 font-tech text-[10px] sm:text-xs text-accent-copper font-bold tracking-widest uppercase">
+                <span className="w-1.5 h-1.5 bg-accent-copper inline-block" />
+                <span>{isRtl ? COPY.eyebrow.ar : COPY.eyebrow.en}</span>
+              </div>
+
+              {/* Title */}
               <h1
-                className={`font-display text-bone uppercase leading-[0.92] tracking-tight drop-shadow-lg mb-4 sm:mb-6 ${
+                className={`font-display text-bone uppercase leading-[0.92] tracking-tight drop-shadow-lg mb-5 ${
                   isRtl ? "text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-arabic" : "text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
                 }`}
                 style={{ whiteSpace: "pre-line" }}
               >
                 {isRtl ? COPY.title.ar : COPY.title.en}
               </h1>
-              <p className="text-accent-metal text-xs sm:text-sm leading-relaxed max-w-sm mb-6 sm:mb-8">
+
+              {/* Description - 20px below Title */}
+              <p className="text-accent-metal text-xs sm:text-sm leading-relaxed max-w-sm mb-6">
                 {isRtl ? COPY.sub.ar : COPY.sub.en}
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button href={`/${locale}/products`} locale={locale} variant="primary" world="carbon">
+
+              {/* CTAs - 24px below Description */}
+              <div className="flex flex-row gap-3">
+                <Button href={`/${locale}/products`} locale={locale} variant="primary" world="carbon" className="text-xs px-5 py-3 sm:px-6 sm:py-3.5 font-bold">
                   {isRtl ? COPY.cta1.ar : COPY.cta1.en}
                 </Button>
-                <Button href={`/${locale}/contact`} locale={locale} variant="outline" world="carbon">
+                <Button href={`/${locale}/contact`} locale={locale} variant="outline" world="carbon" className="text-xs px-5 py-3 sm:px-6 sm:py-3.5 font-bold">
                   {isRtl ? COPY.cta2.ar : COPY.cta2.en}
                 </Button>
               </div>
@@ -153,18 +164,18 @@ export default function HeroSection({ locale }: HeroSectionProps) {
 
           </div>
 
-          {/* Bottom technical footer bar */}
+          {/* Bottom Technical HUD & Scroll Indicator */}
           <div
-            className={`flex items-center justify-between border-t border-carbon-border/40 pt-3 sm:pt-4 pointer-events-auto transition-all duration-700 delay-700 ${
+            className={`flex items-center justify-between border-t border-carbon-border/40 pt-3 sm:pt-4 pointer-events-auto transition-all duration-700 delay-500 ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
             }`}
           >
-            <div className="font-tech text-[10px] text-accent-metal/50 uppercase tracking-widest">
+            <div className="font-tech text-[9px] sm:text-[10px] text-accent-metal/60 uppercase tracking-wider sm:tracking-widest truncate max-w-[65%] font-medium">
               {isRtl ? COPY.spec.ar : COPY.spec.en}
             </div>
             <div
               ref={hintRef}
-              className="font-tech text-[10px] text-accent-metal uppercase tracking-widest transition-opacity"
+              className="font-tech text-[9px] sm:text-[10px] text-accent-copper uppercase tracking-wider sm:tracking-widest transition-opacity shrink-0 font-bold"
             >
               {isRtl ? COPY.scroll.ar : COPY.scroll.en}
             </div>
