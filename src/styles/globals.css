@@ -21,6 +21,7 @@
     font-family: var(--font-ibm-plex), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   body {
@@ -28,6 +29,12 @@
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Optimize media GPU layers */
+  img, video, canvas {
+    content-visibility: auto;
   }
 
   /* Direction specific typography adjustments */
