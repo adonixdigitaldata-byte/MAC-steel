@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { Product } from "@/types";
 import { Category } from "@/data/categories";
@@ -114,11 +114,41 @@ export default function ProductCatalogHub({
     });
   }, [products, categories, searchQuery, selectedCategory, selectedMaterial, selectedFinish]);
 
+  // Pagination State (12 products per page)
+  const ITEMS_PER_PAGE = 12;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Reset pagination to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, selectedCategory, selectedMaterial, selectedFinish]);
+
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE) || 1;
+  const paginatedProducts = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredProducts.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredProducts, currentPage]);
+
+  const startIndex = filteredProducts.length > 0 ? (currentPage - 1) * ITEMS_PER_PAGE + 1 : 0;
+  const endIndex = Math.min(currentPage * ITEMS_PER_PAGE, filteredProducts.length);
+
   const resetFilters = () => {
     setSearchQuery("");
     setSelectedCategory("all");
     setSelectedMaterial("all");
     setSelectedFinish("all");
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+      // Smooth scroll back to catalog top on page transition
+      if (typeof window !== "undefined") {
+        const el = document.getElementById("catalog-hub");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   const hasActiveFilters = searchQuery !== "" || selectedCategory !== "all" || selectedMaterial !== "all" || selectedFinish !== "all";
@@ -160,7 +190,7 @@ export default function ProductCatalogHub({
               {/* Mobile Filter Trigger */}
               <button
                 onClick={() => setMobileFilterOpen(true)}
-                className="lg:hidden px-4 py-3 bg-carbon text-bone border border-carbon flex items-center gap-2 uppercase tracking-wider"
+                className="lg:hidden px-4 py-3 bg-carbon text-bone border border-carbon flex items-center gap-2 uppercase tracking-wider touch-feedback"
               >
                 <span>⚙</span>
                 <span>{isRtl ? "الفلاتر الهندسية" : "FILTERS"}</span>
@@ -172,7 +202,7 @@ export default function ProductCatalogHub({
                 <button
                   onClick={() => setViewMode("grid")}
                   className={cn(
-                    "px-3 py-1.5 uppercase transition-colors",
+                    "px-3 py-1.5 uppercase transition-colors touch-feedback",
                     viewMode === "grid" ? "bg-carbon text-bone font-bold" : "text-carbon/60 hover:text-carbon"
                   )}
                   title="Grid View"
@@ -182,7 +212,7 @@ export default function ProductCatalogHub({
                 <button
                   onClick={() => setViewMode("list")}
                   className={cn(
-                    "px-3 py-1.5 uppercase transition-colors",
+                    "px-3 py-1.5 uppercase transition-colors touch-feedback",
                     viewMode === "list" ? "bg-carbon text-bone font-bold" : "text-carbon/60 hover:text-carbon"
                   )}
                   title="List View"
@@ -191,6 +221,35 @@ export default function ProductCatalogHub({
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Mobile Horizontal Filter Chips Strip with Snap Scrolling */}
+          <div className="lg:hidden flex items-center gap-2 overflow-x-auto pt-3 pb-1 no-scrollbar snap-x snap-mandatory font-tech text-xs">
+            <button
+              onClick={() => setSelectedCategory("all")}
+              className={cn(
+                "px-3.5 py-1.5 border shrink-0 snap-start uppercase transition-all duration-200 text-[11px] touch-feedback",
+                selectedCategory === "all"
+                  ? "bg-carbon text-bone border-carbon font-bold ring-1 ring-accent-copper"
+                  : "bg-bone-surface text-carbon border-bone-border hover:border-carbon/50"
+              )}
+            >
+              {isRtl ? "جميع التصنيفات" : "ALL CATEGORIES"}
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.slug)}
+                className={cn(
+                  "px-3.5 py-1.5 border shrink-0 snap-start uppercase transition-all duration-200 text-[11px] touch-feedback truncate max-w-[200px]",
+                  selectedCategory === cat.slug
+                    ? "bg-carbon text-bone border-carbon font-bold ring-1 ring-accent-copper"
+                    : "bg-bone-surface text-carbon border-bone-border hover:border-carbon/50"
+                )}
+              >
+                {isRtl ? cat.nameAr : cat.name}
+              </button>
+            ))}
           </div>
 
           {/* Active Filter Chips Strip */}
@@ -396,32 +455,92 @@ export default function ProductCatalogHub({
                 </div>
               </div>
             </FadeReveal>
-          ) : viewMode === "grid" ? (
-            /* 1. PRODUCT GRID VIEW (Compact 3-column responsive matrix) */
-            <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5" staggerDelay={40}>
-              {filteredProducts.map((product, index) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  locale={locale}
-                  world="bone"
-                  index={index}
-                />
-              ))}
-            </StaggerGroup>
           ) : (
-            /* 2. PRODUCT LIST VIEW */
-            <StaggerGroup className="space-y-4" staggerDelay={50}>
-              {filteredProducts.map((product, index) => (
-                <ProductListItem
-                  key={product.id}
-                  product={product}
-                  locale={locale}
-                  world="bone"
-                  index={index}
-                />
-              ))}
-            </StaggerGroup>
+            <div className="space-y-8">
+              {viewMode === "grid" ? (
+                /* 1. PRODUCT GRID VIEW (Compact 3-column responsive matrix with uniform cards) */
+                <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5" staggerDelay={40}>
+                  {paginatedProducts.map((product, index) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                      locale={locale}
+                      world="bone"
+                      index={(currentPage - 1) * ITEMS_PER_PAGE + index}
+                    />
+                  ))}
+                </StaggerGroup>
+              ) : (
+                /* 2. PRODUCT LIST VIEW */
+                <StaggerGroup className="space-y-4" staggerDelay={50}>
+                  {paginatedProducts.map((product, index) => (
+                    <ProductListItem
+                      key={product.id}
+                      product={product}
+                      locale={locale}
+                      world="bone"
+                      index={(currentPage - 1) * ITEMS_PER_PAGE + index}
+                    />
+                  ))}
+                </StaggerGroup>
+              )}
+
+              {/* 3. PAGINATION CONTROL TERMINAL */}
+              {totalPages > 1 && (
+                <div className="border border-bone-border bg-bone-surface p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 font-tech text-xs select-none">
+                  {/* Results summary counter */}
+                  <div className="text-accent-mineral uppercase">
+                    {isRtl
+                      ? `عرض ${startIndex}–${endIndex} من أصل ${filteredProducts.length} مواصفة منتج`
+                      : `Showing ${startIndex}–${endIndex} of ${filteredProducts.length} products`}
+                  </div>
+
+                  {/* Pagination Buttons */}
+                  <div className="flex items-center gap-1.5">
+                    {/* Previous Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="px-3 py-2 border border-bone-border bg-world-bone text-carbon disabled:opacity-40 disabled:cursor-not-allowed hover:border-carbon transition-colors uppercase font-bold touch-feedback"
+                      aria-label="Previous page"
+                    >
+                      {isRtl ? "السابق ←" : "← PREV"}
+                    </button>
+
+                    {/* Page Numbers */}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
+                      const isActive = pageNum === currentPage;
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => handlePageChange(pageNum)}
+                          className={cn(
+                            "w-9 h-9 border font-bold transition-all touch-feedback font-mono text-xs",
+                            isActive
+                              ? "bg-carbon text-bone border-carbon ring-1 ring-accent-copper"
+                              : "bg-world-bone text-carbon border-bone-border hover:border-carbon"
+                          )}
+                          aria-label={`Go to page ${pageNum}`}
+                          aria-current={isActive ? "page" : undefined}
+                        >
+                          {String(pageNum).padStart(2, "0")}
+                        </button>
+                      );
+                    })}
+
+                    {/* Next Button */}
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="px-3 py-2 border border-bone-border bg-world-bone text-carbon disabled:opacity-40 disabled:cursor-not-allowed hover:border-carbon transition-colors uppercase font-bold touch-feedback"
+                      aria-label="Next page"
+                    >
+                      {isRtl ? "→ التالي" : "NEXT →"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           )}
         </section>
       </div>
@@ -432,16 +551,20 @@ export default function ProductCatalogHub({
           {/* Backdrop */}
           <div
             onClick={() => setMobileFilterOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity"
           />
 
-          {/* Drawer Panel */}
-          <div className="relative w-[85%] max-w-sm h-full bg-world-bone text-carbon border-s border-bone-border p-6 overflow-y-auto z-10 space-y-6 font-tech text-xs">
-            <div className="flex justify-between items-center pb-4 border-b border-bone-border">
-              <TechnicalLabel variant="copper">ENGINEERING FILTERS</TechnicalLabel>
+          <div className="relative w-full max-h-[85vh] overflow-y-auto bg-world-bone text-carbon border-t border-bone-border shadow-2xl z-10 p-6 space-y-6 font-tech rounded-t-2xl pb-safe animate-slideInRight">
+            {/* iOS Drag Handle */}
+            <div className="pt-1 pb-2 flex justify-center items-center cursor-grab active:cursor-grabbing">
+              <div className="w-12 h-1.5 rounded-full bg-bone-border" />
+            </div>
+
+            <div className="flex justify-between items-center border-b border-bone-border pb-4">
+              <TechnicalLabel variant="copper">SPECIFICATION FILTERS</TechnicalLabel>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="font-bold text-sm px-2 py-1 border border-bone-border"
+                className="w-8 h-8 flex items-center justify-center border border-bone-border text-carbon font-bold"
               >
                 ✕
               </button>
@@ -450,15 +573,15 @@ export default function ProductCatalogHub({
             {/* Mobile Category */}
             <div className="space-y-2">
               <span className="block text-[10px] text-accent-mineral uppercase font-bold">CATEGORY</span>
-              <div className="space-y-1">
+              <div className="grid grid-cols-2 gap-1.5">
                 <button
                   onClick={() => {
                     setSelectedCategory("all");
                     setMobileFilterOpen(false);
                   }}
                   className={cn(
-                    "w-full text-start p-2 uppercase text-[11px]",
-                    selectedCategory === "all" ? "bg-carbon text-bone font-bold" : "bg-bone-surface text-carbon"
+                    "w-full text-start p-2 uppercase text-[11px] border touch-feedback",
+                    selectedCategory === "all" ? "bg-carbon text-bone font-bold border-carbon" : "bg-bone-surface text-carbon border-bone-border"
                   )}
                 >
                   ALL CATEGORIES
@@ -471,8 +594,8 @@ export default function ProductCatalogHub({
                       setMobileFilterOpen(false);
                     }}
                     className={cn(
-                      "w-full text-start p-2 uppercase text-[11px] truncate",
-                      selectedCategory === cat.slug ? "bg-carbon text-bone font-bold" : "bg-bone-surface text-carbon"
+                      "w-full text-start p-2 uppercase text-[11px] truncate border touch-feedback",
+                      selectedCategory === cat.slug ? "bg-carbon text-bone font-bold border-carbon" : "bg-bone-surface text-carbon border-bone-border"
                     )}
                   >
                     {isRtl ? cat.nameAr : cat.name}
@@ -484,15 +607,15 @@ export default function ProductCatalogHub({
             {/* Mobile Materials */}
             <div className="space-y-2 border-t border-bone-border pt-4">
               <span className="block text-[10px] text-accent-mineral uppercase font-bold">MATERIAL</span>
-              <div className="space-y-1">
+              <div className="grid grid-cols-2 gap-1.5">
                 <button
                   onClick={() => {
                     setSelectedMaterial("all");
                     setMobileFilterOpen(false);
                   }}
                   className={cn(
-                    "w-full text-start p-2 uppercase text-[11px]",
-                    selectedMaterial === "all" ? "bg-carbon text-bone font-bold" : "bg-bone-surface text-carbon"
+                    "w-full text-start p-2 uppercase text-[11px] border touch-feedback",
+                    selectedMaterial === "all" ? "bg-carbon text-bone font-bold border-carbon" : "bg-bone-surface text-carbon border-bone-border"
                   )}
                 >
                   ALL MATERIALS
@@ -505,8 +628,8 @@ export default function ProductCatalogHub({
                       setMobileFilterOpen(false);
                     }}
                     className={cn(
-                      "w-full text-start p-2 uppercase text-[11px] truncate",
-                      selectedMaterial === mat ? "bg-carbon text-bone font-bold" : "bg-bone-surface text-carbon"
+                      "w-full text-start p-2 uppercase text-[11px] truncate border touch-feedback",
+                      selectedMaterial === mat ? "bg-carbon text-bone font-bold border-carbon" : "bg-bone-surface text-carbon border-bone-border"
                     )}
                   >
                     {mat}
@@ -523,14 +646,14 @@ export default function ProductCatalogHub({
                     resetFilters();
                     setMobileFilterOpen(false);
                   }}
-                  className="w-full py-3 border border-bone-border text-center uppercase"
+                  className="w-full py-3 border border-bone-border text-center uppercase touch-feedback"
                 >
                   RESET ALL FILTERS
                 </button>
               )}
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="w-full py-3 bg-carbon text-bone font-bold text-center uppercase"
+                className="w-full py-3.5 bg-carbon text-bone font-bold text-center uppercase touch-feedback"
               >
                 APPLY & VIEW ({filteredProducts.length})
               </button>

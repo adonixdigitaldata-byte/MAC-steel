@@ -24,10 +24,10 @@ export default function Header({ locale }: HeaderProps) {
 
   // Scroll & Compression State
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isCompressing, setIsCompressing] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down" | "none">("none");
   const lastScrollY = useRef(0);
 
-  // Scroll detection for Floating Capsule & Directional Compression
+  // Scroll detection for Floating Capsule & Directional Expansion/Compression
   useEffect(() => {
     let ticking = false;
     const handleScroll = () => {
@@ -37,7 +37,15 @@ export default function Header({ locale }: HeaderProps) {
           const heroThreshold = window.innerHeight * 0.05;
 
           setIsScrolled(currentY > heroThreshold);
-          setIsCompressing(currentY > lastScrollY.current && currentY > heroThreshold + 50);
+
+          if (currentY > lastScrollY.current && currentY > heroThreshold + 40) {
+            setScrollDirection("down");
+          } else if (currentY < lastScrollY.current && currentY > heroThreshold) {
+            setScrollDirection("up");
+          } else if (currentY <= heroThreshold) {
+            setScrollDirection("none");
+          }
+
           lastScrollY.current = currentY;
           ticking = false;
         });
@@ -73,36 +81,41 @@ export default function Header({ locale }: HeaderProps) {
 
   const activePageLabel = getActivePageLabel();
 
+  // Mobile Header Dynamic Classes
+  const getMobileHeaderHeight = () => {
+    if (!isScrolled) return "h-16 sm:h-20"; // Hero State
+    if (scrollDirection === "down") return "h-12 sm:h-14"; // Scroll Down Compact
+    return "h-14 sm:h-16"; // Scroll Up Expanded
+  };
+
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500 ease-out pointer-events-none ${
+        className={`fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-300 ease-out pointer-events-none ${
           isScrolled ? "pt-2 sm:pt-4" : "pt-0"
         }`}
       >
         <div
           className={`pointer-events-auto transition-all duration-500 ease-out flex items-center justify-between box-border ${
             isScrolled
-              ? `w-[94%] max-w-[1320px] rounded-sm bg-[#141518]/90 backdrop-blur-md border border-carbon-border/80 shadow-2xl shadow-carbon/80 ${
-                  isCompressing ? "h-14 px-4 sm:px-6" : "h-16 px-4 sm:px-8"
-                }`
-              : "w-full max-w-7xl h-20 px-4 sm:px-6 lg:px-8 bg-transparent border-b border-carbon-border/20"
+              ? `w-[94%] max-w-[1320px] rounded-sm bg-gradient-to-b from-[#F3EFE5]/95 to-[#ECE6D8]/95 backdrop-blur-md border-2 border-black shadow-[0_8px_30px_rgba(0,0,0,0.25)] px-3 sm:px-6 lg:px-8 ${getMobileHeaderHeight()}`
+              : "w-full max-w-7xl h-16 sm:h-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#F3EFE5] to-[#ECE6D8] backdrop-blur-md border-b-2 border-black shadow-[0_2px_12px_rgba(0,0,0,0.1)]"
           }`}
         >
-          {/* Left Brand Lockup (Always returns home) */}
+          {/* Left Brand Lockup (Always returns home) with generous padding */}
           <Link
             href={`/${locale}`}
-            className="group flex items-center shrink-0 select-none"
+            className="group relative flex items-center shrink-0 select-none py-1 pl-1 sm:pl-2 rtl:pl-0 rtl:pr-1 rtl:sm:pr-2"
             aria-label={`${SITE_CONFIG.companyName[locale]} Homepage`}
           >
-            <div className="relative h-10 sm:h-12 w-36 sm:w-44 shrink-0 flex items-center">
+            <div className="relative h-12 sm:h-14 md:h-16 lg:h-[68px] w-44 sm:w-52 md:w-60 lg:w-68 shrink-0 flex items-center">
               <Image
-                src="/main-logo.png"
+                src="/mmainlogot1.png"
                 alt={isRtl ? SITE_CONFIG.companyName.ar : SITE_CONFIG.companyName.en}
                 fill
                 priority
-                sizes="(max-width: 640px) 144px, 176px"
-                className="object-contain object-left rtl:object-right group-hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 640px) 176px, (max-width: 1024px) 240px, 280px"
+                className="object-contain object-left rtl:object-right scale-125 origin-left rtl:origin-right group-hover:scale-[1.30] transition-transform duration-300"
               />
             </div>
           </Link>
@@ -120,15 +133,15 @@ export default function Header({ locale }: HeaderProps) {
                 >
                   <span
                     className={`transition-colors duration-200 ${
-                      isPageActive ? "text-bone font-bold" : "text-accent-metal hover:text-bone"
+                      isPageActive ? "text-[#3A3A34] font-bold" : "text-[#6B6B63] hover:text-[#3A3A34]"
                     }`}
                   >
                     {item.label}
                   </span>
 
-                  {/* Active Page Copper Underline Indicator */}
+                  {/* Active Page Copper Underline Indicator (#C8A94A) with smooth slide transition */}
                   <span
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-accent-copper transition-all duration-300 ${
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-[#C8A94A] transition-all duration-300 ${
                       isPageActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0 group-hover:opacity-60 group-hover:scale-x-75"
                     }`}
                   />
@@ -140,38 +153,38 @@ export default function Header({ locale }: HeaderProps) {
           {/* Right Action Terminal: Active Page HUD + Language Switch + Live RFQ Cart Button */}
           <div className="flex items-center space-x-3 sm:space-x-5 rtl:space-x-reverse">
             {/* Active Page Status Badge (Desktop) */}
-            <div className="hidden xl:flex items-center space-x-2 rtl:space-x-reverse font-tech text-[9px] tracking-widest text-accent-metal/50 uppercase border border-carbon-border/50 px-2.5 py-1 bg-carbon/40">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent-copper" />
+            <div className="hidden xl:flex items-center space-x-2 rtl:space-x-reverse font-tech text-[9px] tracking-widest text-[#6B6B63] uppercase border border-[#D4CBB8] px-2.5 py-1 bg-[#ECE6D8]/60">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8A94A]" />
               <span>{activePageLabel}</span>
             </div>
 
             {/* Language Switch */}
             <Link
               href={targetPath}
-              className="font-tech text-[10px] sm:text-xs tracking-widest uppercase text-accent-metal hover:text-bone border border-transparent hover:border-carbon-border px-2 py-1 transition-all"
+              className="font-tech text-[10px] sm:text-xs tracking-widest uppercase text-[#6B6B63] hover:text-[#3A3A34] border border-transparent hover:border-[#D4CBB8] px-2 py-1 transition-all"
             >
               {targetLocale === "ar" ? "العربية" : "ENGLISH"}
             </Link>
 
-            {/* Live RFQ Cart Button with Copper Pulse Indicator */}
+            {/* Dark Live RFQ Cart Button */}
             <button
               onClick={openMiniCart}
-              className={`group relative inline-flex items-center space-x-2 rtl:space-x-reverse font-tech text-[10px] sm:text-xs tracking-wider uppercase px-3.5 py-2 bg-gradient-to-r from-[#212429] via-[#2a2e35] to-[#212429] hover:from-accent-copper hover:to-[#734f3b] text-bone border transition-all duration-200 shadow-md active:translate-y-0.5 select-none ${
+              className={`group relative inline-flex items-center space-x-2 rtl:space-x-reverse font-tech text-[10px] sm:text-xs tracking-wider uppercase px-3.5 py-2 bg-[#111418] hover:bg-[#1C2026] text-[#F3EFE5] border border-[#111418] hover:border-[#C8A94A] shadow-[0_4px_14px_rgba(17,20,24,0.35)] hover:shadow-[0_0_16px_rgba(200,169,74,0.35)] transition-all duration-200 active:translate-y-0.5 select-none ${
                 pulseTrigger
-                  ? "border-accent-copper shadow-lg shadow-accent-copper/40 scale-105"
-                  : "border-carbon-border hover:border-accent-copper"
+                  ? "border-[#C8A94A] shadow-lg shadow-[#C8A94A]/40 scale-105"
+                  : ""
               }`}
               aria-label="Open RFQ Cart"
             >
               <span className="font-bold">{isRtl ? "طلب الأسعار" : "RFQ CART"}</span>
               <span
                 className={`font-bold font-mono text-[10px] sm:text-xs transition-colors ${
-                  pulseTrigger ? "text-bone" : "text-accent-copper group-hover:text-bone"
+                  pulseTrigger ? "text-[#F3EFE5]" : "text-[#C8A94A] group-hover:text-[#F3EFE5]"
                 }`}
               >
                 [{String(totalQuantity).padStart(2, "0")}]
               </span>
-              <span className="transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
+              <span className="transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 text-[#F3EFE5]">
                 <IconArrow locale={locale} size={12} />
               </span>
             </button>
@@ -179,7 +192,7 @@ export default function Header({ locale }: HeaderProps) {
             {/* Mobile Menu Trigger */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden font-tech text-[10px] sm:text-xs tracking-widest text-bone border border-carbon-border px-2.5 py-1.5 uppercase hover:border-accent-copper bg-carbon-surface/60 transition-colors"
+              className="lg:hidden font-tech text-[10px] sm:text-xs tracking-widest text-[#3A3A34] border border-[#D4CBB8] px-2.5 py-1.5 uppercase hover:border-[#C8A94A] bg-[#ECE6D8]/80 transition-colors shadow-sm"
               aria-label="Toggle Navigation Menu"
             >
               {isRtl ? "القائمة" : "MENU"}

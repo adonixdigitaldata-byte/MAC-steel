@@ -126,7 +126,7 @@ export default function StickyPurchasePanel({ product, locale }: StickyPurchaseP
       </div>
 
       {/* 2. MOBILE STICKY BOTTOM PURCHASE BAR */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#141518]/95 backdrop-blur-md border-t border-carbon-border/80 px-4 py-3 text-bone font-tech text-xs shadow-2xl flex items-center justify-between gap-3">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#141518]/95 backdrop-blur-md border-t border-carbon-border/80 px-4 pt-3 pb-safe text-bone font-tech text-xs shadow-2xl flex items-center justify-between gap-3 select-none">
         <div className="min-w-0 flex-1">
           <span className="font-bold text-accent-copper text-[10px] block truncate">
             {product.partNumber}
@@ -138,13 +138,13 @@ export default function StickyPurchasePanel({ product, locale }: StickyPurchaseP
 
         {/* Quantity Toggle */}
         <div className="flex items-center border border-carbon-border bg-carbon shrink-0">
-          <button onClick={decrement} className="w-8 h-8 flex items-center justify-center text-bone font-bold">
+          <button onClick={decrement} className="w-9 h-9 flex items-center justify-center text-bone font-bold text-base active:bg-white/10 touch-feedback" aria-label="Decrease quantity">
             -
           </button>
           <span className="w-8 text-center text-xs font-bold text-bone font-mono">
             {quantity}
           </span>
-          <button onClick={increment} className="w-8 h-8 flex items-center justify-center text-bone font-bold">
+          <button onClick={increment} className="w-9 h-9 flex items-center justify-center text-bone font-bold text-base active:bg-white/10 touch-feedback" aria-label="Increase quantity">
             +
           </button>
         </div>
@@ -153,10 +153,10 @@ export default function StickyPurchasePanel({ product, locale }: StickyPurchaseP
         <button
           onClick={() => handleAddToCart(true)}
           className={cn(
-            "px-4 py-2.5 font-tech text-xs font-bold uppercase tracking-wider border shrink-0 transition-all duration-200",
+            "px-4 py-2.5 font-tech text-xs font-bold uppercase tracking-wider border shrink-0 transition-all duration-200 touch-feedback",
             added
-              ? "bg-accent-copper text-bone border-accent-copper"
-              : "bg-bone text-carbon border-bone active:scale-95"
+              ? "bg-accent-copper text-bone border-accent-copper shadow-md"
+              : "bg-bone text-carbon border-bone active:scale-95 hover:border-accent-copper"
           )}
         >
           {added ? (isRtl ? "تمت الإضافة لـ RFQ ✓" : "ADDED TO RFQ ✓") : (isRtl ? "إضافة لـ RFQ" : "Add to Cart")}

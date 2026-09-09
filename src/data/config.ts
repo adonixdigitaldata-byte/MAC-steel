@@ -4,7 +4,7 @@
 
 export const SITE_CONFIG = {
   // Centralized WhatsApp Number (E.164 international format)
-  whatsappNumber: "+966500000000",
+  whatsappNumber: "+919966410033",
 
   companyName: {
     en: "Metallo Arabia Company",

@@ -123,10 +123,9 @@ export default async function AboutPage({
 
   return (
     <main className="min-h-screen bg-world-bone text-carbon w-full max-w-full overflow-hidden">
-      {/* 01. TIER-2 PAGEHERO */}
+      {/* 01. TIER-2 PAGEHERO WITH DYNAMIC HIGH-RES SLIDESHOW */}
       <PageHero
         eyebrow={isRtl ? "التصنيع والقدرات الهندسية" : "MANUFACTURING CREDIBILITY"}
-        documentId="DOC-MGF-PLANT-2026"
         title={isRtl ? "دقة التصنيع وموثوقية المواد." : "MANUFACTURED FOR EXTREME LOADS."}
         description={
           isRtl
@@ -134,7 +133,13 @@ export default async function AboutPage({
             : "A comprehensive look inside our Saudi-based manufacturing facility: precision machining, hot-dip galvanizing lines, and our 4-stage quality assurance protocol."
         }
         breadcrumb={isRtl ? "الرئيسية / المؤسسة والتصنيع" : "HOME / MANUFACTURING"}
-        overlayStyle="warm"
+        backgroundSlideshow={[
+          "/hero-factory-1.jpg",
+          "/hero-factory-2.jpg",
+          "/hero-factory-3.jpg",
+        ]}
+        showRightSpec={false}
+        showDocumentId={false}
         primaryAction={{
           label: isRtl ? "رحلة ضبط الجودة" : "Quality Journey",
           href: "#qc-protocol",
@@ -151,7 +156,7 @@ export default async function AboutPage({
       {/* 02. EDITORIAL TIMELINE & HERITAGE */}
       <Section world="bone" className="pt-12 sm:pt-16">
         <Container>
-          <FadeReveal y={20} duration={650}>
+          <FadeReveal y={24} duration={750}>
             <SectionHeader
               index="01"
               label={isRtl ? "تاريخ التطوير الهندسي" : "INDUSTRIAL EVOLUTION"}
@@ -161,13 +166,13 @@ export default async function AboutPage({
             />
           </FadeReveal>
 
-          <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={80}>
+          <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={100}>
             {timelineSteps.map((item, idx) => (
               <div
                 key={idx}
-                className="border border-bone-border bg-bone-surface p-6 space-y-3 hover:border-carbon/40 transition-colors relative"
+                className="group border border-bone-border bg-bone-surface p-6 space-y-3 hover:border-accent-copper hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] transition-all duration-300 relative rounded-sm"
               >
-                <span className="font-display text-4xl text-accent-copper block leading-none">
+                <span className="font-display text-4xl text-accent-copper block leading-none transition-transform duration-300 group-hover:scale-105">
                   {item.year}
                 </span>
                 <span className="font-tech text-xs font-bold text-carbon block uppercase">
@@ -191,7 +196,7 @@ export default async function AboutPage({
       {/* 03. CORE CAPABILITIES (CARBON WORLD CONTRAST) */}
       <Section world="carbon" className="py-16 sm:py-24">
         <Container>
-          <FadeReveal y={20} duration={650}>
+          <FadeReveal y={24} duration={750}>
             <SectionHeader
               index="02"
               label={isRtl ? "قدرات خطوط الإنتاج" : "FABRICATION CAPABILITIES"}
@@ -201,10 +206,10 @@ export default async function AboutPage({
             />
           </FadeReveal>
 
-          <StaggerGroup className="grid grid-cols-1 md:grid-cols-3 gap-8" staggerDelay={90}>
-            <div className="border border-carbon-border bg-carbon-surface p-6 sm:p-8 space-y-4 hover:border-accent-copper/60 transition-colors">
+          <StaggerGroup className="grid grid-cols-1 md:grid-cols-3 gap-8" staggerDelay={120}>
+            <div className="group border border-carbon-border bg-carbon-surface p-6 sm:p-8 space-y-4 hover:border-accent-copper hover:-translate-y-2 hover:shadow-[0_16px_32px_rgba(0,0,0,0.4)] transition-all duration-300 relative rounded-sm">
               <NumberBadge number="01" world="carbon" />
-              <h3 className="font-display text-2xl text-bone uppercase">
+              <h3 className="font-display text-2xl text-bone uppercase transition-colors group-hover:text-accent-copper">
                 {isRtl ? "القطع والتشكيل بالتحكم الرقمي CNC" : "AUTOMATED CNC FORMING"}
               </h3>
               <p className="font-body text-xs text-accent-metal leading-relaxed">
@@ -212,14 +217,15 @@ export default async function AboutPage({
                   ? "مكائن قطع بالليزر والبلازما ومكابس هيدروليكية قادرة على تشكيل ألواح الفولاذ حتى سمك 50 مم بدقة متناهية."
                   : "High-precision laser cutting, automated punching, and heavy press brakes capable of forming structural plates up to 50mm thickness."}
               </p>
-              <div className="pt-2 font-tech text-[10px] text-accent-copper">
-                TOLERANCE CAPACITY: ±0.05 MM
+              <div className="pt-2 font-tech text-[10px] text-accent-copper flex items-center space-x-1.5 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-copper animate-pulse" />
+                <span>TOLERANCE CAPACITY: ±0.05 MM</span>
               </div>
             </div>
 
-            <div className="border border-carbon-border bg-carbon-surface p-6 sm:p-8 space-y-4 hover:border-accent-copper/60 transition-colors">
+            <div className="group border border-carbon-border bg-carbon-surface p-6 sm:p-8 space-y-4 hover:border-accent-copper hover:-translate-y-2 hover:shadow-[0_16px_32px_rgba(0,0,0,0.4)] transition-all duration-300 relative rounded-sm">
               <NumberBadge number="02" world="carbon" />
-              <h3 className="font-display text-2xl text-bone uppercase">
+              <h3 className="font-display text-2xl text-bone uppercase transition-colors group-hover:text-accent-copper">
                 {isRtl ? "الجلفنة بالغمس الساخن ASTM A123" : "HOT-DIP GALVANIZING KETTLES"}
               </h3>
               <p className="font-body text-xs text-accent-metal leading-relaxed">
@@ -227,14 +233,15 @@ export default async function AboutPage({
                   ? "أحواض جلفنة حرارية عميقة تغطي الهياكل الفولاذية بطبقة زنك تتجاوز 85 ميكرون لمقاومة الصدأ والتربة الكيميائية."
                   : "Industrial zinc kettle immersion exceeding 85 microns protective thickness for maximum subterranean and marine lifespan."}
               </p>
-              <div className="pt-2 font-tech text-[10px] text-accent-copper">
-                COATING STANDARD: ASTM A123 / ISO 1461
+              <div className="pt-2 font-tech text-[10px] text-accent-copper flex items-center space-x-1.5 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-copper animate-pulse" />
+                <span>COATING STANDARD: ASTM A123 / ISO 1461</span>
               </div>
             </div>
 
-            <div className="border border-carbon-border bg-carbon-surface p-6 sm:p-8 space-y-4 hover:border-accent-copper/60 transition-colors">
+            <div className="group border border-carbon-border bg-carbon-surface p-6 sm:p-8 space-y-4 hover:border-accent-copper hover:-translate-y-2 hover:shadow-[0_16px_32px_rgba(0,0,0,0.4)] transition-all duration-300 relative rounded-sm">
               <NumberBadge number="03" world="carbon" />
-              <h3 className="font-display text-2xl text-bone uppercase">
+              <h3 className="font-display text-2xl text-bone uppercase transition-colors group-hover:text-accent-copper">
                 {isRtl ? "تشغيل الفولاذ المقاوم للصدأ SS 316L" : "STAINLESS STEEL FABRICATION"}
               </h3>
               <p className="font-body text-xs text-accent-metal leading-relaxed">
@@ -242,8 +249,9 @@ export default async function AboutPage({
                   ? "خط مخصص لمعالجة وتلحيم سبائك الفولاذ 316L و 304 مع معالجة التخميل الكيميائي لإزالة الشوائب بعد اللحام."
                   : "Dedicated non-ferrous clean fabrication line for SS316L/304 with pickling and passivation baths preventing intergranular corrosion."}
               </p>
-              <div className="pt-2 font-tech text-[10px] text-accent-copper">
-                ALLOY SPECIFICATION: A4-70 / A4-80
+              <div className="pt-2 font-tech text-[10px] text-accent-copper flex items-center space-x-1.5 rtl:space-x-reverse">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-copper animate-pulse" />
+                <span>ALLOY SPECIFICATION: A4-70 / A4-80</span>
               </div>
             </div>
           </StaggerGroup>
@@ -257,7 +265,7 @@ export default async function AboutPage({
       <div id="qc-protocol" className="scroll-mt-24">
         <Section world="bone" className="py-16 sm:py-24">
           <Container>
-            <FadeReveal y={20} duration={650}>
+            <FadeReveal y={24} duration={750}>
               <SectionHeader
                 index="03"
                 label={isRtl ? "مراحل ضبط الجودة" : "QUALITY ASSURANCE PROTOCOL"}
@@ -267,11 +275,11 @@ export default async function AboutPage({
               />
             </FadeReveal>
 
-            <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={80}>
+            <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={100}>
               {qcJourneySteps.map((step) => (
                 <div
                   key={step.step}
-                  className="border border-bone-border bg-bone-surface p-6 space-y-3 hover:border-accent-copper transition-colors"
+                  className="group border border-bone-border bg-bone-surface p-6 space-y-3 hover:border-accent-copper hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(0,0,0,0.08)] transition-all duration-300 relative rounded-sm"
                 >
                   <div className="flex justify-between items-center pb-2 border-b border-bone-border">
                     <span className="font-tech text-xs font-bold text-accent-copper">
@@ -281,7 +289,7 @@ export default async function AboutPage({
                       {step.code}
                     </span>
                   </div>
-                  <h4 className="font-display text-xl text-carbon uppercase">
+                  <h4 className="font-display text-xl text-carbon uppercase transition-colors group-hover:text-accent-copper">
                     {step.title}
                   </h4>
                   <p className="font-body text-xs text-carbon/75 leading-relaxed">
@@ -297,7 +305,7 @@ export default async function AboutPage({
       {/* 05. CERTIFICATION & ACCREDITATION CARDS */}
       <Section world="carbon" className="py-16 sm:py-24">
         <Container>
-          <FadeReveal y={20} duration={650}>
+          <FadeReveal y={24} duration={750}>
             <SectionHeader
               index="04"
               label={isRtl ? "الشهادات والاعتمادات" : "ACCREDITATIONS & STANDARDS"}
@@ -307,16 +315,16 @@ export default async function AboutPage({
             />
           </FadeReveal>
 
-          <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={80}>
+          <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={100}>
             {certifications.map((cert, idx) => (
               <div
                 key={idx}
-                className="border border-carbon-border bg-carbon-surface p-6 space-y-3 hover:border-bone transition-colors"
+                className="group border border-carbon-border bg-carbon-surface p-6 space-y-3 hover:border-accent-copper hover:-translate-y-1.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.4)] transition-all duration-300 relative rounded-sm"
               >
-                <div className="font-tech text-xs font-bold text-accent-copper border border-accent-copper/40 px-2 py-1 inline-block bg-accent-copper/10">
+                <div className="font-tech text-xs font-bold text-accent-copper border border-accent-copper/40 px-2 py-1 inline-block bg-accent-copper/10 transition-colors group-hover:border-accent-copper">
                   {cert.badge}
                 </div>
-                <h4 className="font-display text-xl text-bone uppercase">
+                <h4 className="font-display text-xl text-bone uppercase transition-colors group-hover:text-accent-copper">
                   {cert.title}
                 </h4>
                 <p className="font-tech text-[10px] text-accent-metal">
@@ -330,7 +338,7 @@ export default async function AboutPage({
           </StaggerGroup>
 
           {/* Bottom RFQ CTA */}
-          <FadeReveal delay={150} className="mt-14 pt-8 border-t border-carbon-border text-center space-y-4">
+          <FadeReveal y={24} duration={750} delay={150} className="mt-14 pt-8 border-t border-carbon-border text-center space-y-4">
             <h3 className="font-display text-3xl sm:text-4xl text-bone uppercase">
               {isRtl ? "هل تحتاج إلى تصنيع فولاذي مخصص لمشروعك؟" : "READY TO SPECIFY CUSTOM STRUCTURAL COMPONENTS?"}
             </h3>

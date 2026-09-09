@@ -43,10 +43,9 @@ export default function ContactPage() {
 
   return (
     <main className="min-h-screen bg-carbon text-bone w-full max-w-full overflow-hidden">
-      {/* 01. TIERED HERO ARCHITECTURE (HTC-4.4) */}
+      {/* 01. TIERED HERO ARCHITECTURE WITH 4K DYNAMIC SLIDESHOW */}
       <PageHero
         eyebrow={isRtl ? "مكتب التوصيف والاستفسارات" : "SPECIFIER DESK"}
-        documentId="DOC-RFQ-2026.05"
         title={isRtl ? "طلب عروض الأسعار والتوصيف الهندسي." : "DIRECT SPECIFICATION & RFQ INQUIRY."}
         description={
           isRtl
@@ -54,7 +53,13 @@ export default function ContactPage() {
             : "Direct technical submission portal for fabrication drawings, quantity schedules, mill certifications, and custom structural quotations."
         }
         breadcrumb={isRtl ? "الرئيسية / التواصل" : "HOME / CONTACT"}
-        overlayStyle="technical"
+        backgroundSlideshow={[
+          "/hero-contact-1.jpg",
+          "/hero-contact-2.jpg",
+          "/hero-contact-3.jpg",
+        ]}
+        showRightSpec={false}
+        showDocumentId={false}
         primaryAction={{
           label: isRtl ? "تقديم طلب تسعير" : "Submit RFQ",
           href: "#rfq-form",
@@ -73,7 +78,7 @@ export default function ContactPage() {
         <Container>
           <div id="rfq-form" className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-start pt-4 sm:pt-8 scroll-mt-28">
             {/* Left / Direct Channel Metadata Panel */}
-            <FadeReveal className="lg:col-span-5 space-y-6 border border-carbon-border bg-carbon-surface p-6 sm:p-8 hover:border-carbon-border/90 transition-colors" y={24} duration={700}>
+            <FadeReveal className="lg:col-span-5 space-y-6 border border-carbon-border bg-carbon-surface p-6 sm:p-8 hover:border-accent-copper/60 hover:-translate-y-1.5 hover:shadow-[0_16px_32px_rgba(0,0,0,0.4)] transition-all duration-300 rounded-sm" y={24} duration={750}>
               <div className="flex items-center space-x-3 rtl:space-x-reverse pb-4 border-b border-carbon-border">
                 <NumberBadge number="05" world="carbon" />
                 <TechnicalLabel variant="copper">SPECIFICATION OFFICE</TechnicalLabel>
@@ -90,23 +95,39 @@ export default function ContactPage() {
               </BodyText>
 
               <div className="space-y-4 font-tech text-xs border-t border-carbon-border pt-6 text-accent-metal">
-                <div>
+                <div className="group/item">
                   <span className="block text-[9px] opacity-60 uppercase mb-0.5">DIRECT WHATSAPP CHANNEL</span>
-                  <span className="font-bold text-bone block">{SITE_CONFIG.whatsappNumber}</span>
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-bone block hover:text-accent-copper transition-colors"
+                  >
+                    {SITE_CONFIG.whatsappNumber}
+                  </a>
                 </div>
                 <div>
-                  <span className="block text-[9px] opacity-60 uppercase mb-0.5">RESPONSE STATUS</span>
-                  <span className="font-bold text-accent-copper block">ENGINEERING REVIEW AVAILABLE</span>
+                  <span className="block text-[9px] opacity-60 uppercase mb-0.5">DIRECT SPECIFIER EMAIL</span>
+                  <a
+                    href={`mailto:${SITE_CONFIG.contactEmail}`}
+                    className="font-bold text-bone block hover:text-accent-copper transition-colors"
+                  >
+                    {SITE_CONFIG.contactEmail}
+                  </a>
                 </div>
                 <div>
-                  <span className="block text-[9px] opacity-60 uppercase mb-0.5">SPECIFICATION FORMAT</span>
-                  <span className="font-bold text-bone block">ISO 9001 COMPLIANT</span>
+                  <span className="block text-[9px] opacity-60 uppercase mb-0.5">FABRICATION FACILITY</span>
+                  <span className="font-bold text-bone block">{SITE_CONFIG.location[locale]}</span>
+                </div>
+                <div className="flex items-center space-x-2 rtl:space-x-reverse pt-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="font-bold text-accent-copper text-[11px]">ENGINEERING REVIEW ACTIVE</span>
                 </div>
               </div>
             </FadeReveal>
 
             {/* Right / Technical Inquiry Document Form */}
-            <FadeReveal className="lg:col-span-7 border border-carbon-border bg-carbon-surface p-6 sm:p-10 space-y-6" delay={120} y={24} duration={700}>
+            <FadeReveal className="lg:col-span-7 border border-carbon-border bg-carbon-surface p-6 sm:p-10 space-y-6 hover:border-carbon-border/90 hover:shadow-[0_16px_32px_rgba(0,0,0,0.3)] transition-all duration-300 rounded-sm" delay={120} y={24} duration={750}>
               <div className="flex justify-between items-center pb-4 border-b border-carbon-border">
                 <TechnicalLabel variant="copper">
                   DOCUMENT / REQ-2026

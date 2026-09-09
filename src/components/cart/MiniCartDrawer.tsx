@@ -25,21 +25,52 @@ export default function MiniCartDrawer({ locale }: MiniCartDrawerProps) {
   } = useCart();
 
   const isRtl = locale === "ar";
+  const touchStartY = React.useRef(0);
+  const touchCurrentY = React.useRef(0);
 
   if (!miniCartOpen) return null;
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartY.current = e.targetTouches[0].clientY;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchCurrentY.current = e.targetTouches[0].clientY;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartY.current && touchCurrentY.current) {
+      const distance = touchCurrentY.current - touchStartY.current;
+      if (distance > 75) {
+        closeMiniCart(); // Swipe down to dismiss
+      }
+    }
+    touchStartY.current = 0;
+    touchCurrentY.current = 0;
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex justify-end">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-stretch sm:justify-end">
       {/* Backdrop */}
       <div
         onClick={closeMiniCart}
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300"
+        className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity duration-300"
       />
 
-      {/* Drawer Panel (Desktop: Right Drawer, Mobile: Bottom/Right Sheet) */}
-      <div className="relative w-full sm:w-[480px] h-full bg-[#111316] text-bone border-s border-carbon-border shadow-2xl z-10 flex flex-col justify-between font-tech select-none animate-slideInRight">
+      {/* Drawer Panel (Desktop: Right Drawer, Mobile: iOS Bottom Sheet 80% Max Height) */}
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="relative w-full sm:w-[480px] max-h-[85vh] sm:max-h-full h-auto sm:h-full bg-[#111316] text-bone border-t sm:border-t-0 sm:border-s border-carbon-border shadow-2xl z-10 flex flex-col justify-between font-tech select-none rounded-t-2xl sm:rounded-none animate-slideInRight"
+      >
+        {/* Mobile iOS Drag Handle */}
+        <div className="sm:hidden pt-3 pb-1 flex justify-center items-center cursor-grab active:cursor-grabbing">
+          <div className="w-12 h-1.5 rounded-full bg-carbon-border" />
+        </div>
+
         {/* TOP HEADER */}
-        <div className="p-6 border-b border-carbon-border flex items-center justify-between">
+        <div className="p-4 sm:p-6 border-b border-carbon-border flex items-center justify-between">
           <div className="flex items-center space-x-3 rtl:space-x-reverse">
             <TechnicalLabel variant="copper">
               {isRtl ? "قائمة طلب التسعير" : "SPECIFICATION LIST"}
@@ -154,7 +185,7 @@ export default function MiniCartDrawer({ locale }: MiniCartDrawerProps) {
         </div>
 
         {/* BOTTOM ACTION TERMINAL */}
-        <div className="p-6 border-t border-carbon-border bg-carbon space-y-3">
+        <div className="p-4 sm:p-6 border-t border-carbon-border bg-carbon space-y-3 pb-safe">
           <div className="flex justify-between items-center text-xs pb-1">
             <span className="text-accent-metal uppercase">TOTAL PRODUCTS:</span>
             <span className="font-bold text-bone font-mono">[{items.length}]</span>
@@ -170,14 +201,14 @@ export default function MiniCartDrawer({ locale }: MiniCartDrawerProps) {
             <Link
               href={`/${locale}/cart`}
               onClick={closeMiniCart}
-              className="w-full py-3.5 bg-bone text-carbon font-bold text-xs uppercase tracking-widest text-center block border border-bone hover:bg-accent-copper hover:text-bone hover:border-accent-copper transition-colors"
+              className="w-full py-3.5 bg-bone text-carbon font-bold text-xs uppercase tracking-widest text-center block border border-bone hover:bg-accent-copper hover:text-bone hover:border-accent-copper transition-colors touch-feedback"
             >
               {isRtl ? "مراجعة وإرسال RFQ" : "VIEW RFQ QUOTATION DESK →"}
             </Link>
 
             <button
               onClick={closeMiniCart}
-              className="w-full py-2.5 bg-transparent text-accent-metal font-tech text-xs uppercase tracking-wider text-center border border-carbon-border hover:text-bone hover:border-bone transition-colors"
+              className="w-full py-2.5 bg-transparent text-accent-metal font-tech text-xs uppercase tracking-wider text-center border border-carbon-border hover:text-bone hover:border-bone transition-colors touch-feedback"
             >
               {isRtl ? "مواصلة التصفح" : "CONTINUE BROWSING"}
             </button>

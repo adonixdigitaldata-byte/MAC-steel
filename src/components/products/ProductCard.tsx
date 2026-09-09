@@ -43,7 +43,7 @@ export default function ProductCard({
   return (
     <div
       className={cn(
-        "group border flex flex-col justify-between transition-all duration-300 hover:border-accent-copper/70 w-full max-w-full box-border hover:-translate-y-0.5 hover:shadow-lg relative cursor-pointer",
+        "group border flex flex-col justify-between transition-all duration-300 hover:border-accent-copper/70 w-full max-w-full box-border hover:-translate-y-0.5 hover:shadow-lg relative cursor-pointer touch-feedback h-full min-h-[480px] sm:min-h-[500px]",
         isBone
           ? "bg-bone-surface border-bone-border text-carbon hover:shadow-bone-muted/20"
           : "bg-carbon-surface border-carbon-border text-bone hover:shadow-carbon/40",
@@ -58,7 +58,7 @@ export default function ProductCard({
       />
 
       {/* Top Media / Industrial Image Placeholder */}
-      <div className="relative w-full overflow-hidden">
+      <div className="relative w-full overflow-hidden shrink-0">
         <ProductPlaceholder
           productId={product.partNumber || product.id}
           category={isRtl ? product.categoryAr : product.category}
@@ -74,69 +74,59 @@ export default function ProductCard({
               {formattedIndex}
             </span>
           )}
-          <span className="font-tech text-[9px] font-bold tracking-wider px-1.5 py-0.5 bg-carbon/90 text-accent-copper border border-carbon-border">
+          <span className="font-tech text-[9px] font-bold tracking-widest px-1.5 py-0.5 bg-carbon text-bone border border-carbon-border uppercase">
             {product.partNumber}
           </span>
         </div>
       </div>
 
-      {/* Content Metadata */}
+      {/* Content Metadata with Fixed Typographic Constraints */}
       <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-3">
-        <div>
-          <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5 pointer-events-none">
-            <TechnicalLabel variant="copper">
+        <div className="space-y-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-1.5 pointer-events-none h-5">
+            <TechnicalLabel variant="copper" className="truncate max-w-[65%]">
               {isRtl ? product.categoryAr : product.category}
             </TechnicalLabel>
-            <span className="font-tech text-[8px] text-accent-metal border border-carbon-border/40 px-1 py-0.5 uppercase">
-              {product.finish ? (product.finish.length > 18 ? product.finish.slice(0, 16) + "..." : product.finish) : "STANDARD"}
+            <span className="font-tech text-[8px] text-accent-metal border border-carbon-border/40 px-1 py-0.5 uppercase truncate max-w-[32%]">
+              {product.finish ? (product.finish.length > 16 ? product.finish.slice(0, 14) + "..." : product.finish) : "STANDARD"}
             </span>
           </div>
 
-          <h3 className="font-display text-lg sm:text-xl tracking-wide uppercase group-hover:text-accent-copper transition-colors break-words leading-tight">
+          <h3 className="font-display text-lg sm:text-xl tracking-wide uppercase group-hover:text-accent-copper transition-colors break-words leading-tight line-clamp-3 min-h-[3.3rem]">
             {isRtl ? product.nameAr : product.name}
           </h3>
 
-          <p className="font-body text-[11px] mt-1.5 line-clamp-2 opacity-75 break-words pointer-events-none">
+          <p className="font-body text-[11px] line-clamp-3 opacity-75 break-words pointer-events-none min-h-[2.8rem]">
             {isRtl ? (product.shortDescriptionAr || product.descriptionAr) : (product.shortDescription || product.description)}
           </p>
         </div>
 
-        {/* Technical Attributes Grid */}
-        <div className="border-t border-current/15 pt-2.5 space-y-1.5 font-tech text-[11px] pointer-events-none">
-          <div className="flex justify-between items-center opacity-80 gap-2">
-            <span className="text-[9px] opacity-70 uppercase">MATERIAL:</span>
-            <span className="font-bold truncate text-[10px]">{product.material || "SS 316L"}</span>
-          </div>
-          <div className="flex justify-between items-center opacity-80 gap-2">
-            <span className="text-[9px] opacity-70 uppercase">GRADE:</span>
-            <span className="font-bold truncate text-[10px]">{product.grade || "316L"}</span>
-          </div>
-        </div>
-
-        {/* Dual Actions: View Details + Add to Cart */}
-        <div className="pt-2.5 border-t border-current/15 flex items-center justify-between gap-2 relative z-20">
-          <span className="inline-flex items-center space-x-1 rtl:space-x-reverse font-tech text-[11px] font-bold tracking-wider uppercase text-accent-metal group-hover:text-accent-copper transition-colors pointer-events-none">
-            <span>{isRtl ? "عرض التفاصيل" : "View Details"}</span>
-            <span className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 shrink-0">
-              <IconArrow locale={locale} size={11} />
+        <div>
+          {/* Dual Actions: View Details + Add to Cart - Pinned to bottom */}
+          <div className="pt-3 border-t border-current/15 flex items-center justify-between gap-2 relative z-20 mt-3">
+            <span className="inline-flex items-center space-x-1 rtl:space-x-reverse font-tech text-[11px] font-bold tracking-wider uppercase text-accent-metal group-hover:text-accent-copper transition-colors pointer-events-none">
+              <span>{isRtl ? "عرض التفاصيل" : "View Details"}</span>
+              <span className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 shrink-0">
+                <IconArrow locale={locale} size={11} />
+              </span>
             </span>
-          </span>
 
-          <button
-            onClick={handleAddToCart}
-            className={cn(
-              "font-tech text-[9px] sm:text-[10px] uppercase px-2.5 py-1.5 border transition-all duration-200 select-none flex items-center gap-1.5 shrink-0",
-              added
-                ? "bg-accent-copper text-bone border-accent-copper"
-                : isBone
-                ? "bg-carbon text-bone border-carbon hover:bg-bone hover:text-carbon"
-                : "bg-bone text-carbon border-bone hover:bg-carbon hover:text-bone"
-            )}
-            aria-label={`Add ${product.name} to RFQ`}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-copper" />
-            <span className="font-bold">{added ? (isRtl ? "تمت الإضافة ✓" : "ADDED ✓") : (isRtl ? "إضافة لـ RFQ" : "Add to Cart")}</span>
-          </button>
+            <button
+              onClick={handleAddToCart}
+              className={cn(
+                "font-tech text-[9px] sm:text-[10px] uppercase px-2.5 py-1.5 border transition-all duration-200 select-none flex items-center gap-1.5 shrink-0 touch-feedback",
+                added
+                  ? "bg-accent-copper text-bone border-accent-copper shadow-md scale-105"
+                  : isBone
+                  ? "bg-carbon text-bone border-carbon hover:bg-bone hover:text-carbon"
+                  : "bg-bone text-carbon border-bone hover:bg-carbon hover:text-bone"
+              )}
+              aria-label={`Add ${product.name} to RFQ`}
+            >
+              <span className={cn("w-1.5 h-1.5 rounded-full", added ? "bg-bone" : "bg-accent-copper")} />
+              <span className="font-bold">{added ? (isRtl ? "تمت الإضافة ✓" : "ADDED ✓") : (isRtl ? "إضافة لـ RFQ" : "Add to Cart")}</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

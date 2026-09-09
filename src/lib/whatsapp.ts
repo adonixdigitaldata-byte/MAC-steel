@@ -29,3 +29,19 @@ export function buildWhatsAppUrl(
   const encodedMessage = encodeURIComponent(message);
   return `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
 }
+
+/**
+ * Dispatches WhatsApp URL reliably:
+ * - iOS / Android -> window.location.href
+ * - Desktop -> window.open(url, '_blank', 'noopener,noreferrer')
+ */
+export function openWhatsApp(url: string): void {
+  if (typeof window === "undefined") return;
+
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+  if (isMobile) {
+    window.location.href = url;
+  } else {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+}

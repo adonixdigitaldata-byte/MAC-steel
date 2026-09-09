@@ -12,7 +12,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const isBone = world === "bone";
 
     const baseInputStyles =
-      "w-full bg-transparent border-b py-3 px-1 font-tech text-xs tracking-wider transition-colors duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed";
+      "w-full bg-transparent border-b py-3 px-1 font-tech text-sm sm:text-xs tracking-wider transition-colors duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed scroll-mt-28";
 
     const themeInputStyles = isBone
       ? "border-bone-border text-carbon placeholder:text-carbon/40 focus:border-carbon"
@@ -21,7 +21,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const errorInputStyles = error ? "border-red-500 focus:border-red-500" : "";
 
     return (
-      <div className="w-full space-y-1.5 font-tech text-xs">
+      <div className="w-full space-y-1.5 font-tech text-xs scroll-mt-28">
         {label && (
           <label
             htmlFor={id}
@@ -58,7 +58,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const isBone = world === "bone";
 
     const baseStyles =
-      "w-full bg-transparent border p-3 font-tech text-xs tracking-wider transition-colors duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed resize-y min-h-[100px]";
+      "w-full bg-transparent border p-3 font-tech text-sm sm:text-xs tracking-wider transition-colors duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed resize-y min-h-[100px] scroll-mt-28";
 
     const themeStyles = isBone
       ? "bg-bone-surface border-bone-border text-carbon placeholder:text-carbon/40 focus:border-carbon"

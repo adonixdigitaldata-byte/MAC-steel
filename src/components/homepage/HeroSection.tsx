@@ -5,15 +5,11 @@ import dynamic from "next/dynamic";
 import { Locale } from "@/config/locales";
 import Button from "@/components/ui/Button";
 
+import { ManufacturingHeroSkeleton } from "@/components/ui/IndustrialSkeleton";
+
 const HeroCanvas = dynamic(() => import("@/components/3d/HeroCanvas"), {
   ssr: false,
-  loading: () => (
-    <div className="absolute inset-0 bg-carbon flex items-center justify-center">
-      <span className="font-tech text-[10px] tracking-widest text-accent-metal uppercase">
-        INITIALIZING SCENE...
-      </span>
-    </div>
-  ),
+  loading: () => <ManufacturingHeroSkeleton />,
 });
 
 interface HeroSectionProps {

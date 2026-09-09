@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/motion";
 import { CartProvider } from "@/components/cart";
 import MiniCartDrawer from "@/components/cart/MiniCartDrawer";
+import FloatingMobileActions from "@/components/layout/FloatingMobileActions";
 
 export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
@@ -131,6 +132,7 @@ export default async function LocaleLayout({
           <div className="flex-1">{children}</div>
           <Footer locale={locale as Locale} />
           <MiniCartDrawer locale={locale as Locale} />
+          <FloatingMobileActions locale={locale as Locale} />
         </CartProvider>
       </MotionProvider>
     </div>

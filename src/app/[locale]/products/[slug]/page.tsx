@@ -315,18 +315,19 @@ export default async function ProductDetailPage({
             />
           </FadeReveal>
 
-          {/* Desktop Grid & Mobile Swipeable / Horizontal Layout */}
-          <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={70}>
+          {/* Desktop Grid & Mobile Swipeable / Horizontal Snap Layout */}
+          <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 overflow-x-auto sm:overflow-visible pb-3 sm:pb-0 no-scrollbar snap-x snap-mandatory">
             {relatedProducts.map((relProduct, index) => (
-              <ProductCard
-                key={relProduct.id}
-                product={relProduct}
-                locale={locale as Locale}
-                world="bone"
-                index={index}
-              />
+              <div key={relProduct.id} className="min-w-[280px] w-[80vw] sm:w-auto shrink-0 sm:shrink snap-start">
+                <ProductCard
+                  product={relProduct}
+                  locale={locale as Locale}
+                  world="bone"
+                  index={index}
+                />
+              </div>
             ))}
-          </StaggerGroup>
+          </div>
         </Container>
       </Section>
     </main>

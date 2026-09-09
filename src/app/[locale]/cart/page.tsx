@@ -13,6 +13,7 @@ import {
   getStoredCustomerInfo,
   saveStoredCustomerInfo,
 } from "@/lib/cart";
+import { openWhatsApp } from "@/lib/whatsapp";
 import PageHero from "@/components/layout/PageHero";
 import TechnicalLabel from "@/components/ui/TechnicalLabel";
 import { Container, Section } from "@/components/ui/Container";
@@ -108,7 +109,7 @@ export default function CartPage() {
     saveStoredCustomerInfo(formData);
     setIsSubmitting(true);
     const targetUrl = generateWhatsAppRFQUrl(items, formData, rfqReference, isRtl);
-    window.open(targetUrl, "_blank", "noopener,noreferrer");
+    openWhatsApp(targetUrl);
     showToast(isRtl ? "جاري تحويلك إلى واتساب الهندسي..." : "Opening WhatsApp Engineering Desk...");
     setTimeout(() => setIsSubmitting(false), 1500);
   };

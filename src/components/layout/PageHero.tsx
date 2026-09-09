@@ -6,6 +6,7 @@ import { Locale } from "@/config/locales";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import { ParallaxBackground } from "@/components/motion";
+import HeroImageSlideshow from "@/components/layout/HeroImageSlideshow";
 
 export interface HeroAction {
   label: string;
@@ -27,6 +28,8 @@ export interface PageHeroProps {
   documentId?: string;
   /** Background identity identifier or custom CSS class */
   backgroundImage?: string;
+  /** Background slideshow images array for dynamic hero transitions */
+  backgroundSlideshow?: string[];
   /** Primary CTA configuration */
   primaryAction?: HeroAction;
   /** Secondary CTA configuration */
@@ -35,6 +38,10 @@ export interface PageHeroProps {
   technicalMeta?: string[];
   /** Overlay style mood */
   overlayStyle?: "default" | "warm" | "dramatic" | "technical";
+  /** Option to hide the right CAD structural spec box */
+  showRightSpec?: boolean;
+  /** Option to hide top document badge if needed */
+  showDocumentId?: boolean;
   /** Current Locale */
   locale: Locale;
   /** Additional container styling */
@@ -50,10 +57,13 @@ export default function PageHero({
   breadcrumb,
   documentId = "DOC-SPEC-2026",
   backgroundImage,
+  backgroundSlideshow,
   primaryAction,
   secondaryAction,
   technicalMeta = DEFAULT_CHIPS,
   overlayStyle = "default",
+  showRightSpec = true,
+  showDocumentId = true,
   locale,
   className = "",
 }: PageHeroProps) {
@@ -70,12 +80,16 @@ export default function PageHero({
         className
       )}
     >
-      {/* Dynamic Parallax Background with 6-10% restrained drift and slow grid layer */}
-      <ParallaxBackground
-        backgroundImage={backgroundImage}
-        overlayStyle={overlayStyle}
-        speed={0.08}
-      />
+      {/* Background Slideshow or Dynamic Parallax Background */}
+      {backgroundSlideshow && backgroundSlideshow.length > 0 ? (
+        <HeroImageSlideshow images={backgroundSlideshow} />
+      ) : (
+        <ParallaxBackground
+          backgroundImage={backgroundImage}
+          overlayStyle={overlayStyle}
+          speed={0.08}
+        />
+      )}
 
       {/* Hero Structural Frame & Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,15 +104,17 @@ export default function PageHero({
             <span className="hidden sm:inline-block px-2 py-0.5 border border-carbon-border bg-carbon-surface/80 text-accent-metal tracking-widest uppercase">
               {eyebrow}
             </span>
-            <span className="px-2.5 py-0.5 border border-accent-copper/40 bg-accent-copper/10 text-bone tracking-widest uppercase font-mono font-semibold">
-              {documentId}
-            </span>
+            {showDocumentId && documentId && (
+              <span className="px-2.5 py-0.5 border border-accent-copper/40 bg-accent-copper/10 text-bone tracking-widest uppercase font-mono font-semibold">
+                {documentId}
+              </span>
+            )}
           </div>
         </div>
 
         {/* CENTER: Headline, Supporting Copy, Action Group */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
-          <div className="lg:col-span-8 space-y-4 sm:space-y-6">
+          <div className={cn("space-y-4 sm:space-y-6", showRightSpec ? "lg:col-span-8" : "lg:col-span-12")}>
             {/* Eyebrow badge for mobile view */}
             <div className="sm:hidden inline-flex items-center space-x-2 rtl:space-x-reverse">
               <span className="w-1.5 h-1.5 bg-accent-copper inline-block" />
@@ -176,32 +192,34 @@ export default function PageHero({
           </div>
 
           {/* Right CAD Technical Bracket Ornament */}
-          <div className="hidden lg:flex lg:col-span-4 flex-col items-end justify-between self-stretch border-s border-carbon-border/40 ps-8 py-2">
-            <div className="w-full flex justify-between items-start font-tech text-[9px] tracking-widest text-accent-metal/60 uppercase">
-              <span>SEC // STRUCTURAL SPEC</span>
-              <span className="text-accent-copper">VER 2026.04</span>
-            </div>
+          {showRightSpec && (
+            <div className="hidden lg:flex lg:col-span-4 flex-col items-end justify-between self-stretch border-s border-carbon-border/40 ps-8 py-2">
+              <div className="w-full flex justify-between items-start font-tech text-[9px] tracking-widest text-accent-metal/60 uppercase">
+                <span>SEC // STRUCTURAL SPEC</span>
+                <span className="text-accent-copper">VER 2026.04</span>
+              </div>
 
-            <div className="w-full space-y-2 py-4">
-              <div className="flex justify-between items-center text-[10px] font-tech border-b border-carbon-border/30 pb-1.5">
-                <span className="text-accent-metal/70 uppercase">MATERIALITY</span>
-                <span className="text-bone font-mono">ASTM / DIN / BS</span>
+              <div className="w-full space-y-2 py-4">
+                <div className="flex justify-between items-center text-[10px] font-tech border-b border-carbon-border/30 pb-1.5">
+                  <span className="text-accent-metal/70 uppercase">MATERIALITY</span>
+                  <span className="text-bone font-mono">ASTM / DIN / BS</span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] font-tech border-b border-carbon-border/30 pb-1.5">
+                  <span className="text-accent-metal/70 uppercase">FABRICATION</span>
+                  <span className="text-bone font-mono">CNC / HDG / SS316</span>
+                </div>
+                <div className="flex justify-between items-center text-[10px] font-tech">
+                  <span className="text-accent-metal/70 uppercase">ORIGIN DISPATCH</span>
+                  <span className="text-accent-copper font-mono">SAUDI ARABIA</span>
+                </div>
               </div>
-              <div className="flex justify-between items-center text-[10px] font-tech border-b border-carbon-border/30 pb-1.5">
-                <span className="text-accent-metal/70 uppercase">FABRICATION</span>
-                <span className="text-bone font-mono">CNC / HDG / SS316</span>
-              </div>
-              <div className="flex justify-between items-center text-[10px] font-tech">
-                <span className="text-accent-metal/70 uppercase">ORIGIN DISPATCH</span>
-                <span className="text-accent-copper font-mono">SAUDI ARABIA</span>
-              </div>
-            </div>
 
-            <div className="w-full flex justify-between items-end font-tech text-[9px] tracking-widest text-accent-metal/50">
-              <span>[KSA-MGF-REG]</span>
-              <span className="text-bone font-bold">SYS-PASS</span>
+              <div className="w-full flex justify-between items-end font-tech text-[9px] tracking-widest text-accent-metal/50">
+                <span>[KSA-MGF-REG]</span>
+                <span className="text-bone font-bold">SYS-PASS</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* BOTTOM: Engineering Metadata Strip */}
