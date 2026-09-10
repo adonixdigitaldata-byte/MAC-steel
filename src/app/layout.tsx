@@ -10,6 +10,11 @@ import {
 export const metadata: Metadata = {
   title: "Industrial Steel Products | B2B Catalogue",
   description: "Precision engineered steel products, infrastructure components, and material systems.",
+  icons: {
+    icon: "/faveicon.svg",
+    shortcut: "/faveicon.svg",
+    apple: "/faveicon.svg",
+  },
 };
 
 import SmoothScroll from "@/components/SmoothScroll";

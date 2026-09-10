@@ -14,5 +14,9 @@ const ManufacturingSection = dynamic(
 );
 
 export default function ManufacturingSectionLoader({ locale }: { locale: Locale }) {
-  return <ManufacturingSection locale={locale} />;
+  return (
+    <div className="hidden md:block w-full">
+      <ManufacturingSection locale={locale} />
+    </div>
+  );
 }

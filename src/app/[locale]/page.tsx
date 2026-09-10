@@ -4,6 +4,7 @@ import { isValidLocale, Locale } from "@/config/locales";
 
 // Homepage Narrative Sections
 import HeroSection from "@/components/homepage/HeroSection";
+import PinnedVideoTimeline from "@/components/homepage/PinnedVideoTimeline";
 // Client boundary wrapper — holds the ssr:false dynamic import for Three.js section
 import ManufacturingSection from "@/components/homepage/ManufacturingSectionLoader";
 import HeroVideoShowcase from "@/components/homepage/HeroVideoShowcase";
@@ -25,15 +26,24 @@ export default async function HomePage({
   }
 
   return (
-    <main className="min-h-screen bg-carbon text-bone overflow-clip w-full max-w-full">
-      {/* 01. MATERIAL / CINEMATIC 3D HERO */}
-      <HeroSection locale={locale as Locale} />
+    <main className="min-h-screen bg-carbon text-bone w-full max-w-full">
+      {/* 01A. DESKTOP ONLY: 100% UNTOUCHED THREE.JS 3D HERO */}
+      <div className="hidden md:block w-full">
+        <HeroSection locale={locale as Locale} />
+      </div>
+
+      {/* 01B. MOBILE ONLY: PINNED VIDEO TIMELINE (600vh timeline, 100svh sticky stage) */}
+      <div className="block md:hidden w-full">
+        <PinnedVideoTimeline locale={locale as Locale} />
+      </div>
 
       {/* 02. MANUFACTURING JOURNEY — 5-stage scroll section */}
       <ManufacturingSection locale={locale as Locale} />
 
-      {/* 03. CINEMATIC VIDEO SHOWCASE (DESKTOP / MOBILE RESPONSIVE) */}
-      <HeroVideoShowcase locale={locale as Locale} />
+      {/* 03. CINEMATIC VIDEO SHOWCASE (DESKTOP ONLY) */}
+      <div className="hidden md:block w-full">
+        <HeroVideoShowcase locale={locale as Locale} />
+      </div>
 
       {/* 04. ENGINEERING GATEWAY STRIP — Decision Directory */}
       <GatewayStrip locale={locale as Locale} />

@@ -7,7 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/motion";
 import { CartProvider } from "@/components/cart";
 import MiniCartDrawer from "@/components/cart/MiniCartDrawer";
-import FloatingMobileActions from "@/components/layout/FloatingMobileActions";
+import MobileBottomNav from "@/components/layout/MobileBottomNav";
 
 export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
@@ -68,6 +68,11 @@ export async function generateMetadata({
         ar: "/ar",
       },
     },
+    icons: {
+      icon: "/faveicon.svg",
+      shortcut: "/faveicon.svg",
+      apple: "/faveicon.svg",
+    },
     robots: {
       index: true,
       follow: true,
@@ -102,7 +107,7 @@ export default async function LocaleLayout({
       name: SITE_CONFIG.shortBrand,
     },
     url: "https://metalloarabia.com",
-    logo: "https://metalloarabia.com/icon.png",
+    logo: "https://metalloarabia.com/faveicon.svg",
     contactPoint: {
       "@type": "ContactPoint",
       telephone: SITE_CONFIG.contactPhone,
@@ -132,7 +137,7 @@ export default async function LocaleLayout({
           <div className="flex-1">{children}</div>
           <Footer locale={locale as Locale} />
           <MiniCartDrawer locale={locale as Locale} />
-          <FloatingMobileActions locale={locale as Locale} />
+          <MobileBottomNav locale={locale as Locale} />
         </CartProvider>
       </MotionProvider>
     </div>

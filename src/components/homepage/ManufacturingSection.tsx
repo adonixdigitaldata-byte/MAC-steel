@@ -202,9 +202,9 @@ export default function ManufacturingSection({ locale }: ManufacturingSectionPro
     <div ref={wrapRef} className="relative bg-carbon" style={{ height: `${ACT_COUNT * 120}vh` }}>
       <section className="sticky top-0 h-[100svh] bg-[#0e0f11] text-bone overflow-hidden border-b border-carbon-border">
 
-        {/* ── Full bleed 3D canvas background — text sits directly over the 3D scene ── */}
-        <div className="absolute inset-0 z-0">
-          {mounted && (
+        {/* ── Full bleed 3D canvas background — Desktop ONLY (Zero 3D on mobile) ── */}
+        <div className="hidden md:block absolute inset-0 z-0">
+          {mounted && !isMobile && (
             <MfgCanvas
               progressRef={progressRef}
               isMobile={isMobile}
