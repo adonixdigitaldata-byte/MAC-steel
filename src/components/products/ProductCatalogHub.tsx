@@ -458,8 +458,8 @@ export default function ProductCatalogHub({
           ) : (
             <div className="space-y-8">
               {viewMode === "grid" ? (
-                /* 1. PRODUCT GRID VIEW (Compact 3-column responsive matrix with uniform cards) */
-                <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-5" staggerDelay={40}>
+                /* 1. PRODUCT GRID VIEW (2-column responsive matrix on mobile, 3-column on desktop) */
+                <StaggerGroup className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-2.5 sm:gap-5" staggerDelay={40}>
                   {paginatedProducts.map((product, index) => (
                     <ProductCard
                       key={product.id}

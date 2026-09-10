@@ -90,12 +90,12 @@ export default function HeroSection({ locale }: HeroSectionProps) {
           <HeroCanvas progressRef={progressRef} />
         </div>
 
-        {/* ── Soft cinematic scrim ── */}
+        {/* ── Soft cinematic scrim (Desktop: directional horizontal gradient, Mobile: top-weighted to protect text while leaving 3D model crisp & clear) ── */}
         <div
           className="absolute inset-0 z-[1] pointer-events-none"
           style={{
             background:
-              "linear-gradient(to right, rgba(14,15,17,0.78) 0%, rgba(14,15,17,0.48) 40%, rgba(14,15,17,0.14) 66%, rgba(14,15,17,0.0) 100%)",
+              "linear-gradient(to bottom, rgba(14,15,17,0.85) 0%, rgba(14,15,17,0.65) 32%, rgba(14,15,17,0.15) 50%, rgba(14,15,17,0.0) 100%)",
           }}
         />
 
@@ -118,15 +118,15 @@ export default function HeroSection({ locale }: HeroSectionProps) {
         </div>
 
         {/* ── Foreground UI Layer ── */}
-        <div className="relative z-10 h-full flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 sm:pt-24 pb-4 sm:pb-6 pointer-events-none">
+        <div className="relative z-10 h-full flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-[72px] sm:pt-24 pb-4 sm:pb-6 pointer-events-none box-border">
 
           {/* Upper Section: Narrative Copy & CTAs */}
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 w-full min-h-0 pt-2 sm:pt-0">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 w-full min-h-0 pt-0">
             
-            {/* Hero Text Content */}
+            {/* Hero Text Content (Strictly top half on mobile, 46% width on desktop) */}
             <div
               ref={textRef}
-              className={`pointer-events-auto max-w-full lg:max-w-[46%] transition-all duration-1000 delay-300 ease-out ${
+              className={`pointer-events-auto w-full max-w-full lg:max-w-[46%] transition-all duration-1000 delay-300 ease-out ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
               }`}
             >
@@ -152,11 +152,11 @@ export default function HeroSection({ locale }: HeroSectionProps) {
               </p>
 
               {/* CTAs - 24px below Description */}
-              <div className="flex flex-row gap-3">
-                <Button href={`/${locale}/products`} locale={locale} variant="primary" world="carbon" className="text-xs px-5 py-3 sm:px-6 sm:py-3.5 font-bold">
+              <div className="flex flex-row gap-2.5 sm:gap-3 w-full sm:w-auto">
+                <Button href={`/${locale}/products`} locale={locale} variant="primary" world="carbon" className="text-xs px-4 py-3 sm:px-6 sm:py-3.5 font-bold flex-1 sm:flex-initial text-center justify-center">
                   {isRtl ? COPY.cta1.ar : COPY.cta1.en}
                 </Button>
-                <Button href={`/${locale}/contact`} locale={locale} variant="outline" world="carbon" className="text-xs px-5 py-3 sm:px-6 sm:py-3.5 font-bold">
+                <Button href={`/${locale}/contact`} locale={locale} variant="outline" world="carbon" className="text-xs px-4 py-3 sm:px-6 sm:py-3.5 font-bold flex-1 sm:flex-initial text-center justify-center">
                   {isRtl ? COPY.cta2.ar : COPY.cta2.en}
                 </Button>
               </div>
@@ -170,7 +170,7 @@ export default function HeroSection({ locale }: HeroSectionProps) {
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
             }`}
           >
-            <div className="font-tech text-[9px] sm:text-[10px] text-accent-metal/60 uppercase tracking-wider sm:tracking-widest truncate max-w-[65%] font-medium">
+            <div className="font-tech text-[9px] sm:text-[10px] text-accent-metal/60 uppercase tracking-wider sm:tracking-widest truncate max-w-[62%] sm:max-w-[65%] font-medium">
               {isRtl ? COPY.spec.ar : COPY.spec.en}
             </div>
             <div

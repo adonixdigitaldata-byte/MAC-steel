@@ -69,8 +69,8 @@ export default function HeroCanvas({ progressRef }: HeroCanvasProps) {
         frameloop={isVisible ? "always" : "never"}
         dpr={[1, isMobile ? 1.25 : 2]}
         camera={{
-          position: [1.2, 1.41, 7.51],
-          fov: isMobile ? 42 : 35,
+          position: [1.2, 1.41, isMobile ? 8.6 : 7.51],
+          fov: isMobile ? 48 : 35,
           near: 0.5,
           far: 40,
         }}

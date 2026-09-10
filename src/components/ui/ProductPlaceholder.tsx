@@ -41,13 +41,13 @@ export default function ProductPlaceholder({
       )}
     >
       {imageUrl ? (
-        <div className="absolute inset-0 z-0 flex items-center justify-center bg-white p-2">
+        <div className="absolute inset-0 z-0 flex items-center justify-center bg-white p-2.5 sm:p-3">
           <div className="relative w-full h-full">
             <Image
               src={imageUrl}
               alt={name}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               className="object-contain group-hover:scale-105 transition-transform duration-500"
             />
           </div>

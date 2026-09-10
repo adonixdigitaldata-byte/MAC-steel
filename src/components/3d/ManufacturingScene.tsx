@@ -259,8 +259,8 @@ export default function ManufacturingScene({ progressRef, reducedMotion, isMobil
     const dist = lerp(camA.dist, camB.dist, ease) * (isMobile ? 1.15 : 1);
     const lookY = lerp(camA.lookY, camB.lookY, ease);
 
-    // Camera focuses on the right half where the manufacturing happens
-    const lookPivotX = isMobile ? 0 : PIVOT_X * 0.55;
+    // Camera focuses on the right half on desktop, centered on mobile
+    const lookPivotX = isMobile ? 0.35 : PIVOT_X * 0.55;
     const targetPos  = new THREE.Vector3(
       lookPivotX + dist * Math.sin(az) * Math.cos(pol),
       dist * Math.sin(pol) + 0.5,

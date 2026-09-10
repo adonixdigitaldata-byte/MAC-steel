@@ -47,7 +47,7 @@ export default function ProductCard({
   return (
     <div
       className={cn(
-        "group border flex flex-col justify-between transition-all duration-300 hover:border-accent-copper/70 w-full max-w-full box-border hover:-translate-y-0.5 hover:shadow-lg relative cursor-pointer touch-feedback h-full min-h-[360px] sm:min-h-[380px]",
+        "group border flex flex-col justify-between transition-all duration-300 hover:border-accent-copper/70 w-full max-w-full box-border hover:-translate-y-0.5 hover:shadow-lg relative cursor-pointer touch-feedback h-full min-h-[300px] xs:min-h-[340px] sm:min-h-[380px]",
         isBone
           ? "bg-bone-surface border-bone-border text-carbon hover:shadow-bone-muted/20"
           : "bg-carbon-surface border-carbon-border text-bone hover:shadow-carbon/40",
@@ -72,49 +72,49 @@ export default function ProductCard({
           aspectRatio="video"
         />
         {/* Top Part Number & Index Tag */}
-        <div className="absolute top-2.5 start-2.5 sm:top-3 sm:start-3 flex items-center gap-1.5 z-20 pointer-events-none">
+        <div className="absolute top-2 start-2 sm:top-3 sm:start-3 flex items-center gap-1 z-20 pointer-events-none">
           {formattedIndex && (
-            <span className="font-tech text-[9px] font-bold tracking-widest px-1.5 py-0.5 bg-carbon text-bone border border-carbon-border">
+            <span className="font-tech text-[8px] sm:text-[9px] font-bold tracking-widest px-1 sm:px-1.5 py-0.5 bg-carbon text-bone border border-carbon-border">
               {formattedIndex}
             </span>
           )}
-          <span className="font-tech text-[9px] font-bold tracking-widest px-1.5 py-0.5 bg-carbon text-bone border border-carbon-border uppercase">
+          <span className="font-tech text-[8px] sm:text-[9px] font-bold tracking-widest px-1 sm:px-1.5 py-0.5 bg-carbon text-bone border border-carbon-border uppercase truncate max-w-[85px] sm:max-w-none">
             {product.partNumber}
           </span>
         </div>
       </div>
 
       {/* Content Metadata with Fixed Typographic Constraints */}
-      <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
-        <div className="space-y-1.5">
-          {/* Finish & Specification Badge row (Category removed per user request) */}
-          <div className="flex items-center justify-between gap-1.5 pointer-events-none">
-            <span className="font-tech text-[8px] font-bold text-accent-copper tracking-wider uppercase">
-              SPEC // APPROVED
+      <div className="p-2.5 sm:p-4 flex-1 flex flex-col justify-between">
+        <div className="space-y-1 sm:space-y-1.5">
+          {/* Finish & Specification Badge row */}
+          <div className="flex items-center justify-between gap-1 pointer-events-none">
+            <span className="font-tech text-[7px] sm:text-[8px] font-bold text-accent-copper tracking-wider uppercase truncate">
+              SPEC // OK
             </span>
-            <span className="font-tech text-[8px] text-accent-metal border border-carbon-border/40 px-1 py-0.5 uppercase truncate max-w-[45%]">
-              {product.finish ? (product.finish.length > 18 ? product.finish.slice(0, 16) + "..." : product.finish) : "STANDARD"}
+            <span className="font-tech text-[7px] sm:text-[8px] text-accent-metal border border-carbon-border/40 px-1 py-0.5 uppercase truncate max-w-[55%] sm:max-w-[45%]">
+              {product.finish ? (product.finish.length > 14 ? product.finish.slice(0, 12) + "..." : product.finish) : "STD"}
             </span>
           </div>
 
           {/* Product Title restricted strictly to 2 lines with ellipsis */}
           <h3
-            className="font-display text-base sm:text-lg tracking-wide uppercase group-hover:text-accent-copper transition-colors break-words leading-tight line-clamp-2 min-h-[2.5rem] flex items-center"
+            className="font-display text-sm xs:text-base sm:text-lg tracking-wide uppercase group-hover:text-accent-copper transition-colors break-words leading-tight line-clamp-2 min-h-[2rem] sm:min-h-[2.5rem] flex items-center"
             title={isRtl ? product.nameAr : product.name}
           >
             {isRtl ? product.nameAr : product.name}
           </h3>
 
           {/* Product Description */}
-          <p className="font-body text-[11px] line-clamp-2 opacity-75 break-words pointer-events-none leading-relaxed">
+          <p className="font-body text-[10px] sm:text-[11px] line-clamp-2 opacity-75 break-words pointer-events-none leading-relaxed hidden xs:block">
             {isRtl ? (product.shortDescriptionAr || product.descriptionAr) : (product.shortDescription || product.description)}
           </p>
         </div>
 
-        {/* Dual Actions: View Details + Add to Cart - Pinned cleanly without dead empty gap */}
-        <div className="pt-3 border-t border-current/15 flex items-center justify-between gap-2 relative z-20 mt-3">
-          <span className="inline-flex items-center space-x-1 rtl:space-x-reverse font-tech text-[11px] font-bold tracking-wider uppercase text-accent-metal group-hover:text-accent-copper transition-colors pointer-events-none">
-            <span>{isRtl ? "عرض التفاصيل" : "View Details"}</span>
+        {/* Dual Actions: View Details + Add to Cart */}
+        <div className="pt-2 sm:pt-3 border-t border-current/15 flex items-center justify-between gap-1.5 sm:gap-2 relative z-20 mt-2 sm:mt-3">
+          <span className="hidden sm:inline-flex items-center space-x-1 rtl:space-x-reverse font-tech text-[11px] font-bold tracking-wider uppercase text-accent-metal group-hover:text-accent-copper transition-colors pointer-events-none">
+            <span>{isRtl ? "عرض" : "View"}</span>
             <span className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1 shrink-0">
               <IconArrow locale={locale} size={11} />
             </span>
@@ -123,7 +123,7 @@ export default function ProductCard({
           <button
             onClick={handleAddToCart}
             className={cn(
-              "font-tech text-[9px] sm:text-[10px] uppercase px-2.5 py-1.5 border transition-all duration-200 select-none flex items-center gap-1.5 shrink-0 touch-feedback",
+              "font-tech text-[8px] xs:text-[9px] sm:text-[10px] uppercase px-2 sm:px-2.5 py-1.5 border transition-all duration-200 select-none flex items-center justify-center gap-1 shrink-0 touch-feedback w-full sm:w-auto",
               added
                 ? "bg-accent-copper text-bone border-accent-copper shadow-lg scale-105"
                 : currentQty > 0
@@ -134,19 +134,13 @@ export default function ProductCard({
             )}
             aria-label={`Add ${product.name} to RFQ`}
           >
-            <span className={cn("w-1.5 h-1.5 rounded-full", added ? "bg-bone animate-ping" : "bg-accent-copper")} />
-            <span className="font-bold">
+            <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", added ? "bg-bone animate-ping" : "bg-accent-copper")} />
+            <span className="font-bold truncate">
               {added
-                ? isRtl
-                  ? "+1 تمت الإضافة ✓"
-                  : "+1 ADDED ✓"
+                ? (isRtl ? "+1 تمت الإضافة" : "+1 ADDED")
                 : currentQty > 0
-                ? isRtl
-                  ? `في السلة (${currentQty}) +1`
-                  : `IN CART (${currentQty}) +1`
-                : isRtl
-                ? "إضافة لـ RFQ"
-                : "Add to Cart"}
+                ? (isRtl ? `(${currentQty}) +1` : `IN CART (${currentQty})`)
+                : (isRtl ? "إضافة لـ RFQ" : "Add to RFQ")}
             </span>
           </button>
         </div>

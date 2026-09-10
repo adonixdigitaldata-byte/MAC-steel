@@ -94,12 +94,16 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
   // Object pivot coordinates: Desktop = right half (1.30), Mobile = centered (0.00, Y: -0.55 initially)
   const pivotX = isMobile ? 0.0 : 1.30;
   const lookPivotX = isMobile ? 0.0 : 0.45;
-  const lookY = isMobile ? -0.20 : 0.46;
+  const lookY = isMobile ? -0.32 : 0.46;
+
+  // On mobile, use higher angle elevation (0.28 rad / ~16°) and 0.48 azimuth for prominent 3D perspective
+  const camStartAz = isMobile ? 0.48 : CAM_START.az;
+  const camStartPol = isMobile ? 0.28 : CAM_START.pol;
 
   // Initial camera target at mount
   const INIT_POS = computeCamPos(
-    CAM_START.az,
-    CAM_START.pol,
+    camStartAz,
+    camStartPol,
     (CAM_START.dist + (reducedMotion ? 0 : 0.40)) * (isMobile ? 1.05 : 1.0),
     lookPivotX,
     lookY
@@ -292,13 +296,13 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     // ── Camera Coordinates (Cinematic Dolly Entrance + Matching Handoff Velocity) ──
     const initialDollyOffset = (1 - entranceDolly) * 0.40;
     // At p=1.0, azimuth (0.50 -> 0.22 in MFG) and elevation match continuous transition momentum
-    const az   = lerp(CAM_START.az,   CAM_END.az,   p);
-    const pol  = lerp(CAM_START.pol,  CAM_END.pol,  p);
+    const az   = lerp(camStartAz,   CAM_END.az,   p);
+    const pol  = lerp(camStartPol,  CAM_END.pol,  p);
     const dist = (lerp(CAM_START.dist, CAM_END.dist, p) + initialDollyOffset) * (isMobile ? 1.05 : 1.0);
 
     // On mobile, camera look target rises to center the billet during scroll
     const mobileLookY = isMobile
-      ? lerp(-0.35, 0.10, p < 0.55 ? p / 0.55 : 1.0) + scrollYOffset * 0.5
+      ? lerp(-0.32, 0.08, p < 0.55 ? p / 0.55 : 1.0) + scrollYOffset * 0.5
       : lookY + scrollYOffset * 0.4;
 
     const targetPos  = computeCamPos(az, pol, dist, lookPivotX, mobileLookY);
@@ -325,22 +329,22 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
     // ── Billet Assembly Positioning & Mechanical Settle ──
     if (billetRef.current) {
       if (!reducedMotion) {
-        // Phase 1 (0-20%): 85% scale, Phase 2 (20-55%): scales to 105% and rises to center, Phase 3 (55-100%): seamless handoff
-        let mobileScale = 0.85;
-        let mobileY = -0.58;
+        // Mobile: 0.65 base scale sitting neatly under CTAs, rises & scales to 0.82 during scroll
+        let mobileScale = 0.65;
+        let mobileY = -0.52;
 
         if (isMobile) {
           if (p < 0.20) {
-            mobileScale = 0.85;
-            mobileY = -0.58;
+            mobileScale = 0.65;
+            mobileY = -0.52;
           } else if (p < 0.55) {
             const riseProgress = (p - 0.20) / 0.35;
-            mobileScale = lerp(0.85, 1.05, easeOutCubic(riseProgress));
-            mobileY = lerp(-0.58, -0.05, easeOutCubic(riseProgress));
+            mobileScale = lerp(0.65, 0.82, easeOutCubic(riseProgress));
+            mobileY = lerp(-0.52, -0.10, easeOutCubic(riseProgress));
           } else {
             const handoffProgress = (p - 0.55) / 0.45;
-            mobileScale = lerp(1.05, 1.0, handoffProgress);
-            mobileY = lerp(-0.05, -0.65, easeInOutCubic(handoffProgress));
+            mobileScale = lerp(0.82, 0.72, handoffProgress);
+            mobileY = lerp(-0.10, -0.65, easeInOutCubic(handoffProgress));
           }
         }
 
@@ -371,9 +375,9 @@ export default function HeroScene({ progressRef, reducedMotion, isMobile }: Prop
           currentScale
         );
       } else {
-        const baseScale = isMobile ? 0.85 : 1.0;
+        const baseScale = isMobile ? 0.58 : 1.0;
         billetRef.current.scale.set(baseScale, baseScale, baseScale);
-        billetRef.current.position.set(pivotX, isMobile ? -0.58 : 0.48, 0);
+        billetRef.current.position.set(pivotX, isMobile ? -0.68 : 0.48, 0);
       }
     }
   });
